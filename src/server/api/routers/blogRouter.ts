@@ -1,0 +1,162 @@
+import { TRPCError } from "@trpc/server";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import {
+  CreateNewBlogSchema,
+  UpdateBlogSchema,
+} from "~/common/validation/blog-validation";
+import * as z from "zod";
+export const blogRouter = createTRPCRouter({
+  // [POST]
+  createNewBlog: protectedProcedure
+    .input(CreateNewBlogSchema)
+    .mutation(async ({ ctx, input }) => {
+      console.log({ input });
+      const { session } = ctx;
+
+      const { title, subtitle, body } = input;
+
+      const authorId = session.user.id;
+      const post = await ctx.prisma.post.create({
+        data: {
+          title,
+          subtitle,
+          image: "",
+          body,
+          authorId,
+        },
+      });
+
+      return {
+        status: 201,
+        data: {
+          post,
+        },
+      };
+    }),
+
+  // [GET]
+  getAllBlogs: protectedProcedure.query(async ({ ctx }) => {
+    const blogs = await ctx.prisma.post.findMany({
+      select: {
+        id: true,
+        image: true,
+        title: true,
+        subtitle: true,
+        createdAt: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return {
+      status: 200,
+      data: blogs,
+    };
+  }),
+
+  // [GET ONE BLOG BY ID]
+  getBlogById: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { session } = ctx;
+
+      // find blog with id
+      const blog = await ctx.prisma.post.findFirst({
+        where: {
+          id: input.id,
+        },
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+      return {
+        status: 200,
+        data: blog,
+      };
+    }),
+
+  // [GET BLOG BY USERID]
+  getBlogByUserId: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const blogs = await ctx.prisma.post.findMany({
+        where: {
+          authorId: input.userId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+      return {
+        status: 200,
+        message: "BLOGS FOUND SUCCESSFULLY",
+        data: blogs,
+      };
+    }),
+
+  // [UPDATE BLOG BY ID]
+  updateBlogById: protectedProcedure
+    .input(UpdateBlogSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { id, ...restInput } = input;
+      const blog = await ctx.prisma.post.update({
+        data: {
+          ...restInput,
+        },
+        where: {
+          id,
+        },
+      });
+
+      return {
+        status: 201,
+        data: blog,
+        message: "BLOG UPDATED SUCCESSFULLY",
+      };
+    }),
+
+  // [DELETE BLOG BY BLOGID]
+  deleteBlogByBlogId: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // First, delete all comments associated with the post
+
+      const deleteBlog = await ctx.prisma.post.delete({
+        where: {
+          id: input.id,
+        },
+        include: {
+          comments: true,
+        },
+      }); 
+
+      if (!deleteBlog) throw new TRPCError({ code: "BAD_REQUEST" });
+
+      return {
+        status: 201,
+        message: "BLOG DELETED SUCCESSFULLY",
+      };
+    }),
+});

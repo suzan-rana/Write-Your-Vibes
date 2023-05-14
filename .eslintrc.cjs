@@ -21,14 +21,20 @@ const config = {
   plugins: ["@typescript-eslint"],
   extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   rules: {
-    "@typescript-eslint/consistent-type-imports": [
-      "warn",
+    "@typescript-eslint/ban-types": ["off"],
+    "@typescript-eslint/consistent-type-imports": ["off"],
+    "@typescript-eslint/no-unused-vars": ["off", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-empty-interface": ["error"],
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/no-misused-promises": [
+      0,
       {
-        prefer: "type-imports",
-        fixStyle: "inline-type-imports",
+        checksVoidReturn: {
+          attributes: false,
+        },
       },
     ],
-    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
   },
 };
 

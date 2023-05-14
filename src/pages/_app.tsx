@@ -1,19 +1,60 @@
-import { type AppType } from "next/app";
+import { AppProps, type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+import "react-toastify/dist/ReactToastify.css";
+import { Poppins, Inter } from "next/font/google";
 
+export const p = Poppins({ subsets: ["latin"], weight: "400" });
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import { useRouter } from "next/router";
+import { ReactElement, ReactNode, useEffect } from "react";
+import { ToastContainer, Zoom, Slide } from "react-toastify";
+import { NextPage } from "next";
+
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
-}) => {
+}: AppPropsWithLayout) => {
+  const router = useRouter();
+  const getLayout = Component.getLayout ?? ((page) => page);
+
+  useEffect(() => {
+    router.events.on("routeChangeStart", () => NProgress.start());
+    router.events.on("routeChangeComplete", () => NProgress.done());
+    router.events.on("routeChangeError", () => NProgress.done());
+  }, []);
   return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
+    <main className={`${p.className} antialiased`}>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/*  @ts-ignore */}
+      <SessionProvider session={session as Session}>
+        <ToastContainer
+          toastClassName={() =>
+            "bg-slate-900 shadow-md  rounded border border-slate-700 text-white py-3  pl-5"
+          }
+          position="bottom-right"
+          closeButton={false}
+          hideProgressBar
+          limit={4}
+          role="alert"
+          autoClose={1500}
+          // transition={}
+        />
+        {getLayout(<Component {...pageProps} />)}
+      </SessionProvider>
+    </main>
   );
 };
 

@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --scrollbar-color: hsl(224 71% 4%);
+}
+body {
+  background-color: hsl(224 71% 4%);
+}
+body {
+  @apply text-gray-200;
+}
+p {
+  @apply text-gray-400;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+::-webkit-scrollbar {
+  width: 15px;
+  background-color: rgb(92, 92, 92);
+}::-webkit-scrollbar-track {
+  background: hsl(224 71% 4%);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-color);
+}
+input[data-autocompleted] {
+  background-color: transparent !important;
+}
+
+#nprogress .bar {
+  background-color: white;
+}
