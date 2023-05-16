@@ -73,7 +73,7 @@ const DisplayComments = () => {
             <UserAvatar
               key={comment.id}
               name={comment.author.name as string}
-              email={comment.content}
+              sub={comment.content}
             />
           ))}
         </>

@@ -14,7 +14,10 @@ export const blogRouter = createTRPCRouter({
       const { session } = ctx;
 
       const { title, subtitle, body } = input;
+      const tagArray = title.split(" ");
 
+      // slug
+      const slug = tagArray.join("-") + Date.now();
       const authorId = session.user.id;
       const post = await ctx.prisma.post.create({
         data: {
@@ -23,6 +26,14 @@ export const blogRouter = createTRPCRouter({
           image: "",
           body,
           authorId,
+          slug,
+          tags: {
+            createMany: {
+              data: tagArray.map((i) => ({
+                tag_name: i,
+              })),
+            },
+          },
         },
       });
 
@@ -150,7 +161,7 @@ export const blogRouter = createTRPCRouter({
         include: {
           comments: true,
         },
-      }); 
+      });
 
       if (!deleteBlog) throw new TRPCError({ code: "BAD_REQUEST" });
 

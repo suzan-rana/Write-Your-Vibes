@@ -75,10 +75,12 @@ model Post {
     subtitle  String
     body      String @db.LongText
     image     String
+    slug String
     authorId  String
     author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
     createdAt DateTime @default(now())
     comments Comment[]
+    tags Tags[]
 }
 
 model Comment {
@@ -89,4 +91,11 @@ model Comment {
     authorId  String
     author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
     createdAt DateTime @default(now())
+}
+
+model Tags {
+    id String @id @default(cuid())
+    tag_name String
+    postId String
+    post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }

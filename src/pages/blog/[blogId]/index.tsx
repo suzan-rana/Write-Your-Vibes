@@ -77,7 +77,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
           <div className="flex w-[95%] items-center justify-between">
             <UserAvatar
               name={data?.data?.author.name || "Suzan Rana"}
-              email={data?.data?.author.email || "suzan@gmail.com"}
+              sub={data?.data?.author.email || "suzan@gmail.com"}
             />
             {sessionData?.user.id === data?.data?.authorId ? (
               <div>
