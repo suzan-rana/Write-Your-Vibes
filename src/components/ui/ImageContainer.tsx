@@ -1,16 +1,23 @@
 import Image from "next/image";
 import React from "react";
 import { cn } from "~/lib/utils";
+import RandomAvatar from "../Avatar";
 
 type Props = {
-  src: string;
   className: string;
+  gender: "Male" | "Female";
+  image: string;
 };
 
-const ImageContainer = ({ src, className }: Props) => {
+const ImageContainer = ({ className, ...restProps }: Props) => {
   return (
-    <figure className={cn("relative block", className)}>
-      <Image src={src} alt="My image" fill />
+    <figure
+      className={cn(
+        "relative block cursor-pointer bg-white transition-all duration-500 hover:bg-blue-400",
+        className
+      )}
+    >
+      <RandomAvatar {...restProps} />
     </figure>
   );
 };

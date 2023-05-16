@@ -9,6 +9,7 @@ import Link from "next/link";
 import Card from "~/components/ui/Card";
 import { api } from "~/utils/api";
 import Footer from "~/components/Footer";
+import RandomAvatar from "~/components/Avatar";
 
 const ProfilePage: NextPageWithLayout = () => {
   const { data } = useSession();
@@ -18,9 +19,8 @@ const ProfilePage: NextPageWithLayout = () => {
     <>
       <section className="flex flex-col items-center justify-center gap-12 pb-24 text-center">
         <ImageContainer
-          src={
-            "https://pbs.twimg.com/profile_images/1593304942210478080/TUYae5z7_400x400.jpg"
-          }
+          gender={data?.user.gender || "Male"}
+          image={data?.user.image || ""}
           className="min-h-[15rem] w-[15rem] max-w-[100%] overflow-hidden rounded-full"
         />
         <div>
@@ -63,7 +63,7 @@ const TopPosts = () => {
     },
     {
       enabled: sessionData?.user.id !== undefined,
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
     }
   );
   return (

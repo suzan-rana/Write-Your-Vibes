@@ -12,8 +12,9 @@ import { useSession } from "next-auth/react";
 import Modal from "~/components/ui/Modal";
 import { toast } from "react-toastify";
 import Comments from "~/components/Comments";
+import Image from "next/image";
 
-'use client';
+("use client");
 
 type Props = {};
 
@@ -23,7 +24,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
   const { query, ...router } = useRouter();
   const { data, isLoading, isFetching } = api.blog.getBlogById.useQuery(
     {
-      id: query?.["blogId"] ? (query?.["blogId"].toString()) : "",
+      id: query?.["blogId"] ? query?.["blogId"].toString() : "",
     },
     {
       refetchOnWindowFocus: false,
@@ -78,6 +79,8 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
             <UserAvatar
               name={data?.data?.author.name || "Suzan Rana"}
               sub={data?.data?.author.email || "suzan@gmail.com"}
+              image={data?.data?.author.image || ""}
+              gender={data?.data?.author.gender as "Male" | "Female"}
             />
             {sessionData?.user.id === data?.data?.authorId ? (
               <div>
@@ -99,23 +102,30 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
               </div>
             ) : null}
           </div>
-          <ImageContainer
-            src={
-              "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=750&q=75"
-            }
-            className="min-h-[25rem] w-[45rem] max-w-[100%] overflow-hidden rounded-md"
-          />
+          <figure
+            className={cn(
+              "relative block min-h-[25rem] w-[45rem] max-w-[100%] cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-500 hover:bg-blue-400"
+            )}
+          >
+            <Image
+              src={
+                "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
+              }
+              fill
+              alt="Image"
+            />
+          </figure>
+
           <p className="my-8">{data?.data?.subtitle}</p>
           <pre
             className={cn(
-              "max-w-[50rem] mb-20 whitespace-break-spaces text-gray-400",
+              "mb-20 max-w-[50rem] whitespace-break-spaces text-gray-400",
               p.className
             )}
           >
             {data?.data?.body}
           </pre>
-          <Comments  />
-
+          <Comments />
         </article>
       )}
 
@@ -147,7 +157,7 @@ const useDeleteBlog = (
   const router = useRouter();
   const { mutate, isLoading: isDeletingBlog } =
     api.blog.deleteBlogByBlogId.useMutation({
-     async onSuccess(data, variables, context) {
+      async onSuccess(data, variables, context) {
         toast.success(data.message || "BLOG DELETED SUCCESSFULLY.");
         setDeleteBlogModal(false);
         await router.push("/blog");

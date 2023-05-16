@@ -74,6 +74,8 @@ const DisplayComments = () => {
               key={comment.id}
               name={comment.author.name as string}
               sub={comment.content}
+              gender={comment.author.gender as "Male" | "Female"}
+              image={comment.author.image || ""}
             />
           ))}
         </>

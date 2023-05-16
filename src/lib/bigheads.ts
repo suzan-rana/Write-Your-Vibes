@@ -66,6 +66,7 @@
 //     lashes,
 //   };
 // }
+
 export const maleAvatarOptions = [
   {
     hair: "short",
@@ -296,3 +297,10 @@ export const femaleAvatarOptions = [
     circleColor: "pink",
   },
 ];
+const getRandomOption = (options: any[]) => {
+  const randomIndex = Math.floor(Math.random() * options.length);
+  return options[randomIndex];
+};
+
+export const randomMaleAvatar = getRandomOption(maleAvatarOptions);
+export const randomFemaleAvatar = getRandomOption(femaleAvatarOptions);

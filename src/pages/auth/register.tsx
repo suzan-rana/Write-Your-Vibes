@@ -8,15 +8,15 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-import {  InputElement, InputErrorMessage } from "./login";
+import { InputElement, InputErrorMessage } from "./login";
 import { api } from "~/utils/api";
 import Button from "~/components/ui/Button";
 import { toast } from "react-toastify";
 
-
 export const RegisterFormSchema = z.object({
   name: z.string().min(3, { message: "Please enter your name" }),
   email: z.string().email(),
+  gender: z.enum(["Male", "Female"]),
   password: z
     .string()
     .min(8, { message: "Password must at least be of 8 characters" }),
@@ -27,10 +27,10 @@ const RegisterPage = () => {
   // making a mutation
   const { mutate, isLoading: isRegistering } = api.auth.register.useMutation({
     onSuccess(data, variables, context) {
-      toast.success('User created successfully.')
+      toast.success("User created successfully.");
     },
     onError(error, variables, context) {
-      toast.error(error.message)
+      toast.error(error.message);
     },
   });
   const router = useRouter();
@@ -63,6 +63,18 @@ const RegisterPage = () => {
           <InputErrorMessage error={errors.email} />
         </label>
         <label className="flex flex-col gap-2">
+          <span>Gender</span>
+          <select
+            className={`rounded-md border border-slate-800 bg-gray-950 px-3 py-2 shadow-sm focus:outline-blue-400 ${
+              false ? "border-[1px] border-red-500 focus:outline-red-500" : ""
+            }`}
+            {...register("gender")}
+          >
+            <option value={"Male"}>Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </label>
+        <label className="flex flex-col gap-2">
           <span>Password</span>
           <InputElement
             error={errors.password}
@@ -71,12 +83,13 @@ const RegisterPage = () => {
           />
           <InputErrorMessage error={errors.password} />
         </label>
+
         <Button type="submit" disabled={isRegistering}>
           Register
         </Button>
         <Button
           type="button"
-          variant={'ghost'}
+          variant={"ghost"}
           onClick={() => router.push("/auth/login")}
         >
           Login

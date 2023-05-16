@@ -54,6 +54,7 @@ model User {
     email         String?   @unique
     password      String
     emailVerified DateTime?
+    gender String
     image         String?
     accounts      Account[]
     sessions      Session[]
@@ -98,4 +99,9 @@ model Tags {
     tag_name String
     postId String
     post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+}
+
+model Chat {
+    id String @id @default(cuid())
+    
 }

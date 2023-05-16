@@ -1,12 +1,17 @@
 import React, { useEffect } from "react";
 import ReactPortal from "../ReactPortal";
 import Button from "./Button";
+import { cn } from "~/lib/utils";
+import { AnimatePresence, Variants, motion } from "framer-motion";
 
 interface ModalProps extends React.HTMLProps<HTMLDivElement> {
   title: string;
-  subtitle: string;
-  onSubmitClick: () => void | Function;
+  subtitle?: string;
+  onSubmitClick: (event?: any) => void | Function;
   onCancel: () => void | Function;
+  customBody?: React.ReactNode;
+  submitText?: string;
+  cancelText?: string;
 }
 
 const Modal = ({
@@ -14,6 +19,9 @@ const Modal = ({
   subtitle,
   onSubmitClick,
   onCancel,
+  customBody,
+  submitText,
+  cancelText,
   ...restProps
 }: ModalProps) => {
   useEffect(() => {
@@ -28,29 +36,56 @@ const Modal = ({
   }, []);
   return (
     <ReactPortal wrapperId="react-portal-modal-container">
-      <div className="scroll-0 fixed inset-0 flex items-center justify-center overflow-hidden bg-white/30">
-        <dialog
-          // {...restProps}
-          open={true}
-          className="max-w-[35rem] rounded-xl bg-slate-950  px-16 py-12 text-white"
+      <div className="scroll-0 fixed inset-0 flex items-center justify-center overflow-hidden bg-white/10">
+        <motion.div
+          variants={modalAnimationVariants}
+          initial="initial"
+          animate="animate"
+          exit={"exit"}
+          className="rounded-lg border-[2px] border-slate-600  bg-slate-800  px-16 py-12 text-white"
         >
           <h2 className="pb-8 text-center text-2xl font-bold">{title}</h2>
-          <p className="text-center text-lg">{subtitle}</p>
+          {customBody ? (
+            customBody
+          ) : (
+            <p className="text-center text-lg">{subtitle}</p>
+          )}
           <div className="my-8 flex  flex-row justify-center gap-8">
-            <Button onClick={onCancel} className="grow">
-              Cancel
+            <Button type="button" onClick={onCancel} className="grow">
+              {cancelText ? cancelText : "Cancel"}
             </Button>
             <Button
+              type="button"
               onClick={onSubmitClick}
-              className="grow bg-red-500 text-white"
+              className={cn(
+                "grow  text-white",
+                submitText === "Save" ? "bg-green-600" : "bg-red-500"
+              )}
             >
-              Delete
+              {submitText ? submitText : "Delete"}
             </Button>
           </div>
-        </dialog>
+        </motion.div>
       </div>
     </ReactPortal>
   );
 };
 
 export default Modal;
+
+const modalAnimationVariants: Variants = {
+  initial: {
+    y: '-50vh',
+    scale: 0,
+    opacity: 0,
+  },
+  animate: {
+    y: 0,
+    scale: 1,
+    opacity: 1,
+    transition: {
+      ease: "linear",
+      // duration: .5
+    },
+  },
+};

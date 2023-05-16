@@ -1,16 +1,17 @@
 import Image from "next/image";
 import React from "react";
 import RandomAvatar from "../Avatar";
+import { cn } from "~/lib/utils";
 
-type Props = {
+export type AProps = {
   name: string;
   sub?: string;
-};
+} & AvatarProps;
 
-const UserAvatar = ({ name, sub }: Props) => {
+const UserAvatar = ({ name, sub, ...restProps }: AProps) => {
   return (
     <div className="my-6 flex items-start gap-5 text-gray-300">
-      <Avatar />
+      <Avatar {...restProps} />
       <div>
         <h2 className="text-base">{name}</h2>
         {sub && <p className="text-sm">{sub}</p>}
@@ -19,19 +20,18 @@ const UserAvatar = ({ name, sub }: Props) => {
   );
 };
 
+interface AvatarProps {
+  gender: "Male" | "Female";
+  image: string;
+  className?:string;
+}
+
 export default UserAvatar;
 
-const Avatar = () => {
+export const Avatar = ({className, ...restProps }: AvatarProps) => {
   return (
-    <figure className="relative block h-12 w-12 overflow-hidden rounded-full">
-      {/* <RandomAvatar isMale={true} /> */}
-      <Image
-        src={
-          "https://pbs.twimg.com/profile_images/1593304942210478080/TUYae5z7_400x400.jpg"
-        }
-        fill
-        alt="Avatar"
-      />
+    <figure className={cn("relative block h-12 w-12 overflow-hidden rounded-full", className)}>
+      <RandomAvatar {...restProps} />
     </figure>
   );
 };

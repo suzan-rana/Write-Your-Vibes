@@ -1,55 +1,59 @@
 import React from "react";
-import {  AvatarProps, BigHead } from "@bigheads/core";
+import { AvatarProps, BigHead } from "@bigheads/core";
 import { femaleAvatarOptions, maleAvatarOptions } from "~/lib/bigheads";
+import { useSession } from "next-auth/react";
 
 interface RandomAvatarProps extends AvatarProps {
-  isMale: boolean;
+  gender: "Male" | "Female";
+  image: string;
 }
 
-const RandomAvatar = ({ isMale, ...restProps }: RandomAvatarProps) => {
-  const getRandomOption = (options: any[]) => {
-    const randomIndex = Math.floor(Math.random() * options.length);
-    return options[randomIndex];
-  };
-
-  const randomMaleAvatar = getRandomOption(maleAvatarOptions);
-  const randomFemaleAvatar = getRandomOption(femaleAvatarOptions);
-
+const RandomAvatar = ({ gender, image, ...restProps }: RandomAvatarProps) => {
+  if(!image) return <></>
   return (
-    <div>
-      {isMale ? (
+    <>
+      {gender === "Male" ? (
         <BigHead
-          // {...restProps}
           accessory="none"
           body="chest"
           eyebrows="angry"
           eyes="happy"
-          facialHair="mediumBeard"
+          facialHair="none2"
           graphic="none"
           hat="none"
           lashes={false}
           lipColor="pink"
           mask={false}
           mouth="grin"
-          {...randomMaleAvatar}
+          skinTone="red"
+          {...JSON.parse(image)}
+          // {...restProps}
+          clothing="tankTop"
+          clothingColor="green"
         ></BigHead>
       ) : (
         <BigHead
-          accessory="none"
+          accessory="shades"
           body="chest"
           eyebrows="angry"
           eyes="happy"
+
           facialHair="none"
           graphic="none"
           hat="none"
+          hairColor="orange"
+          hair="long"
           lashes={false}
           lipColor="pink"
           mask={false}
-          mouth="grin"
-          {...randomFemaleAvatar}
+          mouth="tongue"
+          clothing="dress"
+          clothingColor="red"
+          {...JSON.parse(image)}
+          // {...restProps}
         />
       )}
-    </div>
+    </>
   );
 };
 

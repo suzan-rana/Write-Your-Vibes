@@ -87,6 +87,7 @@ export const blogRouter = createTRPCRouter({
               name: true,
               email: true,
               image: true,
+              gender: true
             },
           },
         },
