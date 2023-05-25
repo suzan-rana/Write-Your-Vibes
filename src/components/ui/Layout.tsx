@@ -12,7 +12,7 @@ const Layout = ({ children }: Props) => {
       <main>
         <Navbar />
         <section
-          className="mx-auto ml-2 mt-24 sm:mt-32 min-h-[80vh] w-[90%]   sm:w-[60%] md:ml-2 md:mt-12  "
+          className="mx-auto ml-2 mt-24 min-h-[80vh] w-[90%] sm:mt-32 sm:w-[60%] md:ml-2 md:mt-12 md:w-[75%]  "
           style={{
             marginInline: "auto",
           }}
