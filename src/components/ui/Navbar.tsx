@@ -35,7 +35,7 @@ const Navbar = () => {
         onClick={() => setShowNavMenu((prev) => !prev)}
       />
       <nav
-        className={`cursor-pointer h-[85vh] sm:h-auto md:items-center  flex-col justify-between gap-6 rounded-md px-4 py-4 md:py-2 transition-all duration-200 sm:flex-row ${
+        className={`h-[85vh] cursor-pointer flex-col justify-between  gap-6 rounded-md px-4 py-4 transition-all duration-200 sm:h-auto sm:flex-row md:items-center md:py-2 ${
           showNavMenu ? "flex" : "hidden sm:flex"
         }`}
       >
@@ -70,7 +70,7 @@ export default Navbar;
 
 const navElements: Omit<NavItemProps, "showNavMenu" | "onClick">[] = [
   {
-    name: "Home",
+    name: "Chat",
     link: "/",
   },
   {
@@ -133,9 +133,15 @@ interface UserProfileProps
     Pick<NavItemProps, "onClick" | "showNavMenu" | "link"> {}
 const UserProfile = ({ name, sub, ...restProps }: UserProfileProps) => {
   return (
-    <Link href={'/profile'} className="flex items-center gap-5  md:gap-2 text-gray-300" {...restProps}>
-      <> <Avatar className="mb-2 bg-white" {...restProps} />
-      <h2 className="block  md:hidden text-base">{name}</h2>
+    <Link
+      href={"/profile"}
+      className="flex items-center gap-5  text-gray-300 md:gap-2"
+      {...restProps}
+    >
+      <>
+        {" "}
+        <Avatar className="mb-2 bg-white" {...restProps} />
+        <h2 className="block  text-base md:hidden">{name}</h2>
       </>
     </Link>
   );
