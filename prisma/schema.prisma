@@ -61,7 +61,7 @@ model User {
     sessions      Session[]
     posts         Post[]
     comments       Comment[]
-    chats Chat[]
+    chats ManyChatManyUser[]
     messages Message[]
 }
 
@@ -106,9 +106,16 @@ model Tags {
 
 model Chat {
     id String @id @default(cuid())
-    userId String 
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     messages Message[]
+    users ManyChatManyUser[]
+}
+
+model ManyChatManyUser {
+    chatId String 
+    chat Chat @relation(fields: [chatId], references: [id])
+    userId String
+    user User @relation(fields: [userId], references: [id])
+    @@id([chatId, userId])
 }
 
 model Message {
