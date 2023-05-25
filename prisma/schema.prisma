@@ -56,10 +56,13 @@ model User {
     emailVerified DateTime?
     gender String
     image         String?
+    biography String @db.LongText
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
     comments       Comment[]
+    chats Chat[]
+    messages Message[]
 }
 
 model VerificationToken {
@@ -103,5 +106,16 @@ model Tags {
 
 model Chat {
     id String @id @default(cuid())
-    
+    userId String 
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    messages Message[]
+}
+
+model Message {
+    id String @id @default(cuid())
+    message_content String @db.LongText
+    chatId String
+    chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+    userId String
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
