@@ -17,7 +17,7 @@ const ImageContainer = ({ className, ...restProps }: Props) => {
         className
       )}
     >
-      <RandomAvatar {...restProps} />
+      {/* <RandomAvatar {...restProps} /> */}
     </figure>
   );
 };

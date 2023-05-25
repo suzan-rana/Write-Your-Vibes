@@ -31,7 +31,7 @@ export default UserAvatar;
 export const Avatar = ({className, ...restProps }: AvatarProps) => {
   return (
     <figure className={cn("relative block h-12 w-12 overflow-hidden rounded-full", className)}>
-      <RandomAvatar {...restProps} />
+      {/* <RandomAvatar {...restProps} /> */}
     </figure>
   );
 };
