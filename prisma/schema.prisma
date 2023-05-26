@@ -85,6 +85,21 @@ model Post {
     createdAt DateTime @default(now())
     comments Comment[]
     tags Tags[]
+    categories ManyPostManyCategory[]
+}
+
+model ManyPostManyCategory {
+    postId String
+    post Post @relation(fields: [postId], references: [id])
+    categoryId String
+    category Category @relation(fields: [categoryId], references: [id])
+    @@id([postId, categoryId])
+}
+
+model Category {
+    id String @id @default(cuid())
+    category_name String
+    posts ManyPostManyCategory[]
 }
 
 model Comment {
