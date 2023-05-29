@@ -2,7 +2,7 @@ import * as z from "zod";
 export const UpdateProfileSchema = z.object({
   name: z.string(),
   biography: z.string(),
-  image: z.string(),
+  image: z.string().nullable(),
   gender: z.enum(["Male", "Female"]),
 });
 

@@ -9,7 +9,7 @@ type Props = {
   image: string;
 };
 
-const ImageContainer = ({ className, ...restProps }: Props) => {
+const ImageContainer = ({ className, image, ...restProps }: Props) => {
   return (
     <figure
       className={cn(
@@ -17,7 +17,7 @@ const ImageContainer = ({ className, ...restProps }: Props) => {
         className
       )}
     >
-      {/* <RandomAvatar {...restProps} /> */}
+      <Image src={image} fill alt="Profile Image"></Image>
     </figure>
   );
 };

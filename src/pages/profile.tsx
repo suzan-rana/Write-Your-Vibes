@@ -13,7 +13,6 @@ import RandomAvatar from "~/components/Avatar";
 
 const ProfilePage: NextPageWithLayout = () => {
   const { data } = useSession();
-  const router = useRouter();
 
   return (
     <>
@@ -47,9 +46,7 @@ export default ProfilePage;
 ProfilePage.getLayout = (page: React.ReactElement) => {
   return <Layout>{page}</Layout>;
 };
-{
-  /* <Button onClick={handleLogOut}>Log out</Button> */
-}
+
 
 const TopPosts = () => {
   const { data: sessionData } = useSession();

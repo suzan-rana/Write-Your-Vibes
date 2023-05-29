@@ -20,6 +20,7 @@ import ImageContainer from "~/components/ui/ImageContainer";
 import Image from "next/image";
 import Icons from "~/components/ui/Icon";
 import { AnimatePresence } from "framer-motion";
+import { uploadImageToS3 } from "~/lib/s3";
 
 type Props = {};
 
@@ -30,21 +31,6 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
   });
 
   const router = useRouter();
-
-  const onSubmit: SubmitHandler<CreateBlogType> = (data) => {
-    if (data.title === "Untitled post here") {
-      toast.info("Please add a title");
-      return;
-    }
-    if (data.subtitle === "Explain your viewpoint in 10 words") {
-      toast.info("Please add a subtitle.");
-      return;
-    }
-    mutate({
-      ...data,
-    });
-    console.log("SENT", { data });
-  };
 
   // trpc
   const { mutate, isLoading: isCreating } = api.blog.createNewBlog.useMutation({
@@ -74,6 +60,10 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
     };
   }, []);
 
+  // get s3 presigned url
+  const { mutateAsync: getPreSignedUrl } =
+    api.image.getPreSignedUrl.useMutation();
+
   // upload image hook
   const uploadImage = useUploadImage();
   const handleCancel = () => {
@@ -92,6 +82,29 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
     setOpenUploadImageModal(false);
   };
 
+  const onSubmit: SubmitHandler<CreateBlogType> = async (data) => {
+    if (data.title === "Untitled post here") {
+      toast.info("Please add a title");
+      return;
+    }
+    if (data.subtitle === "Explain your viewpoint in 10 words") {
+      toast.info("Please add a subtitle.");
+      return;
+    }
+    if (uploadImage.image) {
+      await getPreSignedUrl({
+        fileType: uploadImage.image.type,
+      }).then(async (response) => {
+        const { uploadUrl, key } = response.data;
+        await uploadImageToS3(uploadUrl, key, uploadImage.image as File);
+        mutate({
+          ...data,
+          image: uploadUrl,
+        });
+      });
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -103,19 +116,23 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
     >
       <section className="mb-4 flex items-center justify-center gap-4">
         <Input
+          tabIndex={1}
           placeholder="YOUR TITLE HERE"
-          defaultValue={"Untitled post here"}
+          // defaultValue={"Untitled post here"}
           {...register("title")}
           className="border-none  border-transparent text-3xl font-bold outline-none outline-transparent ring-0 ring-transparent  focus:outline-none focus-visible:border-none focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-2"
         />
         <button
+          tabIndex={4}
           onClick={() => setOpenUploadImageModal(true)}
           type="button"
           className="hidden min-w-[9rem] border-none bg-transparent text-white underline sm:block"
         >
           {uploadImage.imageUrl ? "Change" : "Add"} Image
         </button>
-        <Button className="hidden min-w-[9rem] sm:block">Create post</Button>
+        <Button tabIndex={4} className="hidden min-w-[9rem] sm:block">
+          Create post
+        </Button>
       </section>
       <AnimatePresence mode="sync">
         {openUploadImageModal && (
@@ -130,9 +147,10 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
         )}
       </AnimatePresence>
       <Input
+        tabIndex={2}
         {...register("subtitle")}
-        placeholder="Your subtitle here"
-        defaultValue={"Explain your viewpoint in 10 words"}
+        placeholder="Explain your viewpoint in 10 words"
+        // defaultValue={"Explain your viewpoint in 10 words"}
         className="border-none  border-transparent text-lg text-gray-400 outline-none outline-transparent ring-0 ring-transparent  focus:outline-none focus-visible:border-none focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-2"
       />
       {uploadImage.imageUrl && (
@@ -152,10 +170,11 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
         </figure>
       )}
       <TextArea
+        tabIndex={3}
         {...register("body")}
-        placeholder="YOUR TEXT HERE"
+        placeholder="Type here to write your post"
         className="min-h-[70vh]  "
-        defaultValue={"Type here to write your post"}
+        // defaultValue={"Type here to write your post"}
       />
       {getValues("title") !== "Untitled post here" && (
         <Button
@@ -184,14 +203,27 @@ interface UploadImageProps {
   handleUploadImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleRemoveImage: () => void;
   imageUrl: string | null | undefined;
+  showRecommendedText?: boolean;
+  bg?: string;
 }
 
-const useUploadImage = () => {
+export const useUploadImage = () => {
   const [image, setImage] = useState<File | null>();
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
-    if (e.target.files?.length === 0 || e.target.files === null) return;
-    if (e.target.files[0] !== null && e.target.files[0]) {
+
+    if (
+      e.target.files?.length === 0 ||
+      e.target.files === null ||
+      e.target.files[0] === null
+    )
+      return;
+    // restrict image
+    if (e.target.files[0]?.size! >= 200000) {
+      toast.info("Image cannot be more than 500KB");
+      return;
+    }
+    if (e.target.files[0]) {
       setImage(() => e.target.files?.[0]);
     }
   };
@@ -210,12 +242,13 @@ const useUploadImage = () => {
     imageUrl,
   };
 };
-const UploadImage = ({
+export const UploadImage = ({
   image,
-  setImage,
   handleUploadImage,
   handleRemoveImage,
   imageUrl,
+  showRecommendedText = true,
+  bg,
 }: UploadImageProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -252,13 +285,15 @@ const UploadImage = ({
         </div>
       ) : (
         <>
-          <p className="mb-2 text-center text-sm font-light">
-            Recommended: 1/4
-          </p>
+          {showRecommendedText && (
+            <p className="mb-2 text-center text-sm font-light">
+              Recommended: 1/4
+            </p>
+          )}
           <div
             className="flex min-h-[20rem] min-w-[30rem] cursor-pointer items-center justify-center rounded-lg  opacity-50 "
             style={{
-              background: "hsl(224 71% 4%)",
+              background: bg ? bg : "hsl(224 71% 4%)",
             }}
             onClick={(e) => {
               inputRef.current?.click();

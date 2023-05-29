@@ -5,6 +5,7 @@ import {
   UpdateBlogSchema,
 } from "~/common/validation/blog-validation";
 import * as z from "zod";
+import { getRandomKey, getS3Params, s3 } from "~/lib/s3";
 export const blogRouter = createTRPCRouter({
   // [POST]
   createNewBlog: protectedProcedure
@@ -13,7 +14,7 @@ export const blogRouter = createTRPCRouter({
       console.log({ input });
       const { session } = ctx;
 
-      const { title, subtitle, body } = input;
+      const { title, subtitle, body, image } = input;
       const tagArray = title.split(" ");
 
       // slug
@@ -23,7 +24,7 @@ export const blogRouter = createTRPCRouter({
         data: {
           title,
           subtitle,
-          image: "",
+          image: image || "",
           body,
           authorId,
           slug,
@@ -87,7 +88,7 @@ export const blogRouter = createTRPCRouter({
               name: true,
               email: true,
               image: true,
-              gender: true
+              gender: true,
             },
           },
         },

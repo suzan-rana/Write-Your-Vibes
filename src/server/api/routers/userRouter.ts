@@ -4,7 +4,7 @@ import { verify, hash } from "argon2";
 import { UpdatePasswordSchema, UpdateProfileSchema } from "~/common/validation/user-validation";
 
 
-export const authRouter = createTRPCRouter({
+export const userRouter = createTRPCRouter({
   updateProfile: protectedProcedure
     .input(UpdateProfileSchema)
     .mutation(async ({ ctx, input }) => {
@@ -33,7 +33,7 @@ export const authRouter = createTRPCRouter({
   changePassword: protectedProcedure
     .input(UpdatePasswordSchema)
     .mutation(async ({ ctx, input }) => {
-      const { confirmPassword, newPassword, oldPassword } = input;
+      const { newPassword, oldPassword } = input;
 
       // check if old pass is correct
       const userOldPass = await ctx.prisma.user.findFirst({

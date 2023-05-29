@@ -8,6 +8,7 @@ import { AProps, Avatar } from "./UserAvatar";
 
 const Navbar = () => {
   const { data } = useSession();
+  console.log('DATA IMAGE', { data })
   const [showNavMenu, setShowNavMenu] = useState(true);
 
   useEffect(() => {
@@ -131,7 +132,7 @@ const NavItem = ({ name, link, showNavMenu, onClick }: NavItemProps) => {
 interface UserProfileProps
   extends AProps,
     Pick<NavItemProps, "onClick" | "showNavMenu" | "link"> {}
-const UserProfile = ({ name, sub, ...restProps }: UserProfileProps) => {
+const UserProfile = ({ name, sub, showNavMenu,  ...restProps }: UserProfileProps) => {
   return (
     <Link
       href={"/profile"}
@@ -139,7 +140,6 @@ const UserProfile = ({ name, sub, ...restProps }: UserProfileProps) => {
       {...restProps}
     >
       <>
-        {" "}
         <Avatar className="mb-2 bg-white" {...restProps} />
         <h2 className="block  text-base md:hidden">{name}</h2>
       </>
