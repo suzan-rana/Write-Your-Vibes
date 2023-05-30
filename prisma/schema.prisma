@@ -9,7 +9,7 @@ datasource db {
 }
 
 model account {
-  id                String  @id  @default(cuid())
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
@@ -28,13 +28,32 @@ model account {
 }
 
 model category {
-  id                   String                 @id @default(cuid())
-  category_name        String
-  manypostmanycategory manypostmanycategory[]
+  id            String @id @default(cuid())
+  category_name String @unique
+  posts         post[]
+}
+
+model post {
+  id         String     @id @default(cuid())
+  title      String
+  subtitle   String
+  body       String     @db.LongText
+  image      String
+  slug       String
+  authorId   String
+  createdAt  DateTime   @default(now())
+  comment    comment[]
+  categoryId String
+  category   category   @relation(fields: [categoryId], references: [id])
+  user       user       @relation(fields: [authorId], references: [id], onDelete: Cascade, map: "Post_authorId_fkey")
+  reaction   reaction[]
+  tags       tags[]
+
+  @@index([authorId], map: "Post_authorId_fkey")
 }
 
 model chat {
-  id               String             @id  @default(cuid())
+  id               String             @id @default(cuid())
   manychatmanyuser manychatmanyuser[]
   message          message[]
 }
@@ -62,18 +81,8 @@ model manychatmanyuser {
   @@index([userId], map: "ManyChatManyUser_userId_fkey")
 }
 
-model manypostmanycategory {
-  postId     String
-  categoryId String
-  category   category @relation(fields: [categoryId], references: [id], map: "ManyPostManyCategory_categoryId_fkey")
-  post       post     @relation(fields: [postId], references: [id], map: "ManyPostManyCategory_postId_fkey")
-
-  @@id([postId, categoryId])
-  @@index([categoryId], map: "ManyPostManyCategory_categoryId_fkey")
-}
-
 model message {
-  id              String @id  @default(cuid())
+  id              String @id @default(cuid())
   message_content String @db.LongText
   chatId          String
   userId          String
@@ -84,26 +93,8 @@ model message {
   @@index([userId], map: "Message_userId_fkey")
 }
 
-model post {
-  id                   String                 @id  @default(cuid())
-  title                String
-  subtitle             String
-  body                 String                 @db.LongText
-  image                String
-  slug                 String
-  authorId             String
-  createdAt            DateTime               @default(now())
-  comment              comment[]
-  manypostmanycategory manypostmanycategory[]
-  user                 user                   @relation(fields: [authorId], references: [id], onDelete: Cascade, map: "Post_authorId_fkey")
-  reaction             reaction[]
-  tags                 tags[]
-
-  @@index([authorId], map: "Post_authorId_fkey")
-}
-
 model reaction {
-  id     String @id  @default(cuid())
+  id     String @id @default(cuid())
   userId String
   postId String
   type   String
@@ -115,7 +106,7 @@ model reaction {
 }
 
 model session {
-  id           String   @id  @default(cuid())
+  id           String   @id @default(cuid())
   sessionToken String   @unique(map: "Session_sessionToken_key")
   userId       String
   expires      DateTime
@@ -125,7 +116,7 @@ model session {
 }
 
 model tags {
-  id       String @id  @default(cuid())
+  id       String @id @default(cuid())
   tag_name String
   postId   String
   post     post   @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Tags_postId_fkey")
@@ -134,7 +125,7 @@ model tags {
 }
 
 model user {
-  id               String             @id  @default(cuid())
+  id               String             @id @default(cuid())
   name             String?
   email            String?            @unique(map: "User_email_key")
   password         String

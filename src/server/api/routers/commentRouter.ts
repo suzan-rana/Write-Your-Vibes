@@ -47,7 +47,7 @@ export const commentRouter = createTRPCRouter({
         },
         take: 4,
         include: {
-          author: {
+          user: {
             select: {
               name: true,
               id: true,
@@ -79,7 +79,7 @@ export const commentRouter = createTRPCRouter({
           createdAt: "desc",
         },
         include: {
-          author: {
+          user: {
             select: {
               name: true,
               id: true,

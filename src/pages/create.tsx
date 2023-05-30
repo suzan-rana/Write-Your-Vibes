@@ -21,6 +21,7 @@ import Image from "next/image";
 import Icons from "~/components/ui/Icon";
 import { AnimatePresence } from "framer-motion";
 import { uploadImageToS3 } from "~/lib/s3";
+import { CategoryEnum } from "~/utils/category";
 
 type Props = {};
 
@@ -108,12 +109,24 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto ml-2 mt-32 min-h-[80vh]  md:ml-2 md:mt-12  "
+      className="mx-auto ml-2 mt-26 min-h-[80vh]  md:ml-2 md:mt-12  "
       ref={createBlogRef}
       style={{
         marginInline: "auto",
       }}
     >
+      <select
+        className={`rounded-md border mb-4 border-slate-800 bg-gray-950 px-3 py-2 shadow-sm focus:outline-blue-400 ${
+          false ? "border-[1px]  border-red-500 focus:outline-red-500" : ""
+        }`}
+        {...register("category")}
+      >
+        {Object.keys(CategoryEnum).map((category) => (
+          <option value={CategoryEnum[category as keyof typeof CategoryEnum]}>
+            {CategoryEnum[category as keyof typeof CategoryEnum]}
+          </option>
+        ))}
+      </select>
       <section className="mb-4 flex items-center justify-center gap-4">
         <Input
           tabIndex={1}
@@ -130,7 +143,14 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
         >
           {uploadImage.imageUrl ? "Change" : "Add"} Image
         </button>
-        <Button tabIndex={4} className="hidden min-w-[9rem] sm:block">
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          type="submit"
+          tabIndex={4}
+          className="hidden min-w-[9rem] sm:block"
+        >
           Create post
         </Button>
       </section>
@@ -169,6 +189,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
           />
         </figure>
       )}
+
       <TextArea
         tabIndex={3}
         {...register("body")}
@@ -176,18 +197,15 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
         className="min-h-[70vh]  "
         // defaultValue={"Type here to write your post"}
       />
-      {getValues("title") !== "Untitled post here" && (
-        <Button
-          disabled={getValues("title") === "Untitled post here" || isCreating}
-          className={cn(
-            "mb-20 ml-6 block text-center sm:hidden",
-            (getValues("title") === "Untitled post here" || isCreating) &&
-              "cursor-not-allowed"
-          )}
-        >
-          Create post
-        </Button>
-      )}
+      <Button
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        type="submit"
+        className={cn("mb-20 ml-6 block text-center sm:hidden")}
+      >
+        Create post
+      </Button>
     </form>
   );
 };

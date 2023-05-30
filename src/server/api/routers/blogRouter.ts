@@ -5,7 +5,6 @@ import {
   UpdateBlogSchema,
 } from "~/common/validation/blog-validation";
 import * as z from "zod";
-import { getRandomKey, getS3Params, s3 } from "~/lib/s3";
 export const blogRouter = createTRPCRouter({
   // [POST]
   createNewBlog: protectedProcedure
@@ -19,14 +18,31 @@ export const blogRouter = createTRPCRouter({
 
       // slug
       const slug = tagArray.join("-") + Date.now();
-      const authorId = session.user.id;
+      const authorId = session?.user.id;
       const post = await ctx.prisma.post.create({
+        include: {
+          category: true,
+        },
         data: {
           title,
+          category: {
+            connectOrCreate: {
+              create: {
+                category_name: input.category,
+              },
+              where: {
+                category_name: input.category,
+              },
+            },
+          },
           subtitle,
-          image: image || "",
+          image: image || null,
           body,
-          authorId,
+          user: {
+            connect: {
+              id: authorId,
+            },
+          },
           slug,
           tags: {
             createMany: {
@@ -55,6 +71,7 @@ export const blogRouter = createTRPCRouter({
         title: true,
         subtitle: true,
         createdAt: true,
+        category: true
       },
       orderBy: {
         createdAt: "desc",
@@ -89,6 +106,7 @@ export const blogRouter = createTRPCRouter({
               email: true,
               image: true,
               gender: true,
+              
             },
           },
         },
