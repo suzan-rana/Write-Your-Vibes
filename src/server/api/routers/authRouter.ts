@@ -1,14 +1,8 @@
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 import { RegisterFormSchema } from "~/pages/auth/register";
 import { hash } from "argon2";
 
-import {
-  createTRPCRouter,
-  publicProcedure,
-  protectedProcedure,
-} from "~/server/api/trpc";
-import { randomFemaleAvatar, randomMaleAvatar } from "~/lib/bigheads";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const authRouter = createTRPCRouter({
   register: publicProcedure
