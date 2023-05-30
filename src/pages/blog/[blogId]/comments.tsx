@@ -72,10 +72,9 @@ const DisplayComments = () => {
           {data?.data.map((comment, index) => (
             <UserAvatar
               key={comment.id}
-              name={comment.author.name as string}
+              name={comment.user.name as string}
               sub={comment.content}
-              gender={comment.author.gender as "Male" | "Female"}
-              image={comment.author.image || ""}
+              image={comment.user.image || ""}
             />
           ))}
         </>

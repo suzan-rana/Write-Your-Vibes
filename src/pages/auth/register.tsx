@@ -24,16 +24,18 @@ export const RegisterFormSchema = z.object({
 type RegisterFormType = z.infer<typeof RegisterFormSchema>;
 
 const RegisterPage = () => {
+  const router = useRouter();
+
   // making a mutation
   const { mutate, isLoading: isRegistering } = api.auth.register.useMutation({
     onSuccess(data, variables, context) {
       toast.success("User created successfully.");
+      router.push("/auth/login")
     },
     onError(error, variables, context) {
       toast.error(error.message);
     },
   });
-  const router = useRouter();
   const {
     register,
     setValue,

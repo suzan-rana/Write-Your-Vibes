@@ -11,7 +11,7 @@ export type AProps = {
 const UserAvatar = ({ name, sub, ...restProps }: AProps) => {
   return (
     <div className="my-6 flex items-start gap-5 text-gray-300">
-      {/* <Avatar {...restProps} /> */}
+      <Avatar {...restProps} />
       <div>
         <h2 className="text-base">{name}</h2>
         {sub && <p className="text-sm">{sub}</p>}
@@ -21,7 +21,6 @@ const UserAvatar = ({ name, sub, ...restProps }: AProps) => {
 };
 
 interface AvatarProps {
-  gender: "Male" | "Female";
   image: string;
   className?:string;
 }
