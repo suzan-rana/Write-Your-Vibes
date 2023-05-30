@@ -30,7 +30,6 @@ export const authRouter = createTRPCRouter({
       const hashedPassword = await hash(password);
 
       // gender - male ? randomMaleAvatar : randomFemaleAvatar
-      const image = gender === 'Female' ?  JSON.stringify(randomFemaleAvatar) : JSON.stringify(randomMaleAvatar)
 
       return await ctx.prisma.user.create({
         data: {
@@ -38,8 +37,8 @@ export const authRouter = createTRPCRouter({
           email,
           password: hashedPassword,
           gender,
-          image,
-          biography: `My name is ${name} and I like to do interesting things!`
+          image: null,
+          biography: `My name is ${name} and I like to do interesting things!`,
         },
       });
     }),

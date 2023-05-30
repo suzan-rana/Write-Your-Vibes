@@ -27,6 +27,7 @@ const BlogPage: NextPageWithLayout = (props: Props) => {
               data?.data.map((post, index) => (
                 <Link href={`/blog/${post.id}`} key={index}>
                   <Card
+                  imageSrc={post.image}
                     createdAt={post.createdAt}
                     title={post.title}
                     subtitle={post.subtitle}

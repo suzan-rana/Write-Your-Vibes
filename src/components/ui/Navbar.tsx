@@ -5,10 +5,11 @@ import React, { useEffect, useState } from "react";
 import { CgMenuLeft } from "react-icons/cg";
 import { cn } from "~/lib/utils";
 import { AProps, Avatar } from "./UserAvatar";
+import { api } from "~/utils/api";
 
 const Navbar = () => {
   const { data } = useSession();
-  console.log('DATA IMAGE', { data })
+  const { data: user } = api.user.getPersonalDetails.useQuery();
   const [showNavMenu, setShowNavMenu] = useState(true);
 
   useEffect(() => {
@@ -57,10 +58,10 @@ const Navbar = () => {
         <UserProfile
           onClick={handleLinkClick}
           showNavMenu={showNavMenu}
-          name={data?.user.name || "Login"}
-          link={data?.user.id ? "/profile" : "/auth/login"}
-          gender={data?.user.gender as "Male" | "Female"}
-          image={data?.user.image || ""}
+          name={user?.name || "Login"}
+          link={user?.id ? "/profile" : "/auth/login"}
+          gender={user?.gender as "Male" | "Female"}
+          image={user?.image || ""}
         />
       </nav>
     </header>
@@ -71,7 +72,7 @@ export default Navbar;
 
 const navElements: Omit<NavItemProps, "showNavMenu" | "onClick">[] = [
   {
-    name: "Chat",
+    name: "Home",
     link: "/",
   },
   {
@@ -132,7 +133,12 @@ const NavItem = ({ name, link, showNavMenu, onClick }: NavItemProps) => {
 interface UserProfileProps
   extends AProps,
     Pick<NavItemProps, "onClick" | "showNavMenu" | "link"> {}
-const UserProfile = ({ name, sub, showNavMenu,  ...restProps }: UserProfileProps) => {
+const UserProfile = ({
+  name,
+  sub,
+  showNavMenu,
+  ...restProps
+}: UserProfileProps) => {
   return (
     <Link
       href={"/profile"}

@@ -77,10 +77,10 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
           <h1 className="my-2 text-4xl font-bold">{data?.data?.title}</h1>
           <div className="flex w-[95%] items-center justify-between">
             <UserAvatar
-              name={data?.data?.author.name || "Suzan Rana"}
-              sub={data?.data?.author.email || "suzan@gmail.com"}
-              image={data?.data?.author.image || ""}
-              gender={data?.data?.author.gender as "Male" | "Female"}
+              name={data?.data?.user.name || "Suzan Rana"}
+              sub={data?.data?.user.email || "suzan@gmail.com"}
+              image={data?.data?.user.image || ""}
+              gender={data?.data?.user.gender as "Male" | "Female"}
             />
             {sessionData?.user.id === data?.data?.authorId ? (
               <div>
@@ -109,6 +109,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
           >
             <Image
               src={
+                data?.data?.image ||
                 "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
               }
               fill

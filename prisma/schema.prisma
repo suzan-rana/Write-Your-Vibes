@@ -9,7 +9,7 @@ datasource db {
 }
 
 model account {
-  id                String  @id
+  id                String  @id  @default(cuid())
   userId            String
   type              String
   provider          String
@@ -28,19 +28,19 @@ model account {
 }
 
 model category {
-  id                   String                 @id
+  id                   String                 @id @default(cuid())
   category_name        String
   manypostmanycategory manypostmanycategory[]
 }
 
 model chat {
-  id               String             @id
+  id               String             @id  @default(cuid())
   manychatmanyuser manychatmanyuser[]
   message          message[]
 }
 
 model comment {
-  id        String   @id
+  id        String   @id @default(cuid())
   content   String   @db.LongText
   postId    String
   authorId  String
@@ -73,7 +73,7 @@ model manypostmanycategory {
 }
 
 model message {
-  id              String @id
+  id              String @id  @default(cuid())
   message_content String @db.LongText
   chatId          String
   userId          String
@@ -85,7 +85,7 @@ model message {
 }
 
 model post {
-  id                   String                 @id
+  id                   String                 @id  @default(cuid())
   title                String
   subtitle             String
   body                 String                 @db.LongText
@@ -103,7 +103,7 @@ model post {
 }
 
 model reaction {
-  id     String @id
+  id     String @id  @default(cuid())
   userId String
   postId String
   type   String
@@ -115,7 +115,7 @@ model reaction {
 }
 
 model session {
-  id           String   @id
+  id           String   @id  @default(cuid())
   sessionToken String   @unique(map: "Session_sessionToken_key")
   userId       String
   expires      DateTime
@@ -125,7 +125,7 @@ model session {
 }
 
 model tags {
-  id       String @id
+  id       String @id  @default(cuid())
   tag_name String
   postId   String
   post     post   @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Tags_postId_fkey")
@@ -134,7 +134,7 @@ model tags {
 }
 
 model user {
-  id               String             @id
+  id               String             @id  @default(cuid())
   name             String?
   email            String?            @unique(map: "User_email_key")
   password         String

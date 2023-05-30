@@ -24,28 +24,7 @@ const Home: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="mb-12 flex w-[100%] gap-12 text-left">
-        <div className="rounded-lg border border-gray-600 px-4 py-4">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((c, i) => (
-            <MessageCard name="Suzan Rana" sub="How was the day?" />
-          ))}
-        </div>
-        <div className="flex grow flex-col justify-between gap-8 rounded-lg px-4 py-4">
-          <div className="flex cursor-pointer items-center  gap-4">
-            <div className="h-8 w-8 rounded-full bg-white"></div>
-            <h2> Suzan Rana</h2>
-          </div>
-          <div className="flex grow flex-col gap-4">
-            <MessageBox content="Hello, world" left={true} />
-            <MessageBox content="Hey, the world says Hello." left={false} />
-            <MessageBox content="How is the weather so nice" left={true} />
-            <MessageBox left={false} content="Always has been." />
-          </div>
-
-          <div className="flex gap-2 ">
-            <Input className="py-6 pl-6" placeholder="Write a message..." />
-            <Button>Send</Button>
-          </div>
-        </div>
+        
       </main>
     </>
   );

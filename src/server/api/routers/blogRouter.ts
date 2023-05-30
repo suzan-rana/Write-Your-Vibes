@@ -82,7 +82,7 @@ export const blogRouter = createTRPCRouter({
           id: input.id,
         },
         include: {
-          author: {
+          user: {
             select: {
               id: true,
               name: true,
@@ -161,7 +161,7 @@ export const blogRouter = createTRPCRouter({
           id: input.id,
         },
         include: {
-          comments: true,
+          comment: true,
         },
       });
 

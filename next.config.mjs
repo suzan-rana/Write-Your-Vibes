@@ -15,6 +15,9 @@ const config = {
       {
         hostname: "pbs.twimg.com",
       },
+      {
+        hostname: 'write-your-vibes.s3.ap-south-1.amazonaws.com'
+      }
     ],
   },
   /**

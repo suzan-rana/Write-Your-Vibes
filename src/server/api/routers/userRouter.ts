@@ -1,10 +1,19 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import * as z from "zod";
 import { verify, hash } from "argon2";
-import { UpdatePasswordSchema, UpdateProfileSchema } from "~/common/validation/user-validation";
-
+import {
+  UpdatePasswordSchema,
+  UpdateProfileSchema,
+} from "~/common/validation/user-validation";
 
 export const userRouter = createTRPCRouter({
+  getPersonalDetails: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.user.findFirst({
+      where: {
+        id: ctx.session.user.id,
+      },
+    });
+  }),
   updateProfile: protectedProcedure
     .input(UpdateProfileSchema)
     .mutation(async ({ ctx, input }) => {

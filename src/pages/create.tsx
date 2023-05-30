@@ -99,7 +99,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
         await uploadImageToS3(uploadUrl, key, uploadImage.image as File);
         mutate({
           ...data,
-          image: uploadUrl,
+          image: uploadUrl.split("?")[0]?.toString() || null,
         });
       });
     }

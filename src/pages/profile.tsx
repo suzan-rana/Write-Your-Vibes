@@ -13,23 +13,24 @@ import RandomAvatar from "~/components/Avatar";
 
 const ProfilePage: NextPageWithLayout = () => {
   const { data } = useSession();
+  const { data: user } = api.user.getPersonalDetails.useQuery();
+
 
   return (
     <>
       <section className="flex flex-col items-center justify-center gap-12 pb-24 text-center">
         <ImageContainer
-          gender={data?.user.gender || "Male"}
-          image={data?.user.image || ""}
+          gender={user?.gender as 'Male' | 'Female'}
+          image={user?.image || ""}
           className="min-h-[15rem] w-[15rem] max-w-[100%] overflow-hidden rounded-full"
         />
-        <div>
+        <div> 
           <h1 className="text-3xl font-bold text-gray-200">
-            {data?.user.name}
+            {user?.name}
           </h1>
-          <p className="my-2">{data?.user.email}</p>
+          <p className="my-2">{user?.email}</p>
           <p>
-            Hello, I am an Aspiring Software Engineer (Backend), and this is my
-            biography.
+            {user?.biography}
           </p>
         </div>
         <Link href={"/updateprofile"}>

@@ -1,3 +1,4 @@
+'use client'
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
@@ -10,14 +11,14 @@ type Props = {
 const RouteProtector = ({ children }: Props) => {
   const { status } = useSession();
   const router = useRouter();
-  // const handleRouterPush = async (link: string) => {
-  //   await router.push(link);
-  // };
-  // useEffect(() => {
-  //   if (status === "unauthenticated") {
-  //     handleRouterPush("/auth/login");
-  //   }
-  // }, []);
+  const handleRouterPush = async (link: string) => {
+    await router.push(link);
+  };
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      handleRouterPush("/auth/login");
+    }
+  }, []);
   if (status !== 'authenticated') {
     return (
       <div className="flex h-screen items-center justify-center">
