@@ -55,27 +55,29 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
   }
 
   return (
-    <section className="mb-28 flex flex-col w-[90%] mx-auto md:w-auto  items-start gap-4 sm:flex-row sm:gap-12">
+    <section className="mx-auto mb-28 flex w-[95%] flex-col items-start  gap-4 sm:flex-row sm:gap-12 md:w-auto">
       <Link href={"/blog"}>
         <Button
           variant={"ghost"}
-          className="min-w-[6rem] text-sm md:text-md border-none underline"
+          className="md:text-md min-w-[6rem] border-none text-sm underline"
         >
           See all
         </Button>
       </Link>
       {isLoading || isFetching ? null : (
-        <article className="w-[100%] md:w-auto grow">
+        <article className="w-[90%] grow md:flex-grow-0  md:w-auto">
           {data?.data?.createdAt && (
-            <p className="text-sm md:text-md">
+            <p className="md:text-md text-sm">
               Published on{" "}
               {new Intl.DateTimeFormat("en-us", {
                 dateStyle: "full",
               }).format(data?.data.createdAt)}
             </p>
           )}
-          <h1 className="my-4 md:my-2 text-3xl md:text-4xl font-bold">{data?.data?.title}</h1>
-          <div className="flex md:w-[95%] flex-col md:flex-row md:items-center justify-between">
+          <h1 className="my-4 text-3xl font-bold md:my-2 md:text-4xl">
+            {data?.data?.title}
+          </h1>
+          <div className="flex flex-col justify-between md:w-[90%] md:flex-row md:items-center">
             <UserAvatar
               name={data?.data?.user.name || "Suzan Rana"}
               sub={data?.data?.user.email || "suzan@gmail.com"}
@@ -101,20 +103,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
               </div>
             ) : null}
           </div>
-          <figure
-            className={cn(
-              "relative block min-w-[10rem] min-h-[10rem] md:min-h-[25rem] md:min-w-[45rem] max-w-[100%] cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-500 hover:bg-blue-400"
-            )}
-          >
-            <Image
-              src={
-                data?.data?.image ||
-                "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
-              }
-              fill
-              alt="Image"
-            />
-          </figure>
+          <BlogImage src={data?.data?.image || ""} />
 
           <p className="my-8">{data?.data?.subtitle}</p>
           <pre
@@ -148,6 +137,42 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
 export default BlogItemPage;
 BlogItemPage.getLayout = (page) => {
   return <Layout>{page}</Layout>;
+};
+
+const BlogImage = ({ src }: { src: string }) => {
+  const [imageLoadingError, setImageLoadingError] = useState(false);
+  const handleImageLoadingError = () => {
+    setImageLoadingError(true);
+  };
+  return (
+    <div>
+      <figure
+        className={cn(
+          "relative block min-h-[10rem] min-w-[10rem] cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-500 hover:bg-blue-400 md:min-h-[10rem]  md:min-w-[25rem]"
+        )}
+      >
+        {imageLoadingError ? (
+          <img
+            className="block max-w-[100%]"
+            src={
+              "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
+            }
+            alt="Image"
+          />
+        ) : (
+          <Image
+            src={
+              src ||
+              "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
+            }
+            fill
+            onError={handleImageLoadingError}
+            alt="Image"
+          />
+        )}
+      </figure>
+    </div>
+  );
 };
 
 const useDeleteBlog = (

@@ -19,7 +19,7 @@ const RouteProtector = ({ children }: Props) => {
       handleRouterPush("/auth/login");
     }
   }, []);
-  if (status !== 'authenticated') {
+  if (status === 'unauthenticated') {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="mx-auto text-center">
@@ -31,6 +31,9 @@ const RouteProtector = ({ children }: Props) => {
         </div>
       </div>
     );
+  }
+  if(status === 'loading'){
+    return <p className="text-center pt-20" >Loading...</p>
   }
   return <>{children}</>;
 };
