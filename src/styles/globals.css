@@ -5,8 +5,14 @@
 :root {
   --scrollbar-color: hsl(224 71% 4%);
 }
-body {
+img {
+  max-inline-size: 100% !important;
+  block-size: auto !important;
+  object-fit: contain !important;
+}
+html {
   background-color: hsl(224 71% 4%);
+  min-width: 100vw;
 }
 body {
   @apply text-gray-200;
@@ -19,7 +25,7 @@ input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;
 }
 ::-webkit-scrollbar {
-  width: 15px;
+  width: 0px;
   background-color: rgb(92, 92, 92);
 }::-webkit-scrollbar-track {
   background: hsl(224 71% 4%);

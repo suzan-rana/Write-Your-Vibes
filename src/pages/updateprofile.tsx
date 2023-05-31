@@ -75,10 +75,10 @@ const UpdateProfilePage = (props: Props) => {
         Hello, <span className="text-red-400">{user?.name}</span>!
         Have fun updating your profile 😊
       </h1>
-      <div className="flex items-start gap-8">
+      <div className="flex md:items-start md:gap-8">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="my-12 flex flex-col gap-6 sm:w-[100%] md:w-[60%]"
+          className="my-12 flex flex-col gap-6 w-[100%] md:w-[60%]"
         >
           <label className="flex flex-col gap-2">
             <span>Name</span>
@@ -130,10 +130,10 @@ const UpdateProfilePage = (props: Props) => {
               }}
               className="grow"
             >
-              Cancel updation
+              Cancel
             </Button>
             <Button type="submit" className="grow bg-green-500">
-              Save Profile
+              Update
             </Button>
           </div>
         </form>

@@ -26,8 +26,8 @@ const Navbar = () => {
   return (
     <header
       className={cn(
-        "fixed bottom-0 left-0 right-[40%] top-0 z-50 mx-auto  w-[70%] sm:static sm:mt-1 sm:w-[80%] sm:bg-transparent",
-        showNavMenu && "bg-slate-950 transition-all duration-500"
+        "fixed  left-0  top-0  z-50 mx-auto sm:static sm:mt-1 sm:w-[80%] sm:bg-transparent",
+        showNavMenu ? "bg-slate-950 bottom-0  w-[70%] right-[40%] transition-all duration-500" : 'sm:block'
       )}
     >
       <CgMenuLeft
@@ -37,7 +37,7 @@ const Navbar = () => {
         onClick={() => setShowNavMenu((prev) => !prev)}
       />
       <nav
-        className={`h-[85vh] cursor-pointer flex-col justify-between  gap-6 rounded-md px-4 py-4 transition-all duration-200 sm:h-auto sm:flex-row md:items-center md:py-2 ${
+        className={`h-[90vh] cursor-pointer flex-col justify-between  gap-6 rounded-md px-4 py-4 transition-all duration-200 sm:h-auto sm:flex-row md:items-center md:py-2 ${
           showNavMenu ? "flex" : "hidden sm:flex"
         }`}
       >
@@ -60,7 +60,6 @@ const Navbar = () => {
           showNavMenu={showNavMenu}
           name={user?.name || "Login"}
           link={user?.id ? "/profile" : "/auth/login"}
-          gender={user?.gender as "Male" | "Female"}
           image={user?.image || ""}
         />
       </nav>
@@ -147,7 +146,7 @@ const UserProfile = ({
     >
       <>
         <Avatar className="mb-2 bg-white" {...restProps} />
-        <h2 className="block  text-base md:hidden">{name}</h2>
+        <h2 className="block text-base md:hidden">{name}</h2>
       </>
     </Link>
   );

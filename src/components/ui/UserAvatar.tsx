@@ -1,7 +1,8 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import RandomAvatar from "../Avatar";
 import { cn } from "~/lib/utils";
+import { url } from "inspector";
 
 export type AProps = {
   name: string;
@@ -13,8 +14,8 @@ const UserAvatar = ({ name, sub, ...restProps }: AProps) => {
     <div className="my-6 flex items-start gap-5 text-gray-300">
       <Avatar {...restProps} />
       <div>
-        <h2 className="text-base">{name}</h2>
-        {sub && <p className="text-sm">{sub}</p>}
+        <h2 className="text-md md:text-base">{name}</h2>
+        {sub && <p className="text-xs md:text-sm">{sub}</p>}
       </div>
     </div>
   );
@@ -22,15 +23,37 @@ const UserAvatar = ({ name, sub, ...restProps }: AProps) => {
 
 interface AvatarProps {
   image: string;
-  className?:string;
+  className?: string;
 }
 
 export default UserAvatar;
 
-export const Avatar = ({className,image, ...restProps }: AvatarProps) => {
+export const Avatar = ({ className, image, ...restProps }: AvatarProps) => {
+  const [imageLoadingError, setImageLoadingError] = useState(false);
+  const handleImageLoadingError = () => {
+    setImageLoadingError(true);
+  };
   return (
-    <figure className={cn("relative block h-12 w-12 overflow-hidden rounded-full", className)}>
-      <Image src={image} fill alt="Profile image"/>
+    <figure
+      className={cn(
+        "relative block h-12 w-12 overflow-hidden rounded-full",
+        className
+      )}
+    >
+      {imageLoadingError ? (
+        <img
+          src={
+            "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"
+          }
+          style={{
+            maxWidth: "100%",
+            display: "block",
+          }}
+          alt=""
+        />
+      ) : (
+        <Image src={image} fill alt="" onError={handleImageLoadingError} />
+      )}
     </figure>
   );
 };

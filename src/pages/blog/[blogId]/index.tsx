@@ -55,41 +55,40 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
   }
 
   return (
-    <section className="mb-28 flex flex-col items-start gap-3 sm:flex-row sm:gap-12">
+    <section className="mb-28 flex flex-col w-[90%] mx-auto md:w-auto  items-start gap-4 sm:flex-row sm:gap-12">
       <Link href={"/blog"}>
         <Button
           variant={"ghost"}
-          className="min-w-[6rem] border-none underline"
+          className="min-w-[6rem] text-sm md:text-md border-none underline"
         >
           See all
         </Button>
       </Link>
       {isLoading || isFetching ? null : (
-        <article className="grow">
+        <article className="w-[100%] md:w-auto grow">
           {data?.data?.createdAt && (
-            <p>
+            <p className="text-sm md:text-md">
               Published on{" "}
               {new Intl.DateTimeFormat("en-us", {
                 dateStyle: "full",
               }).format(data?.data.createdAt)}
             </p>
           )}
-          <h1 className="my-2 text-4xl font-bold">{data?.data?.title}</h1>
-          <div className="flex w-[95%] items-center justify-between">
+          <h1 className="my-4 md:my-2 text-3xl md:text-4xl font-bold">{data?.data?.title}</h1>
+          <div className="flex md:w-[95%] flex-col md:flex-row md:items-center justify-between">
             <UserAvatar
               name={data?.data?.user.name || "Suzan Rana"}
               sub={data?.data?.user.email || "suzan@gmail.com"}
               image={data?.data?.user.image || ""}
-              gender={data?.data?.user.gender as "Male" | "Female"}
             />
             {sessionData?.user.id === data?.data?.authorId ? (
-              <div>
+              <div className="hidden md:block">
                 <Link href={`/blog/edit/${data?.data?.id as string}`}>
                   <Button
                     variant={"ghost"}
                     className="min-w-[6rem] border-none underline"
                   >
-                    Edit Post
+                    Edit
                   </Button>
                 </Link>
                 <Button
@@ -104,7 +103,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
           </div>
           <figure
             className={cn(
-              "relative block min-h-[25rem] w-[45rem] max-w-[100%] cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-500 hover:bg-blue-400"
+              "relative block min-w-[10rem] min-h-[10rem] md:min-h-[25rem] md:min-w-[45rem] max-w-[100%] cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-500 hover:bg-blue-400"
             )}
           >
             <Image

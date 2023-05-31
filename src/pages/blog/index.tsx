@@ -14,7 +14,7 @@ const BlogPage: NextPageWithLayout = (props: Props) => {
   const router = useRouter();
   const { data, isLoading, isFetching } = api.blog.getAllBlogs.useQuery();
   return (
-    <section>
+    <section className="md:w-[85%] md:mx-auto">
       <h1 className="mb-4 text-5xl font-bold">Blog</h1>
       <p>A blog built using using t3 Stack, TypeScript, Tailwindcss and TRPC</p>
       <Divider />

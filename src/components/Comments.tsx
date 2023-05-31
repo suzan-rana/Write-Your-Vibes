@@ -25,15 +25,16 @@ const Comments = (props: Props) => {
   return (
     <section className="mb-16 min-h-[10rem]">
       <h2>Comments</h2>
-      <div className="my-4 flex items-center gap-6">
+      <div className="my-4 flex items-center gap-2 md:gap-6">
         <Input
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Tell how you feel"
-          className="py-6"
+          className="py-6 grow"
         />
         <Button disabled={isPostingComment} onClick={handlePostComment}>
-          Comment
+          <span className="hidden md:block">Comment</span>
+          <span className="md:hidden">+</span>
         </Button>
       </div>
       <DisplayComments />

@@ -70,12 +70,12 @@ const TopPosts = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <h2 className=" text-center text-4xl font-bold capitalize">
+          <h2 className="text-center text-4xl font-bold capitalize">
             Top Posts
           </h2>
           {blogCollection?.data.length === 0 ? (
             <NoBlog />
-          ) : (
+          ) : ( 
             <article className="my-6 mt-12 flex flex-col flex-wrap  gap-8 gap-y-12 md:flex-row">
               {blogCollection?.data.map((item, index) => (
                 <Link href={`/blog/${item.id}`} key={item.id}>

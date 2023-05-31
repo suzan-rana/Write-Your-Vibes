@@ -36,15 +36,15 @@ const Modal = ({
   }, []);
   return (
     <ReactPortal wrapperId="react-portal-modal-container">
-      <div className="scroll-0 fixed inset-0 flex items-center justify-center overflow-hidden bg-white/10">
+      <div className="fixed inset-0 flex items-center justify-center overflow-hidden bg-white/10">
         <motion.div
           variants={modalAnimationVariants}
           initial="initial"
           animate="animate"
           exit={"exit"}
-          className="rounded-lg border-[2px] border-slate-600  bg-slate-800  px-16 py-12 text-white"
+          className="rounded-lg border-[2px] border-slate-600  bg-slate-800 w-[90%] md:w-auto px-8 py-6 md:px-16 md:py-12 text-white"
         >
-          <h2 className="pb-8 text-center text-2xl font-bold">{title}</h2>
+          <h2 className="pb-8 text-center text-xl md:text-2xl font-bold">{title}</h2>
           {customBody ? (
             customBody
           ) : (

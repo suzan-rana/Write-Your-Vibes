@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { cn } from "~/lib/utils";
 import RandomAvatar from "../Avatar";
 
@@ -10,6 +10,10 @@ type Props = {
 };
 
 const ImageContainer = ({ className, image, ...restProps }: Props) => {
+  const [imageLoadingError, setImageLoadingError] = useState(false);
+  const handleImageLoadingError = () => {
+    setImageLoadingError(true);
+  };
   return (
     <figure
       className={cn(
@@ -17,7 +21,11 @@ const ImageContainer = ({ className, image, ...restProps }: Props) => {
         className
       )}
     >
-      <Image src={image} fill alt="Profile Image"></Image>
+      {imageLoadingError ? (
+        <img src={"https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"} className="max-w-[100%] block" alt="Profile Image"></img>
+      ) : (
+        <Image src={image} fill alt="Profile Image" onError={handleImageLoadingError}></Image>
+      )}
     </figure>
   );
 };

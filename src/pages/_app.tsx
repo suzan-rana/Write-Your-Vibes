@@ -36,15 +36,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
     router.events.on("routeChangeError", () => NProgress.done());
   }, []);
   return (
-    <main className={`${p.className} antialiased`}>
+    <main className={`${p.className}`}>
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/*  @ts-ignore */}
       <SessionProvider session={session as Session}>
         <ToastContainer
           toastClassName={() =>
-            "bg-slate-900 shadow-md  rounded border border-slate-700 text-white py-3  pl-5"
+            "bg-slate-900 shadow-md rounded border text-md border-slate-700 text-white py-3  pl-4"
           }
-          position="bottom-right"
+          position="top-center"
           closeButton={false}
           hideProgressBar
           limit={4}

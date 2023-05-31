@@ -109,14 +109,14 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto ml-2 mt-26 min-h-[80vh]  md:ml-2 md:mt-12  "
+      className="mt-26 mx-auto ml-2 min-h-[80vh]   md:ml-2 md:mt-12  "
       ref={createBlogRef}
       style={{
         marginInline: "auto",
       }}
     >
       <select
-        className={`rounded-md border mb-4 border-slate-800 bg-gray-950 px-3 py-2 shadow-sm focus:outline-blue-400 ${
+        className={`mb-4 rounded-md border border-slate-800 bg-gray-950 px-3 py-2 shadow-sm focus:outline-blue-400 ${
           false ? "border-[1px]  border-red-500 focus:outline-red-500" : ""
         }`}
         {...register("category")}
@@ -162,7 +162,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
             title="Upload Blog Image"
             customBody={<UploadImage {...uploadImage} />}
             submitText="Save"
-            cancelText={uploadImage.image ? "Remove and Close" : "Cancel"}
+            cancelText={uploadImage.image ? "Remove" : "Cancel"}
           />
         )}
       </AnimatePresence>
@@ -174,20 +174,21 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
         className="border-none  border-transparent text-lg text-gray-400 outline-none outline-transparent ring-0 ring-transparent  focus:outline-none focus-visible:border-none focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-2"
       />
       {uploadImage.imageUrl && (
-        <figure
+        <section
           className={cn(
-            "relative my-6 ml-2 block h-[20rem] w-[30rem] cursor-pointer overflow-hidden  rounded-lg "
+            "relative my-6 md:ml-2 block min-w-[10rem] min-h-[10rem]  md:h-[20rem] md:w-[30rem] cursor-pointer overflow-hidden rounded-lg"
           )}
           onClick={() => setOpenUploadImageModal(true)}
         >
           {" "}
           <Image
             src={uploadImage.imageUrl as string}
-            className="z-1"
+            className="absolute max-w-[100%] block"
             fill
             alt="Blog Image"
+
           />
-        </figure>
+        </section>
       )}
 
       <TextArea
@@ -197,15 +198,26 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
         className="min-h-[70vh]  "
         // defaultValue={"Type here to write your post"}
       />
-      <Button
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        type="submit"
-        className={cn("mb-20 ml-6 block text-center sm:hidden")}
-      >
-        Create post
-      </Button>
+      <div className="flex gap-4 items-center my-20">
+        <button
+          tabIndex={4}
+          onClick={() => setOpenUploadImageModal(true)}
+          type="button"
+          className="min-w-[9rem] border-[2px] border-slate-900 bg-transparent text-white py-3 rounded-md sm:block"
+        >
+          {uploadImage.imageUrl ? "Change" : "Add"} Image
+        </button>
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleSubmit(onSubmit);
+          }}
+          type="submit"
+          className={cn("block text-center sm:hidden")}
+        >
+          Create post
+        </Button>
+      </div>
     </form>
   );
 };
@@ -289,13 +301,12 @@ export const UploadImage = ({
 
           <figure
             className={cn(
-              "relative block h-[25rem] w-[35rem] cursor-pointer overflow-hidden  rounded-lg "
+              "relative block w-[100%] min-h-[15rem] h-auto md:h-[25rem] md:w-[35rem] cursor-pointer overflow-auto  rounded-lg "
             )}
           >
-            {" "}
             <Image
               src={imageUrl as string}
-              className="z-1"
+              className="block max-w-[100%] "
               fill
               alt="Blog Image"
             />
@@ -309,7 +320,7 @@ export const UploadImage = ({
             </p>
           )}
           <div
-            className="flex min-h-[20rem] min-w-[30rem] cursor-pointer items-center justify-center rounded-lg  opacity-50 "
+            className="flex min-h-[10rem] sm:min-h-[20rem] sm:min-w-[30rem] cursor-pointer items-center justify-center rounded-lg  opacity-50 "
             style={{
               background: bg ? bg : "hsl(224 71% 4%)",
             }}
