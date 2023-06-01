@@ -65,7 +65,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
         </Button>
       </Link>
       {isLoading || isFetching ? null : (
-        <article className="w-[90%] grow md:flex-grow-0  md:w-auto">
+        <article className=" grow md:flex-grow-0  md:w-auto">
           {data?.data?.createdAt && (
             <p className="md:text-md text-sm">
               Published on{" "}
@@ -148,7 +148,7 @@ const BlogImage = ({ src }: { src: string }) => {
     <div>
       <figure
         className={cn(
-          "relative block min-h-[10rem] min-w-[10rem] cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-500 hover:bg-blue-400 md:min-h-[10rem]  md:min-w-[25rem]"
+          "relative block min-h-[10rem] min-w-[10rem]  cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-500 hover:bg-blue-400 md:min-h-fit md:min-w-[25rem] md:aspect-video"
         )}
       >
         {imageLoadingError ? (
