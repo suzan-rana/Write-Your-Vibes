@@ -162,7 +162,7 @@ const BlogImage = ({ src }: { src: string }) => {
         ) : (
           <Image
             src={
-              src ||
+              // src ||
               "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
             }
             fill

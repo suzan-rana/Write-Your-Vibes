@@ -52,7 +52,8 @@ export const Avatar = ({ className, image, ...restProps }: AvatarProps) => {
           alt=""
         />
       ) : (
-        <Image src={image} fill alt="" onError={handleImageLoadingError} />
+        null
+        // <Image src={image} fill alt="" onError={handleImageLoadingError} />
       )}
     </figure>
   );

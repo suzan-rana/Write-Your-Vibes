@@ -30,7 +30,6 @@ const CardImage = ({ src }: { src?: string }) => {
   const handleImageLoadingError = () => {
     setImageLoadingError(true);
   };
-  console.log('IMAGE', src)
   return (
     <figure className="relative z-10 block min-h-[15rem] max-w-[28rem] overflow-hidden rounded-md">
       {imageLoadingError ? (
@@ -46,9 +45,10 @@ const CardImage = ({ src }: { src?: string }) => {
           alt="Blog Image"
           onError={handleImageLoadingError}
           src={
-            src
-              ? src
-              : "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
+            // src
+            //   ? src
+            //   :
+               "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
           }
         />
       )}
