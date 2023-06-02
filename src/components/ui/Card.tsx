@@ -6,14 +6,24 @@ interface CardProps {
   subtitle: string;
   imageSrc?: string;
   createdAt: Date;
+  count: {
+    comment?: number;
+    reaction?: number;
+  };
 }
-const Card = ({ title, subtitle, imageSrc, createdAt }: CardProps) => {
+const Card = ({ title, subtitle, imageSrc, createdAt, count }: CardProps) => {
   return (
     <article className="grow-1 min-h-[20rem] cursor-pointer sm:w-[27rem]">
       <CardImage src={imageSrc} />
-      <h2 className="mb-2 mt-4 max-w-[95%] text-2xl font-semibold">{title}</h2>
-      <p className="max-w-[95%] text-base">{subtitle}</p>
-      <p className="mt-2 max-w-[95%]">
+      <h2 className="mb-2 max-w-[95%] text-xl font-semibold sm:mt-4 sm:text-2xl">
+        {title}
+      </h2>
+      <p className="max-w-[95%] text-sm sm:text-base">{subtitle}</p>
+      <p className="max-w-[95%] my-2 text-sm sm:text-base">
+        {count?.reaction ? <span>{count.reaction} reactions</span>: null}{" "}
+        {count?.comment ? <span>{count.comment} comments</span>: null}{" "}
+      </p>
+      <p className="max-w-[95%] italic">
         {new Intl.DateTimeFormat("en-us", {
           dateStyle: "full",
         }).format(createdAt)}
@@ -38,17 +48,19 @@ const CardImage = ({ src }: { src?: string }) => {
           src={
             "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
           }
+          className="block max-w-[100%] object-cover object-center"
         />
       ) : (
         <Image
           fill
+          className="block max-w-[100%] object-contain object-center"
           alt="Blog Image"
           onError={handleImageLoadingError}
           src={
             // src
             //   ? src
             //   :
-               "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
+            "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
           }
         />
       )}

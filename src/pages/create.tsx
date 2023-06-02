@@ -203,7 +203,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
           tabIndex={4}
           onClick={() => setOpenUploadImageModal(true)}
           type="button"
-          className="min-w-[9rem] border-[2px] border-slate-900 bg-transparent text-white py-3 rounded-md sm:block"
+          className="text-base px-3 sm:text-lg  sm:min-w-[9rem] border-[2px] border-slate-900 bg-transparent text-white py-2 sm:py-3 rounded-md sm:block"
         >
           {uploadImage.imageUrl ? "Change" : "Add"} Image
         </button>

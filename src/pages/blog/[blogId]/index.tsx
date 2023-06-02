@@ -13,6 +13,7 @@ import Modal from "~/components/ui/Modal";
 import { toast } from "react-toastify";
 import Comments from "~/components/Comments";
 import Image from "next/image";
+import Reaction from "~/components/ui/Reaction";
 
 ("use client");
 
@@ -54,6 +55,10 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
     return <p className="my-20 text-center text-2xl">Deleting the blog...</p>;
   }
 
+  if(!data?.data){
+    return <p className="my-20 text-center text-2xl">Something went wrong.</p>;
+  }
+
   return (
     <section className="mx-auto mb-28 flex w-[95%] flex-col items-start  gap-4 sm:flex-row sm:gap-12 md:w-auto">
       <Link href={"/blog"}>
@@ -65,7 +70,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
         </Button>
       </Link>
       {isLoading || isFetching ? null : (
-        <article className=" grow md:flex-grow-0  md:w-auto">
+        <article className=" grow md:w-auto  md:flex-grow-0">
           {data?.data?.createdAt && (
             <p className="md:text-md text-sm">
               Published on{" "}
@@ -108,12 +113,13 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
           <p className="my-8">{data?.data?.subtitle}</p>
           <pre
             className={cn(
-              "mb-20 max-w-[50rem] whitespace-break-spaces text-gray-400",
+              "mb-20 max-w-[50rem] text-base sm:text-lg whitespace-break-spaces text-gray-400",
               p.className
             )}
           >
             {data?.data?.body}
           </pre>
+          <Reaction postId={data?.data?.id} reaction={data?.data?.reaction} />
           <Comments />
         </article>
       )}
@@ -148,7 +154,7 @@ const BlogImage = ({ src }: { src: string }) => {
     <div>
       <figure
         className={cn(
-          "relative block min-h-[10rem] min-w-[10rem]  cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-500 hover:bg-blue-400 md:min-h-fit md:min-w-[25rem] md:aspect-video"
+          "relative block min-h-[10rem] min-w-[10rem]  cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-500 hover:bg-blue-400 md:aspect-video md:min-h-fit md:min-w-[25rem]"
         )}
       >
         {imageLoadingError ? (

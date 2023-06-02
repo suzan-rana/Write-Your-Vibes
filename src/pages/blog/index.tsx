@@ -31,6 +31,7 @@ const BlogPage: NextPageWithLayout = (props: Props) => {
                     createdAt={post.createdAt}
                     title={post.title}
                     subtitle={post.subtitle}
+                    count = {post._count}
                   />
                 </Link>
               ))

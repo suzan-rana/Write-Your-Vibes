@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { ReactionEnum } from "~/utils/category";
 export const UpdateProfileSchema = z.object({
   name: z.string(),
   biography: z.string(),
@@ -15,3 +16,9 @@ export const UpdatePasswordSchema = z.object({
   confirmPassword: z.string().min(8),
 });
 export type UpdatePasswordType = z.infer<typeof UpdatePasswordSchema>
+
+export const CreateReactionSchema = z.object({
+  postId: z.string(),
+  type: z.nativeEnum(ReactionEnum)
+})
+export type CreateReactionType = z.infer<typeof CreateReactionSchema>

@@ -79,7 +79,7 @@ const TopPosts = () => {
             <article className="my-6 mt-12 flex flex-col flex-wrap  gap-8 gap-y-12 md:flex-row">
               {blogCollection?.data.map((item, index) => (
                 <Link href={`/blog/${item.id}`} key={item.id}>
-                  <Card {...item} imageSrc={item.image}  />
+                  <Card count={item._count} {...item} imageSrc={item.image}  />
                 </Link>
               ))}
             </article>

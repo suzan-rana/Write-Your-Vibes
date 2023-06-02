@@ -42,7 +42,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <SessionProvider session={session as Session}>
         <ToastContainer
           toastClassName={() =>
-            "bg-slate-900 shadow-md rounded border text-md border-slate-700 text-white py-3  pl-4"
+            "bg-slate-900 shadow-md rounded border mx-auto mt-8 sm:mt-0 w-[80%] sm:w-auto text-sm sm:text-md border-slate-700 text-white py-3  pl-4"
           }
           position="top-center"
           closeButton={false}

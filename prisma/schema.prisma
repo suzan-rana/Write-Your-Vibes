@@ -103,6 +103,8 @@ model reaction {
 
   @@index([postId], map: "Reaction_postId_fkey")
   @@index([userId], map: "Reaction_userId_fkey")
+  @@unique([postId, userId])
+
 }
 
 model session {

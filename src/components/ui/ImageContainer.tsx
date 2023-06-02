@@ -24,7 +24,7 @@ const ImageContainer = ({ className, image, ...restProps }: Props) => {
       {imageLoadingError ? (
         <img src={"https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"} className="max-w-[100%] block" alt="Profile Image"></img>
       ) : (
-        null
+        <img src={"https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"} className="max-w-[100%] block" alt="Profile Image"></img>
         // <Image src={image} fill alt="Profile Image" onError={handleImageLoadingError}></Image>
       )}
     </figure>

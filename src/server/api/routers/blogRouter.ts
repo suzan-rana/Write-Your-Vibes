@@ -71,7 +71,13 @@ export const blogRouter = createTRPCRouter({
         title: true,
         subtitle: true,
         createdAt: true,
-        category: true
+        category: true,
+        _count: {
+          select: {
+            comment: true,
+            reaction: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -91,8 +97,6 @@ export const blogRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      const { session } = ctx;
-
       // find blog with id
       const blog = await ctx.prisma.post.findFirst({
         where: {
@@ -106,7 +110,18 @@ export const blogRouter = createTRPCRouter({
               email: true,
               image: true,
               gender: true,
-              
+            },
+          },
+          reaction: {
+            select: {
+              type: true,
+              user: {
+                select: {
+                  id: true,
+                  image: true,
+                  name: true,
+                },
+              },
             },
           },
         },
@@ -129,6 +144,14 @@ export const blogRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const blogs = await ctx.prisma.post.findMany({
+        include: {
+          _count: {
+            select: {
+              reaction: true,
+              comment: true,
+            },
+          },
+        },
         where: {
           authorId: input.userId,
         },

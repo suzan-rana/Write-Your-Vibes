@@ -6,12 +6,12 @@ import { url } from "inspector";
 
 export type AProps = {
   name: string;
-  sub?: string;
+  sub?: string | React.ReactElement;
 } & AvatarProps;
 
 const UserAvatar = ({ name, sub, ...restProps }: AProps) => {
   return (
-    <div className="my-6 flex items-start gap-5 text-gray-300">
+    <div className="my-6 flex items-start gap-5 text-gray-300 cursor-pointer">
       <Avatar {...restProps} />
       <div>
         <h2 className="text-md md:text-base">{name}</h2>
@@ -52,7 +52,16 @@ export const Avatar = ({ className, image, ...restProps }: AvatarProps) => {
           alt=""
         />
       ) : (
-        null
+        <img
+          src={
+            "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"
+          }
+          style={{
+            maxWidth: "100%",
+            display: "block",
+          }}
+          alt=""
+        />
         // <Image src={image} fill alt="" onError={handleImageLoadingError} />
       )}
     </figure>
