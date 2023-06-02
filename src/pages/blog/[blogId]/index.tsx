@@ -110,7 +110,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
           </div>
           <BlogImage src={data?.data?.image || ""} />
 
-          <p className="my-8">{data?.data?.subtitle}</p>
+          <p className="my-8 bg-slate-900 py-2 sm:py-4 italic  px-2 sm:px-5 rounded-md">{data?.data?.subtitle}</p>
           <pre
             className={cn(
               "mb-20 max-w-[50rem] text-base sm:text-lg whitespace-break-spaces text-gray-400",

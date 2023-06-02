@@ -17,7 +17,7 @@ export const blogRouter = createTRPCRouter({
       const tagArray = title.split(" ");
 
       // slug
-      const slug = tagArray.join("-") + Date.now();
+      const slug = tagArray.join("-") + "-" + Date.now();
       const authorId = session?.user.id;
       const post = await ctx.prisma.post.create({
         include: {
