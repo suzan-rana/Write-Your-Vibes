@@ -23,6 +23,9 @@ const BlogPage: NextPageWithLayout = (props: Props) => {
     limit: 10,
     page: currentPage,
   });
+  if (isLoading || isFetching) {
+    return <p className="py-6">Loading...</p>;
+  }
   return (
     <section className="md:mx-auto md:w-[85%]">
       <h1 className="mb-4 text-5xl font-bold">Blog</h1>

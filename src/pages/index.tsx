@@ -25,6 +25,9 @@ const Home: NextPageWithLayout = () => {
   if (status !== "authenticated") {
     return <Link href={"/auth/login"}>Login with email and password</Link>;
   }
+  if(isLoading || isFetching){
+    return <p className="py-6">Loading...</p>
+  }
   return (
     <>
       <Head>

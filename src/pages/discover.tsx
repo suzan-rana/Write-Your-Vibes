@@ -40,7 +40,7 @@ const DiscoverPage: NextPageWithLayout = () => {
 
   const [searchData, setSearchData] = useState<BlogReactionType | []>([]);
 
-  const { isLoading, refetch } = api.search.searchByCategoryAndTags.useQuery(
+  const { isLoading, refetch, isFetching } = api.search.searchByCategoryAndTags.useQuery(
     {
       category_name: CategoryEnum.FRONTEND_DEVELOPMENT,
       tags: null,
@@ -51,7 +51,7 @@ const DiscoverPage: NextPageWithLayout = () => {
       },
     }
   );
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return <p>Loading...</p>;
   }
 

@@ -33,9 +33,9 @@ const PostByCategory = (props: Props) => {
     }
   );
 
-  // if(isLoading || isFetching){
-  //   return <p className="text-gray-400">Loading...</p>
-  // }
+  if(isLoading || isFetching){
+    return <p className="text-gray-400">Loading...</p>
+  }
 
   return (
     <>
