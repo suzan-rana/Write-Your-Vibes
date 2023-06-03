@@ -32,7 +32,6 @@ const ProfilePage: NextPageWithLayout = () => {
         </Link>
       </section>
       <TopPosts />
-      <Footer />
     </>
   );
 };

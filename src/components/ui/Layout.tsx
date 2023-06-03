@@ -1,6 +1,8 @@
 import React from "react";
 import Navbar from "./Navbar";
 import RouteProtector from "../RouteProtector";
+import Footer from "../Footer";
+import Divider from "./Divider";
 
 type Props = {
   children: React.ReactNode;
@@ -11,12 +13,11 @@ const Layout = ({ children }: Props) => {
     <RouteProtector>
       <main>
         <Navbar />
-        <section
-          className="w-[100%] px-4 md:px-0 mt-24 min-h-[80vh] sm:mt-32 sm:w-[60%] md:mt-10 md:w-[70%] md:mx-auto"
-        >
+        <section className="mt-24 min-h-[80vh] w-[100%] px-4 sm:mt-32 sm:w-[60%] md:mx-auto md:mt-10 md:w-[70%] md:px-0">
           {children}
         </section>
       </main>
+      <Footer />
     </RouteProtector>
   );
 };
