@@ -23,16 +23,15 @@ const BlogPage: NextPageWithLayout = (props: Props) => {
     limit: 10,
     page: currentPage,
   });
-  if (isLoading || isFetching) {
-    return <p className="py-6">Loading...</p>;
-  }
   return (
     <section className="md:mx-auto md:w-[85%]">
       <h1 className="mb-4 text-5xl font-bold">Blog</h1>
       <p>A blog built using using t3 Stack, TypeScript, Tailwindcss and TRPC</p>
       <Divider />
       <div className="my-6 flex flex-col flex-wrap  gap-8 gap-y-12 md:flex-row">
-        {isLoading || isFetching ? null : (
+        {isLoading || isFetching ? (
+          <p className="py-6">Loading...</p>
+        ) : (
           <>
             {data?.data.length === 0 ? (
               <p className="mx-auto my-20 text-center">
@@ -54,13 +53,15 @@ const BlogPage: NextPageWithLayout = (props: Props) => {
           </>
         )}
       </div>
-      <Pagination
-        handleIncreasePage={handleIncreasePage}
-        handleDecreasePage={handleDecreasePage}
-        totalPages={data?.totalPages as number}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      {isLoading || isFetching ? null : (
+        <Pagination
+          handleIncreasePage={handleIncreasePage}
+          handleDecreasePage={handleDecreasePage}
+          totalPages={data?.totalPages as number}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
     </section>
   );
 };
