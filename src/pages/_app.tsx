@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { ReactElement, ReactNode, useEffect } from "react";
 import { ToastContainer, Zoom, Slide } from "react-toastify";
 import { NextPage } from "next";
+import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -52,6 +53,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
           autoClose={1500}
           // transition={}
         />
+        {/* {process.env.NODE_ENV === "development" && (
+          <ReactQueryDevtoolsPanel setIsOpen={() => {}} onDragStart={() => {}} position="bottom" isOpen={true} />
+        )} */}
+
         {getLayout(<Component {...pageProps} />)}
       </SessionProvider>
     </main>
