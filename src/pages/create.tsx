@@ -85,7 +85,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
 
   const onSubmit: SubmitHandler<CreateBlogType> = async (data) => {
     if (data.title === "") {
-      toast.error("Please add a title");
+      toast.error ("Please add a title");
       return;
     }
     if (data.subtitle === "") {
@@ -209,7 +209,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
           tabIndex={4}
           onClick={() => setOpenUploadImageModal(true)}
           type="button"
-          className="hidden  text-base px-3 sm:text-lg  sm:min-w-[9rem] border-[2px] border-slate-900 bg-transparent text-white py-2 sm:py-3 rounded-md sm:block"
+          className="text-base px-3 sm:text-lg  sm:min-w-[9rem] border-[2px] border-slate-900 bg-transparent text-white py-2 sm:py-3 rounded-md sm:hidden"
         >
           {uploadImage.imageUrl ? "Change" : "Add"} Image
         </button>
@@ -307,17 +307,17 @@ export const UploadImage = ({
 
           <figure
             className={cn(
-              "relative block w-[100%] min-h-[15rem] h-auto md:h-[25rem] md:w-[35rem] cursor-pointer overflow-auto  rounded-lg "
+              "relative block w-[100%] min-h-[15rem] h-auto md:h-[25rem] md:max-w-[32rem] cursor-pointer overflow-auto  rounded-lg "
             )}
           >
             <Image
               src={imageUrl as string}
-              className="block max-w-[100%] "
+              className="inline-block max-w-[100%] "
               fill
               alt="Blog Image"
             />
           </figure>
-        </div>
+          </div>
       ) : (
         <>
           {showRecommendedText && (

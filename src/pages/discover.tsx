@@ -59,7 +59,7 @@ const DiscoverPage: NextPageWithLayout = () => {
     search.searchByCategoryAndTags
       .fetch(
         {
-          category_name: data.category_name,
+          category_name: data.category_name as keyof typeof CategoryEnum,
           tags: data?.tags ? data.tags.split(" ") : null,
         },
         {}
@@ -97,19 +97,23 @@ const DiscoverPage: NextPageWithLayout = () => {
         />
         <Button>Search</Button>
       </form>
-      <main className="mx-auto flex flex-col flex-wrap justify-between gap-12 md:flex-row">
-        {searchData?.map((post) => (
-          <Link href={`/blog/${post.id}`} key={post.id}>
-            <Card
-              count={post._count}
-              title={post.title}
-              subtitle={post.subtitle}
-              createdAt={post.createdAt}
-              imageSrc={post.image}
-            ></Card>
-          </Link>
-        ))}
-      </main>
+      {searchData.length !== 0 ? (
+        <main className="mx-auto flex flex-col flex-wrap justify-between gap-12 md:flex-row">
+          {searchData?.map((post) => (
+            <Link href={`/blog/${post.id}`} key={post.id}>
+              <Card
+                count={post._count}
+                title={post.title}
+                subtitle={post.subtitle}
+                createdAt={post.createdAt}
+                imageSrc={post.image}
+              ></Card>
+            </Link>
+          ))}
+        </main>
+      ) : (
+        <p className="my-8 text-center">No Post found</p>
+      )}
     </section>
   );
 };

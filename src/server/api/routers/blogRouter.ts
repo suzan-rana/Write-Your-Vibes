@@ -233,10 +233,17 @@ export const blogRouter = createTRPCRouter({
     .input(
       z.object({
         userId: z.string(),
+        page: z.number(),
+        limit: z.number(),
       })
     )
     .query(async ({ ctx, input }) => {
       const blogs = await ctx.prisma.post.findMany({
+        take: input.limit,
+        skip: (input.page - 1) * input.limit,
+        orderBy: {
+          createdAt: "desc",
+        },
         include: {
           _count: {
             select: {
@@ -248,14 +255,17 @@ export const blogRouter = createTRPCRouter({
         where: {
           authorId: input.userId,
         },
-        orderBy: {
-          createdAt: "desc",
+      });
+      const totalBlogCount = await ctx.prisma.post.count({
+        where: {
+          authorId: input.userId,
         },
       });
       return {
         status: 200,
-        message: "BLOGS FOUND SUCCESSFULLY",
         data: blogs,
+        totalBlogCount,
+        totalPages: Math.ceil(totalBlogCount / input.limit),
       };
     }),
 
