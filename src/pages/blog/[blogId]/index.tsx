@@ -54,11 +54,6 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
   if (isDeletingBlog) {
     return <p className="my-20 text-center text-2xl">Deleting the blog...</p>;
   }
-  if(isLoading || isFetching){
-    return <p className="my-20 text-center text-2xl">Loading...</p>;
-
-  }
-
 
   return (
     <section className="mx-auto mb-28 flex w-[95%] flex-col items-start  gap-4 sm:flex-row sm:gap-12 md:w-auto">
@@ -70,7 +65,9 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
         See all
       </Button>
 
-      {isLoading || isFetching ? null : (
+      {isLoading || isFetching ? (
+        <p className="my-20 text-center text-xl">Loading...</p>
+      ) : (
         <article className="w-[100%] grow md:w-[80%]  md:flex-grow-0">
           {data?.data?.createdAt && (
             <p className="md:text-md text-sm">
@@ -83,7 +80,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
           <h1 className="my-4 text-3xl font-bold md:my-2 md:text-4xl">
             {data?.data?.title}
           </h1>
-          <div className="flex flex-col md:justify-between md:w-[90%] md:flex-row md:items-center">
+          <div className="flex flex-col md:w-[90%] md:flex-row md:items-center md:justify-between">
             <UserAvatar
               name={data?.data?.user.name || "Suzan Rana"}
               sub={data?.data?.user.email || "suzan@gmail.com"}
