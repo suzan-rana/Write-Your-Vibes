@@ -141,7 +141,7 @@ export const PasswordInputElement = React.forwardRef<
     </div>
   );
 });
-
+PasswordInputElement.displayName = 'PasswordInputElement'
 export interface InputErrorMessageProps {
   error?: FieldError;
 }
