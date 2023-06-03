@@ -12,10 +12,7 @@ import Footer from "~/components/Footer";
 import RandomAvatar from "~/components/Avatar";
 
 const ProfilePage: NextPageWithLayout = () => {
-  const { data } = useSession();
   const { data: user } = api.user.getPersonalDetails.useQuery();
-
-
   return (
     <>
       <section className="flex flex-col items-center justify-center gap-12 pb-24 text-center">

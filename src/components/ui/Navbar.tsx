@@ -6,11 +6,31 @@ import { CgMenuLeft } from "react-icons/cg";
 import { cn } from "~/lib/utils";
 import { AProps, Avatar } from "./UserAvatar";
 import { api } from "~/utils/api";
+import { useRouter } from "next/router";
+
+const findNavigation = (currentPath: string) => {
+  if (currentPath === "/") {
+    return "Home";
+  } else if (currentPath.startsWith("/create")) {
+    return "Create";
+  } else if (currentPath.startsWith("/blog")) {
+    return "Blog";
+  } else if (currentPath.startsWith("/discover")) {
+    return "Discover";
+  } else {
+    return "Unknown";
+  }
+};
 
 const Navbar = () => {
-  const { data } = useSession();
   const { data: user } = api.user.getPersonalDetails.useQuery();
   const [showNavMenu, setShowNavMenu] = useState(true);
+
+  const router = useRouter();
+  const [currentRoute, setCurrentRoute] = useState("");
+  useEffect(() => {
+    setCurrentRoute(findNavigation(router.pathname));
+  }, [router]);
 
   useEffect(() => {
     if (window.innerWidth <= 500) {
@@ -27,7 +47,9 @@ const Navbar = () => {
     <header
       className={cn(
         "fixed  left-0  top-0  z-50 mx-auto sm:static sm:mt-1 sm:w-[80%] sm:bg-transparent",
-        showNavMenu ? "bg-slate-950 bottom-0  w-[70%] right-[40%] transition-all duration-500" : 'sm:block'
+        showNavMenu
+          ? "bottom-0 right-[40%]  w-[70%] bg-slate-950 transition-all duration-500"
+          : "sm:block"
       )}
     >
       <CgMenuLeft
@@ -45,12 +67,20 @@ const Navbar = () => {
           {navElements.map(
             (navItem: Omit<NavItemProps, "showNavMenu" | "onClick">) => {
               return (
-                <NavItem
-                  onClick={handleLinkClick}
-                  showNavMenu={showNavMenu}
-                  key={navItem.name}
-                  {...navItem}
-                />
+                <div key={navItem.name}>
+                  <NavItem
+                    onClick={handleLinkClick}
+                    showNavMenu={showNavMenu}
+                    {...navItem}
+                    isCurrent={currentRoute === navItem.name}
+                  />
+                  {currentRoute === navItem.name ? (
+                    <motion.div
+                      className="mt-1 h-1 w-[30%] rounded-md bg-red-500 md:w-auto"
+                      layoutId="underline"
+                    />
+                  ) : null}
+                </div>
               );
             }
           )}
@@ -106,12 +136,18 @@ const navItemVariants: Variants = {
   },
 };
 
-const NavItem = ({ name, link, showNavMenu, onClick }: NavItemProps) => {
+const NavItem = ({
+  name,
+  link,
+  showNavMenu,
+  onClick,
+  isCurrent
+}: NavItemProps & { isCurrent: boolean }) => {
   return (
     <>
       {showNavMenu && (
         <motion.p
-          className="text-gray-400"
+          className={cn("text-gray-400", isCurrent && 'text-red-400 transition-colors ')}
           key={name}
           variants={navItemVariants}
           initial="initial"

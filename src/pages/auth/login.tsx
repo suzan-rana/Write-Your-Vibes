@@ -46,7 +46,7 @@ const LoginPage = () => {
   // @typescript-eslint/no-misused-promises
   return (
     <div className="mx-auto w-[80%] py-6">
-      <h1 className="text-center text-2xl font-bold uppercase">Login</h1>
+      <h1 className="text-center mt-16 text-2xl font-bold uppercase">Login</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mx-auto my-12 flex flex-col gap-6 sm:w-[100%] md:w-[60%] lg:w-[40%]"
@@ -88,7 +88,7 @@ export const InputElement = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <input
         ref={ref}
-        className={`rounded-md border border-slate-800 bg-gray-950 px-3 py-2 shadow-sm focus:outline-blue-400 ${
+        className={`rounded-md border text-sm md:text-lg border-slate-800 bg-gray-950 px-3 py-2 shadow-sm focus:outline-blue-400 ${
           error ? "border-[1px] border-red-500 focus:outline-red-500" : ''
         }`}
         {...restProps}
@@ -102,7 +102,7 @@ export interface InputErrorMessageProps {
 }
 export const InputErrorMessage = ({ error }: InputErrorMessageProps) => {
   return (
-    <>{error && <p className="font-medium text-red-500">{error.message}</p>}</>
+    <>{error && <p className="font-medium text-sm md:text-lg text-red-500">{error.message}</p>}</>
   );
 };
 InputElement.displayName = "InputElement";

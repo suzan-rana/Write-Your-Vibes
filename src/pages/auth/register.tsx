@@ -49,10 +49,10 @@ const RegisterPage = () => {
 
   return (
     <div className="mx-auto w-[80%] py-6">
-      <h1 className="text-center  text-2xl font-bold uppercase">Register</h1>
+      <h1 className="text-center mt-12 text-2xl font-bold uppercase">Register</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mx-auto my-12 flex flex-col gap-6 sm:w-[100%] md:w-[60%] lg:w-[40%]"
+        className="mx-auto my-8 flex flex-col gap-6 sm:w-[100%] md:w-[60%] lg:w-[40%]"
       >
         <label className="flex flex-col gap-2">
           <span>Name</span>

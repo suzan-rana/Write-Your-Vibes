@@ -39,5 +39,6 @@ input[data-autocompleted] {
 }
 
 #nprogress .bar {
-  background-color: white;
+  /* background-color: white; */
+  @apply bg-red-500;
 }
