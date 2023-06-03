@@ -42,5 +42,7 @@ export const uploadImageToS3 = async (
     .then((res) => {
       console.log("first", res);
     })
-    .catch((err) => {});
+    .catch((err) => {
+      console.log('ERROR', err)
+    });
 };
