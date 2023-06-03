@@ -1,6 +1,5 @@
 import React from "react";
 import { AvatarProps, BigHead } from "@bigheads/core";
-import { femaleAvatarOptions, maleAvatarOptions } from "~/lib/bigheads";
 
 interface RandomAvatarProps extends AvatarProps {
   gender: "Male" | "Female";

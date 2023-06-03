@@ -105,7 +105,8 @@ const NoBlog = () => {
     <div className="flex h-[40vh] items-center justify-center">
       <div className="mx-auto text-center">
         <h1 className="mb-6">Looks like you have yet to create a blog.</h1>
-        <Button onClick={() => router.push("/create")}>Create Now!</Button>
+        {/* // eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+        <Button onClick={async() => await router.push("/create")}>Create Now!</Button>
       </div>
     </div>
   );

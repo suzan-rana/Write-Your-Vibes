@@ -48,6 +48,7 @@ const LoginPage = () => {
     <div className="mx-auto w-[80%] py-6">
       <h1 className="text-center mt-16 text-2xl font-bold uppercase">Login</h1>
       <form
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(onSubmit)}
         className="mx-auto my-12 flex flex-col gap-6 sm:w-[100%] md:w-[60%] lg:w-[40%]"
       >
@@ -68,6 +69,7 @@ const LoginPage = () => {
         <Button type="submit">Login</Button>
         <Button
           type="button"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onClick={() => router.push("/auth/register")}
           variant={"ghost"}
         >

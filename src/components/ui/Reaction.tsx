@@ -52,12 +52,12 @@ const Reaction = ({ postId }: ReactionInterface) => {
     },
     {
       onSuccess(reaction) {
-        setReacted(findReactionOfUser(reaction!, data?.user.id!));
+        setReacted(findReactionOfUser(reaction, data?.user.id || ''));
       },
     }
   );
   const [reacted, setReacted] = useState<keyof typeof ReactionEnum | null>(
-    findReactionOfUser(reaction!, data?.user.id!)
+    findReactionOfUser(reaction!, data?.user.id || '')
   );
   const { mutate } = api.reaction.createReaction.useMutation({
     async onSuccess(data, variables, context) {

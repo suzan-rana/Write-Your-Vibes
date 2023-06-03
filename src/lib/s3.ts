@@ -28,8 +28,10 @@ export const uploadImageToS3 = async (
   image: File
 ) => {
   // Upload the selected image to the presigned URL
-   return await fetch(url, {
+  // eslint-disable-next-line  @typescript-eslint/no-unsafe-return
+  return await fetch(url, {
     method: "PUT",
+    // @ts-ignore
     body: image,
     headers: {
       "Content-Type": image.type,
@@ -38,10 +40,9 @@ export const uploadImageToS3 = async (
     .then((r) => {
       return r.json();
     })
-    .then((response) => {
-      console.log("RESPONSE..", response.data);
-    })
     .catch((err) => {
-      console.log("ERROR...", { err });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      throw new Error(err);
+      // console.log("ERROR...", { err });
     });
 };

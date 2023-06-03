@@ -11,14 +11,13 @@ export const blogRouter = createTRPCRouter({
   createNewBlog: protectedProcedure
     .input(CreateNewBlogSchema)
     .mutation(async ({ ctx, input }) => {
-      console.log({ input });
       const { session } = ctx;
 
-      const { title, subtitle, body, image } = input;
+      const { title, subtitle, body } = input;
       const tagArray = title.split(" ");
 
       // slug
-      const slug = tagArray.join("-") + "-" + Date.now();
+      const slug = tagArray.join("-") + "-" + Date.now().toString();
       const authorId = session?.user.id;
       const post = await ctx.prisma.post.create({
         include: {
@@ -37,7 +36,9 @@ export const blogRouter = createTRPCRouter({
             },
           },
           subtitle,
-          image: image || null,
+          // @ts-ignore
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          image: input.image as string || null,
           body,
           user: {
             connect: {

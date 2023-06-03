@@ -26,6 +26,7 @@ const Footer = (props: Props) => {
             >
               Vibe
             </a>
+            {/* // eslint-disable-next-line @typescript-eslint/no-misused-promises  */}
             <a className="underline cursor-pointer text-red-400" onClick={handleLogout}>Log out</a>
           </div>
 
@@ -88,7 +89,7 @@ const Footer = (props: Props) => {
                   Careers
                 </a>{" "}
                 <span className="ml-1 inline rounded-md bg-red-400 px-2 py-1 text-xs text-white">
-                  We're hiring
+                  We&apos;re hiring
                 </span>
               </p>
               <p>

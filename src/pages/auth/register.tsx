@@ -28,9 +28,9 @@ const RegisterPage = () => {
 
   // making a mutation
   const { mutate, isLoading: isRegistering } = api.auth.register.useMutation({
-    onSuccess(data, variables, context) {
+    async onSuccess(data, variables, context) {
       toast.success("User created successfully.");
-      router.push("/auth/login")
+      await router.push("/auth/login");
     },
     onError(error, variables, context) {
       toast.error(error.message);
@@ -49,8 +49,11 @@ const RegisterPage = () => {
 
   return (
     <div className="mx-auto w-[80%] py-6">
-      <h1 className="text-center mt-12 text-2xl font-bold uppercase">Register</h1>
+      <h1 className="mt-12 text-center text-2xl font-bold uppercase">
+        Register
+      </h1>
       <form
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(onSubmit)}
         className="mx-auto my-8 flex flex-col gap-6 sm:w-[100%] md:w-[60%] lg:w-[40%]"
       >
@@ -92,7 +95,8 @@ const RegisterPage = () => {
         <Button
           type="button"
           variant={"ghost"}
-          onClick={() => router.push("/auth/login")}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={async () => await router.push("/auth/login")}
         >
           Login
         </Button>

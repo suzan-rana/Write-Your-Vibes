@@ -56,7 +56,7 @@ const DiscoverPage: NextPageWithLayout = () => {
   }
 
   const onSubmit: SubmitHandler<SearchBlogType> = async (data) => {
-    search.searchByCategoryAndTags
+  await  search.searchByCategoryAndTags
       .fetch(
         {
           category_name: data.category_name as keyof typeof CategoryEnum,
@@ -84,8 +84,8 @@ const DiscoverPage: NextPageWithLayout = () => {
           {...register("category_name")}
         >
           <option value={"All"}>All</option>
-          {Object.keys(CategoryEnum).map((category) => (
-            <option value={CategoryEnum[category as keyof typeof CategoryEnum]}>
+          {Object.keys(CategoryEnum).map((category, i) => (
+            <option key={i} value={CategoryEnum[category as keyof typeof CategoryEnum]}>
               {CategoryEnum[category as keyof typeof CategoryEnum]}
             </option>
           ))}

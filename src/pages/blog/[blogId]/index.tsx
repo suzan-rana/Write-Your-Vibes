@@ -90,7 +90,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
             />
             {sessionData?.user.id === data?.data?.authorId ? (
               <div className="hidden md:block">
-                <Link href={`/blog/edit/${data?.data?.id as string}`}>
+                <Link href={`/blog/edit/${data?.data?.id}`}>
                   <Button
                     variant={"ghost"}
                     className="min-w-[6rem] border-none underline"

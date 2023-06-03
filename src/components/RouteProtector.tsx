@@ -16,7 +16,10 @@ const RouteProtector = ({ children }: Props) => {
   };
   useEffect(() => {
     if (status === "unauthenticated") {
-      handleRouterPush("/auth/login");
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      handleRouterPush("/auth/login").then(() => {
+        return null;
+      });
     }
   }, []);
   if (status === 'unauthenticated') {
@@ -27,6 +30,7 @@ const RouteProtector = ({ children }: Props) => {
             You are not authorized to visit this page. Please login and try
             again.
           </h1>
+          {/* // eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button onClick={() => router.push("/auth/login")}>Login</Button>
         </div>
       </div>

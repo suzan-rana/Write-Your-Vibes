@@ -35,9 +35,9 @@ const UpdateProfilePage = (props: Props) => {
 
   const { mutate, isLoading: isUpdatingProfile } =
     api.user.updateProfile.useMutation({
-      onSuccess(data) {
+      async onSuccess(data) {
         toast.success(data?.message);
-        router.push("/profile");
+        await router.push("/profile");
       },
       onError(error) {
         toast.error(error.message);
@@ -59,7 +59,7 @@ const UpdateProfilePage = (props: Props) => {
         await uploadImageToS3(uploadUrl, key, uploadImage.image as File);
         mutate({
           ...data,
-          image: uploadUrl.split('?')[0]?.toString() || null
+          image: uploadUrl.split("?")[0]?.toString() || null,
         });
       });
     } else {
@@ -72,13 +72,14 @@ const UpdateProfilePage = (props: Props) => {
   return (
     <section className="min-h-[200vh]">
       <h1 className="text-3xl font-bold">
-        Hello, <span className="text-red-400">{user?.name}</span>!
-        Have fun updating your profile 😊
+        Hello, <span className="text-red-400">{user?.name}</span>! Have fun
+        updating your profile 😊
       </h1>
       <div className="flex md:items-start md:gap-8">
         <form
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onSubmit={handleSubmit(onSubmit)}
-          className="my-12 flex flex-col gap-6 w-[100%] md:w-[60%]"
+          className="my-12 flex w-[100%] flex-col gap-6 md:w-[60%]"
         >
           <label className="flex flex-col gap-2">
             <span>Name</span>
@@ -124,9 +125,10 @@ const UpdateProfilePage = (props: Props) => {
           </h3>
           <div className="flex items-center justify-center gap-2">
             <Button
-              onClick={(e) => {
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onClick={async (e) => {
                 e.preventDefault();
-                router.push("/profile");
+                await router.push("/profile");
               }}
               className="grow"
             >
@@ -139,7 +141,7 @@ const UpdateProfilePage = (props: Props) => {
         </form>
         {user?.image && (
           <ImageContainer
-            gender={user?.gender as 'Male' | 'Female'}
+            gender={user?.gender as "Male" | "Female"}
             image={user?.image || ""}
             className="mx-auto my-12 mt-20 min-h-[15rem] w-[15rem] max-w-[100%] overflow-hidden rounded-full"
           />

@@ -78,21 +78,23 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
     setOpenUploadImageModal(false);
   };
 
-  const handleSaveImage = (event: any) => {
+  // @ts-ignore
+  const handleSaveImage = (event) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access @typescript-eslint/no-unsafe-member-access
     event.stopPropagation();
     setOpenUploadImageModal(false);
   };
 
   const onSubmit: SubmitHandler<CreateBlogType> = async (data) => {
     if (data.title === "") {
-      toast.error ("Please add a title");
+      toast.error("Please add a title");
       return;
     }
     if (data.subtitle === "") {
       toast.error("Please add a subtitle.");
       return;
     }
-    if(!data.body){
+    if (!data.body) {
       toast.error("Please add something to your body.");
       return;
     }
@@ -107,13 +109,14 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
           image: uploadUrl.split("?")[0]?.toString() || null,
         });
       });
-    }else {
-      toast.error('Please upload an image.')
+    } else {
+      toast.error("Please upload an image.");
     }
   };
 
   return (
     <form
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit(onSubmit)}
       className="mt-26 mx-auto ml-2 min-h-[80vh]   md:ml-2 md:mt-12  "
       ref={createBlogRef}
@@ -128,7 +131,10 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
         {...register("category")}
       >
         {Object.keys(CategoryEnum).map((category) => (
-          <option value={CategoryEnum[category as keyof typeof CategoryEnum]}>
+          <option
+            key={category}
+            value={CategoryEnum[category as keyof typeof CategoryEnum]}
+          >
             {CategoryEnum[category as keyof typeof CategoryEnum]}
           </option>
         ))}
@@ -182,17 +188,16 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
       {uploadImage.imageUrl && (
         <section
           className={cn(
-            "relative my-6 md:ml-2 block min-w-[10rem] min-h-[10rem]  md:h-[20rem] md:w-[30rem] cursor-pointer overflow-hidden rounded-lg"
+            "relative my-6 block min-h-[10rem] min-w-[10rem] cursor-pointer  overflow-hidden rounded-lg md:ml-2 md:h-[20rem] md:w-[30rem]"
           )}
           onClick={() => setOpenUploadImageModal(true)}
         >
           {" "}
           <Image
-            src={uploadImage.imageUrl as string}
-            className="absolute max-w-[100%] block"
+            src={uploadImage.imageUrl}
+            className="absolute block max-w-[100%]"
             fill
             alt="Blog Image"
-
           />
         </section>
       )}
@@ -204,12 +209,12 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
         className="min-h-[70vh]  "
         // defaultValue={"Type here to write your post"}
       />
-      <div className="flex gap-4 items-center my-20">
+      <div className="my-20 flex items-center gap-4">
         <button
           tabIndex={4}
           onClick={() => setOpenUploadImageModal(true)}
           type="button"
-          className="text-base px-3 sm:text-lg  sm:min-w-[9rem] border-[2px] border-slate-900 bg-transparent text-white py-2 sm:py-3 rounded-md sm:hidden"
+          className="rounded-md border-[2px] border-slate-900  bg-transparent px-3 py-2 text-base text-white sm:hidden sm:min-w-[9rem] sm:py-3 sm:text-lg"
         >
           {uploadImage.imageUrl ? "Change" : "Add"} Image
         </button>
@@ -255,7 +260,8 @@ export const useUploadImage = () => {
     )
       return;
     // restrict image
-    if (e.target.files[0]?.size! >= 200000) {
+    // @ts-ignore
+    if (e.target.files[0]?.size >= 200000) {
       toast.info("Image cannot be more than 500KB");
       return;
     }
@@ -263,10 +269,10 @@ export const useUploadImage = () => {
       setImage(() => e.target.files?.[0]);
     }
   };
-  let imageUrl = image && URL.createObjectURL(image);
+  const imageUrl = image && URL.createObjectURL(image);
   const handleRemoveImage = () => {
     if (image && imageUrl) {
-      URL.revokeObjectURL(imageUrl as string);
+      URL.revokeObjectURL(imageUrl);
     }
     setImage(null);
   };
@@ -307,7 +313,7 @@ export const UploadImage = ({
 
           <figure
             className={cn(
-              "relative block w-[100%] min-h-[15rem] h-auto md:h-[25rem] md:max-w-[32rem] cursor-pointer overflow-auto  rounded-lg "
+              "relative block h-auto min-h-[15rem] w-[100%] cursor-pointer overflow-auto rounded-lg md:h-[25rem]  md:max-w-[32rem] "
             )}
           >
             <Image
@@ -317,7 +323,7 @@ export const UploadImage = ({
               alt="Blog Image"
             />
           </figure>
-          </div>
+        </div>
       ) : (
         <>
           {showRecommendedText && (
@@ -326,7 +332,7 @@ export const UploadImage = ({
             </p>
           )}
           <div
-            className="flex min-h-[10rem] sm:min-h-[20rem] sm:min-w-[30rem] cursor-pointer items-center justify-center rounded-lg  opacity-50 "
+            className="flex min-h-[10rem] cursor-pointer items-center justify-center rounded-lg opacity-50 sm:min-h-[20rem]  sm:min-w-[30rem] "
             style={{
               background: bg ? bg : "hsl(224 71% 4%)",
             }}

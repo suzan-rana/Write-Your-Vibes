@@ -67,240 +67,240 @@
 //   };
 // }
 
-export const maleAvatarOptions = [
-  {
-    hair: "short",
-    hairColor: "black",
-    skinTone: "light",
-    circleColor: "blue",
-  },
-  {
-    hair: "short",
-    hairColor: "brown",
-    skinTone: "light",
-    circleColor: "green",
-  },
-  {
-    hair: "short",
-    hairColor: "blonde",
-    skinTone: "light",
-    circleColor: "purple",
-  },
-  {
-    hair: "bald",
-    hairColor: "black",
-    skinTone: "light",
-    circleColor: "yellow",
-  },
-  {
-    hair: "bald",
-    hairColor: "brown",
-    skinTone: "light",
-    circleColor: "blue",
-  },
-  { hair: "bald", hairColor: "gray", skinTone: "light", circleColor: "red" },
-  {
-    hair: "afro",
-    hairColor: "black",
-    skinTone: "dark",
-    circleColor: "green",
-  },
-  {
-    hair: "curly",
-    hairColor: "brown",
-    skinTone: "light",
-    circleColor: "blue",
-  },
-  {
-    hair: "curly",
-    hairColor: "blonde",
-    skinTone: "light",
-    circleColor: "yellow",
-  },
-  {
-    hair: "curly",
-    hairColor: "red",
-    skinTone: "light",
-    circleColor: "purple",
-  },
-  {
-    hair: "mohawk",
-    hairColor: "black",
-    skinTone: "light",
-    circleColor: "orange",
-  },
-  {
-    hair: "mohawk",
-    hairColor: "brown",
-    skinTone: "light",
-    circleColor: "teal",
-  },
-  {
-    hair: "mohawk",
-    hairColor: "blonde",
-    skinTone: "light",
-    circleColor: "pink",
-  },
-  {
-    hair: "long",
-    hairColor: "black",
-    skinTone: "light",
-    circleColor: "green",
-  },
-  {
-    hair: "long",
-    hairColor: "brown",
-    skinTone: "light",
-    circleColor: "yellow",
-  },
-  {
-    hair: "long",
-    hairColor: "blonde",
-    skinTone: "light",
-    circleColor: "purple",
-  },
-  {
-    hair: "ponytail",
-    hairColor: "black",
-    skinTone: "light",
-    circleColor: "blue",
-  },
-  {
-    hair: "ponytail",
-    hairColor: "brown",
-    skinTone: "light",
-    circleColor: "green",
-  },
-  {
-    hair: "ponytail",
-    hairColor: "blonde",
-    skinTone: "light",
-    circleColor: "pink",
-  },
-  {
-    hair: "dreads",
-    hairColor: "black",
-    skinTone: "dark",
-    circleColor: "red",
-  },
-];
+// export const maleAvatarOptions = [
+//   {
+//     hair: "short",
+//     hairColor: "black",
+//     skinTone: "light",
+//     circleColor: "blue",
+//   },
+//   {
+//     hair: "short",
+//     hairColor: "brown",
+//     skinTone: "light",
+//     circleColor: "green",
+//   },
+//   {
+//     hair: "short",
+//     hairColor: "blonde",
+//     skinTone: "light",
+//     circleColor: "purple",
+//   },
+//   {
+//     hair: "bald",
+//     hairColor: "black",
+//     skinTone: "light",
+//     circleColor: "yellow",
+//   },
+//   {
+//     hair: "bald",
+//     hairColor: "brown",
+//     skinTone: "light",
+//     circleColor: "blue",
+//   },
+//   { hair: "bald", hairColor: "gray", skinTone: "light", circleColor: "red" },
+//   {
+//     hair: "afro",
+//     hairColor: "black",
+//     skinTone: "dark",
+//     circleColor: "green",
+//   },
+//   {
+//     hair: "curly",
+//     hairColor: "brown",
+//     skinTone: "light",
+//     circleColor: "blue",
+//   },
+//   {
+//     hair: "curly",
+//     hairColor: "blonde",
+//     skinTone: "light",
+//     circleColor: "yellow",
+//   },
+//   {
+//     hair: "curly",
+//     hairColor: "red",
+//     skinTone: "light",
+//     circleColor: "purple",
+//   },
+//   {
+//     hair: "mohawk",
+//     hairColor: "black",
+//     skinTone: "light",
+//     circleColor: "orange",
+//   },
+//   {
+//     hair: "mohawk",
+//     hairColor: "brown",
+//     skinTone: "light",
+//     circleColor: "teal",
+//   },
+//   {
+//     hair: "mohawk",
+//     hairColor: "blonde",
+//     skinTone: "light",
+//     circleColor: "pink",
+//   },
+//   {
+//     hair: "long",
+//     hairColor: "black",
+//     skinTone: "light",
+//     circleColor: "green",
+//   },
+//   {
+//     hair: "long",
+//     hairColor: "brown",
+//     skinTone: "light",
+//     circleColor: "yellow",
+//   },
+//   {
+//     hair: "long",
+//     hairColor: "blonde",
+//     skinTone: "light",
+//     circleColor: "purple",
+//   },
+//   {
+//     hair: "ponytail",
+//     hairColor: "black",
+//     skinTone: "light",
+//     circleColor: "blue",
+//   },
+//   {
+//     hair: "ponytail",
+//     hairColor: "brown",
+//     skinTone: "light",
+//     circleColor: "green",
+//   },
+//   {
+//     hair: "ponytail",
+//     hairColor: "blonde",
+//     skinTone: "light",
+//     circleColor: "pink",
+//   },
+//   {
+//     hair: "dreads",
+//     hairColor: "black",
+//     skinTone: "dark",
+//     circleColor: "red",
+//   },
+// ];
 
-export const femaleAvatarOptions = [
-  {
-    hair: "long",
-    hairColor: "blonde",
-    skinTone: "light",
-    circleColor: "peach",
-  },
-  {
-    hair: "long",
-    hairColor: "brunette",
-    skinTone: "light",
-    circleColor: "pink",
-  },
-  {
-    hair: "long",
-    hairColor: "red",
-    skinTone: "light",
-    circleColor: "purple",
-  },
-  {
-    hair: "short",
-    hairColor: "black",
-    skinTone: "light",
-    circleColor: "blue",
-  },
-  {
-    hair: "short",
-    hairColor: "brown",
-    skinTone: "light",
-    circleColor: "green",
-  },
-  {
-    hair: "short",
-    hairColor: "blonde",
-    skinTone: "light",
-    circleColor: "yellow",
-  },
-  {
-    hair: "pixie",
-    hairColor: "black",
-    skinTone: "light",
-    circleColor: "purple",
-  },
-  {
-    hair: "pixie",
-    hairColor: "brown",
-    skinTone: "light",
-    circleColor: "blue",
-  },
-  {
-    hair: "pixie",
-    hairColor: "blonde",
-    skinTone: "light",
-    circleColor: "green",
-  },
-  { hair: "bun", hairColor: "black", skinTone: "light", circleColor: "pink" },
-  {
-    hair: "bun",
-    hairColor: "brown",
-    skinTone: "light",
-    circleColor: "purple",
-  },
-  {
-    hair: "bun",
-    hairColor: "blonde",
-    skinTone: "light",
-    circleColor: "blue",
-  },
-  {
-    hair: "afro",
-    hairColor: "black",
-    skinTone: "dark",
-    circleColor: "yellow",
-  },
-  {
-    hair: "afro",
-    hairColor: "brown",
-    skinTone: "dark",
-    circleColor: "green",
-  },
-  { hair: "afro", hairColor: "red", skinTone: "dark", circleColor: "pink" },
-  {
-    hair: "curly",
-    hairColor: "black",
-    skinTone: "light",
-    circleColor: "green",
-  },
-  {
-    hair: "curly",
-    hairColor: "brown",
-    skinTone: "light",
-    circleColor: "yellow",
-  },
-  {
-    hair: "curly",
-    hairColor: "blonde",
-    skinTone: "light",
-    circleColor: "purple",
-  },
-  {
-    hair: "ponytail",
-    hairColor: "black",
-    skinTone: "light",
-    circleColor: "blue",
-  },
-  {
-    hair: "ponytail",
-    hairColor: "brown",
-    skinTone: "light",
-    circleColor: "pink",
-  },
-];
-const getRandomOption = (options: any[]) => {
-  const randomIndex = Math.floor(Math.random() * options.length);
-  return options[randomIndex];
-};
+// export const femaleAvatarOptions = [
+//   {
+//     hair: "long",
+//     hairColor: "blonde",
+//     skinTone: "light",
+//     circleColor: "peach",
+//   },
+//   {
+//     hair: "long",
+//     hairColor: "brunette",
+//     skinTone: "light",
+//     circleColor: "pink",
+//   },
+//   {
+//     hair: "long",
+//     hairColor: "red",
+//     skinTone: "light",
+//     circleColor: "purple",
+//   },
+//   {
+//     hair: "short",
+//     hairColor: "black",
+//     skinTone: "light",
+//     circleColor: "blue",
+//   },
+//   {
+//     hair: "short",
+//     hairColor: "brown",
+//     skinTone: "light",
+//     circleColor: "green",
+//   },
+//   {
+//     hair: "short",
+//     hairColor: "blonde",
+//     skinTone: "light",
+//     circleColor: "yellow",
+//   },
+//   {
+//     hair: "pixie",
+//     hairColor: "black",
+//     skinTone: "light",
+//     circleColor: "purple",
+//   },
+//   {
+//     hair: "pixie",
+//     hairColor: "brown",
+//     skinTone: "light",
+//     circleColor: "blue",
+//   },
+//   {
+//     hair: "pixie",
+//     hairColor: "blonde",
+//     skinTone: "light",
+//     circleColor: "green",
+//   },
+//   { hair: "bun", hairColor: "black", skinTone: "light", circleColor: "pink" },
+//   {
+//     hair: "bun",
+//     hairColor: "brown",
+//     skinTone: "light",
+//     circleColor: "purple",
+//   },
+//   {
+//     hair: "bun",
+//     hairColor: "blonde",
+//     skinTone: "light",
+//     circleColor: "blue",
+//   },
+//   {
+//     hair: "afro",
+//     hairColor: "black",
+//     skinTone: "dark",
+//     circleColor: "yellow",
+//   },
+//   {
+//     hair: "afro",
+//     hairColor: "brown",
+//     skinTone: "dark",
+//     circleColor: "green",
+//   },
+//   { hair: "afro", hairColor: "red", skinTone: "dark", circleColor: "pink" },
+//   {
+//     hair: "curly",
+//     hairColor: "black",
+//     skinTone: "light",
+//     circleColor: "green",
+//   },
+//   {
+//     hair: "curly",
+//     hairColor: "brown",
+//     skinTone: "light",
+//     circleColor: "yellow",
+//   },
+//   {
+//     hair: "curly",
+//     hairColor: "blonde",
+//     skinTone: "light",
+//     circleColor: "purple",
+//   },
+//   {
+//     hair: "ponytail",
+//     hairColor: "black",
+//     skinTone: "light",
+//     circleColor: "blue",
+//   },
+//   {
+//     hair: "ponytail",
+//     hairColor: "brown",
+//     skinTone: "light",
+//     circleColor: "pink",
+//   },
+// ];
+// const getRandomOption = (options: any[]) => {
+//   const randomIndex = Math.floor(Math.random() * options.length);
+//   return options[randomIndex];
+// };
 
-export const randomMaleAvatar = getRandomOption(maleAvatarOptions);
-export const randomFemaleAvatar = getRandomOption(femaleAvatarOptions);
+// export const randomMaleAvatar = getRandomOption(maleAvatarOptions);
+// export const randomFemaleAvatar = getRandomOption(femaleAvatarOptions);

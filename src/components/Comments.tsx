@@ -32,6 +32,7 @@ const Comments = (props: Props) => {
           placeholder="Tell how you feel"
           className="py-6 grow"
         />
+        {/* // eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <Button disabled={isPostingComment} onClick={handlePostComment}>
           <span className="hidden md:block">Comment</span>
           <span className="md:hidden">+</span>
