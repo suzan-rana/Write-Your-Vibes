@@ -11,7 +11,7 @@ export type AProps = {
 
 const UserAvatar = ({ name, sub, ...restProps }: AProps) => {
   return (
-    <div className="my-6 flex items-start gap-5 text-gray-300 cursor-pointer">
+    <div className="my-6 flex cursor-pointer items-start gap-5 text-gray-300">
       <Avatar {...restProps} />
       <div>
         <h2 className="text-md md:text-base">{name}</h2>
@@ -52,17 +52,7 @@ export const Avatar = ({ className, image, ...restProps }: AvatarProps) => {
           alt=""
         />
       ) : (
-        <img
-          src={
-            "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"
-          }
-          style={{
-            maxWidth: "100%",
-            display: "block",
-          }}
-          alt=""
-        />
-        // <Image src={image} fill alt="" onError={handleImageLoadingError} />
+        <Image src={image} fill alt="" onError={handleImageLoadingError} />
       )}
     </figure>
   );
