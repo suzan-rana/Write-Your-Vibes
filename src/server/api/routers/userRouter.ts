@@ -12,6 +12,14 @@ export const userRouter = createTRPCRouter({
       where: {
         id: ctx.session.user.id,
       },
+      select: {
+        id: true,
+        name: true,
+        biography: true,
+        image: true,
+        email: true,
+        gender: true,
+      }
     });
   }),
   updateProfile: protectedProcedure
