@@ -30,18 +30,42 @@ interface ReactionInterface {
 }
 
 const findReactionOfUser = (reaction: BlogReactionType, userId: string) => {
+  if (!reaction) {
+    return null;
+  }
   return (
     (reaction.find((r) => r.user.id === userId)
       ?.type as keyof typeof ReactionEnum) || null
   );
 };
 
-const Reaction = ({ postId, reaction }: ReactionInterface) => {
+const Reaction = ({ postId }: ReactionInterface) => {
   const { data } = useSession();
-  const [reacted, setReacted] = useState<keyof typeof ReactionEnum | null>(
-    findReactionOfUser(reaction, data?.user.id!)
+  const utils = api.useContext();
+  const {
+    data: reaction,
+    isLoading,
+    isFetching,
+  } = api.reaction.getReactionByBlogId.useQuery(
+    {
+      postId,
+    },
+    {
+      onSuccess(reaction) {
+        setReacted(findReactionOfUser(reaction!, data?.user.id!));
+      },
+    }
   );
-  const { mutate } = api.reaction.createReaction.useMutation();
+  const [reacted, setReacted] = useState<keyof typeof ReactionEnum | null>(
+    findReactionOfUser(reaction!, data?.user.id!)
+  );
+  const { mutate } = api.reaction.createReaction.useMutation({
+    async onSuccess(data, variables, context) {
+      await utils.reaction.getReactionByBlogId.invalidate({
+        postId: postId,
+      });
+    },
+  });
   const handleReactionClick = (type: keyof typeof ReactionEnum) => {
     setReacted(type);
     toast.info(`Thanks for the reaction, Author will love it.`);
@@ -52,9 +76,13 @@ const Reaction = ({ postId, reaction }: ReactionInterface) => {
   };
 
   const [showReactions, setShowReactions] = useState(false);
+
+  if (!reaction) {
+    return <></>;
+  }
   return (
     <article className="my-10">
-      {reaction.length && (
+      {reaction.length !== 0 && (
         <p
           className="cursor-pointer pb-2 text-red-400 underline"
           onClick={() => {

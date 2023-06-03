@@ -5,6 +5,7 @@ import {
   UpdateBlogSchema,
 } from "~/common/validation/blog-validation";
 import * as z from "zod";
+import { CategoryEnum } from "~/utils/category";
 export const blogRouter = createTRPCRouter({
   // [POST]
   createNewBlog: protectedProcedure
@@ -88,6 +89,45 @@ export const blogRouter = createTRPCRouter({
       data: blogs,
     };
   }),
+
+  // [GET] by CATEGORY
+  getBlogsByCategory: protectedProcedure
+    .input(
+      z.object({
+        category_name: z.nativeEnum(CategoryEnum),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const blogs = await ctx.prisma.post.findMany({
+        select: {
+          id: true,
+          image: true,
+          title: true,
+          subtitle: true,
+          createdAt: true,
+          category: true,
+          _count: {
+            select: {
+              comment: true,
+              reaction: true,
+            },
+          },
+        },
+        where: {
+          category: {
+            category_name: input.category_name,
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 10
+      });
+      return {
+        status: 200,
+        data: blogs,
+      };
+    }),
 
   // [GET ONE BLOG BY ID]
   getBlogById: protectedProcedure
