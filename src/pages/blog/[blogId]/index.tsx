@@ -55,9 +55,6 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
     return <p className="my-20 text-center text-2xl">Deleting the blog...</p>;
   }
 
-  if (!data?.data) {
-    return <p className="my-20 text-center text-2xl">Something went wrong.</p>;
-  }
 
   return (
     <section className="mx-auto mb-28 flex w-[95%] flex-col items-start  gap-4 sm:flex-row sm:gap-12 md:w-auto">
