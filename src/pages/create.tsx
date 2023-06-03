@@ -246,6 +246,7 @@ interface UploadImageProps {
   imageUrl: string | null | undefined;
   showRecommendedText?: boolean;
   bg?: string;
+  circular?:boolean;
 }
 
 export const useUploadImage = () => {
@@ -291,6 +292,7 @@ export const UploadImage = ({
   imageUrl,
   showRecommendedText = true,
   bg,
+  circular=false
 }: UploadImageProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -332,7 +334,7 @@ export const UploadImage = ({
             </p>
           )}
           <div
-            className="flex min-h-[10rem] cursor-pointer items-center justify-center rounded-lg opacity-50 sm:min-h-[20rem]  sm:min-w-[30rem] "
+            className={cn("flex min-h-[10rem] cursor-pointer items-center justify-center rounded-lg opacity-50 sm:min-h-[20rem]  sm:min-w-[30rem] ", circular && 'rounded-full')}
             style={{
               background: bg ? bg : "hsl(224 71% 4%)",
             }}

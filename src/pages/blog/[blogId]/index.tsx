@@ -66,7 +66,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
       </Button>
 
       {isLoading || isFetching ? (
-        <p className="my-20 text-center text-xl">Loading...</p>
+        <p className="text-center">Loading...</p>
       ) : (
         <article className="w-[100%] grow md:w-[80%]  md:flex-grow-0">
           {data?.data?.createdAt && (
@@ -150,6 +150,7 @@ const BlogImage = ({ src }: { src: string }) => {
   const handleImageLoadingError = () => {
     setImageLoadingError(true);
   };
+  console.log('SRC...', src)
   return (
     <div>
       <figure

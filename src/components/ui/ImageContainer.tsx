@@ -14,18 +14,35 @@ const ImageContainer = ({ className, image, ...restProps }: Props) => {
   const handleImageLoadingError = () => {
     setImageLoadingError(true);
   };
-  console.log('IMAGE...', image)
+  console.log("IMAGE...", image);
   return (
     <figure
       className={cn(
-        "relative block cursor-pointer bg-white transition-all duration-500 hover:bg-blue-400",
+        "relative flex cursor-pointer items-center justify-center bg-white transition-all duration-500 hover:bg-blue-400",
         className
       )}
+      style={{ textAlign: "center" }}
     >
       {imageLoadingError ? (
-        <img src={"https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"} className="max-w-[100%] block" alt="Profile Image"></img>
+        <img
+          src={
+            "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"
+          }
+          className="max-h-full max-w-full object-cover"
+          alt="Profile Image"
+          style={{ display: "inline-block" }}
+        />
       ) : (
-        <Image src={image} fill alt="Profile Image" onError={handleImageLoadingError}></Image>
+        <Image
+          src={
+            image ||
+            "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"
+          }
+          fill
+          alt="Profile Image"
+          onError={handleImageLoadingError}
+          style={{ display: "inline-block" }}
+        />
       )}
     </figure>
   );

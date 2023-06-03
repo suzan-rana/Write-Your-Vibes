@@ -160,7 +160,6 @@ const ShowReactions = ({
 }: Pick<ReactionInterface, "reaction"> & { onClose: () => void }) => {
   const handleScroll = () => {
     console.log('%cBEING ABLE TO SCROLL EVEN IF MODAL IS TURNED ON, IS A FEATURE: NOT A BUG! HAHA.', 'font-size: 40px; font-family: "Poppins", sans-serif; color: tomato;background: white; padding: 20px; text-transform: lowercase');
-
   };
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);

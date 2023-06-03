@@ -75,7 +75,7 @@ const UpdateProfilePage = (props: Props) => {
         Hello, <span className="text-red-400">{user?.name}</span>! Have fun
         updating your profile 😊
       </h1>
-      <div className="flex md:items-start md:gap-8">
+      <div className="flex flex-col-reverse md:items-start md:gap-8">
         <form
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onSubmit={handleSubmit(onSubmit)}
@@ -117,6 +117,7 @@ const UpdateProfilePage = (props: Props) => {
           <h3 className="my-6 text-2xl text-slate-400">
             <div className="rounded-md border border-slate-800">
               <UploadImage
+              circular={true}
                 bg="rgb(3, 7, 18)"
                 showRecommendedText={false}
                 {...uploadImage}
