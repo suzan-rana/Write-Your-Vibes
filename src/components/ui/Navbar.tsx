@@ -18,7 +18,7 @@ const findNavigation = (currentPath: string) => {
   } else if (currentPath.startsWith("/discover")) {
     return "Discover";
   } else {
-    return "Unknown";
+    return "Home";
   }
 };
 

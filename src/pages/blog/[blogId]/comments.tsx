@@ -25,15 +25,11 @@ const BlogCommentsPage: NextPageWithLayout = (props: Props) => {
     ? `/blog/${router.query["blogId"].toString()}`
     : "/blog";
   return (
-    <main className="flex flex-col md:flex-row md:items-start gap-10">
-      <Link href={route}>
-        <Button
-          variant={"ghost"}
-          className="min-w-[6rem] border-none underline"
-        >
-          See all
-        </Button>
-      </Link>
+    <main className="flex flex-col gap-10 md:flex-row md:items-start">
+      <Button onClick={() => router.back()} variant={"ghost"} className="min-w-[6rem] border-none underline">
+        See all
+      </Button>
+
       <section className="mb-16 min-h-[10rem] grow">
         <h2>Comments</h2>
         <div className="my-4 flex items-center gap-6">
@@ -44,8 +40,8 @@ const BlogCommentsPage: NextPageWithLayout = (props: Props) => {
             className="py-6"
           />{" "}
           <Button disabled={isPostingComment} onClick={handlePostComment}>
-            <span className="hidden sm:block" >Comment</span>
-            <span className="sm:hidden" >+</span>
+            <span className="hidden sm:block">Comment</span>
+            <span className="sm:hidden">+</span>
           </Button>
         </div>
         <DisplayComments />

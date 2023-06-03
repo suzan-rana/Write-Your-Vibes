@@ -64,41 +64,20 @@ export const blogRouter = createTRPCRouter({
     }),
 
   // [GET]
-  getAllBlogs: protectedProcedure.query(async ({ ctx }) => {
-    const blogs = await ctx.prisma.post.findMany({
-      select: {
-        id: true,
-        image: true,
-        title: true,
-        subtitle: true,
-        createdAt: true,
-        category: true,
-        _count: {
-          select: {
-            comment: true,
-            reaction: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-    return {
-      status: 200,
-      data: blogs,
-    };
-  }),
-
-  // [GET] by CATEGORY
-  getBlogsByCategory: protectedProcedure
+  getAllBlogs: protectedProcedure
     .input(
       z.object({
-        category_name: z.nativeEnum(CategoryEnum),
+        page: z.number(),
+        limit: z.number(),
       })
     )
     .query(async ({ ctx, input }) => {
       const blogs = await ctx.prisma.post.findMany({
+        take: input.limit,
+        skip: (input.page - 1) * input.limit,
+        orderBy: {
+          createdAt: "desc",
+        },
         select: {
           id: true,
           image: true,
@@ -113,19 +92,93 @@ export const blogRouter = createTRPCRouter({
             },
           },
         },
+      });
+      const totalBlogCount = await ctx.prisma.post.count({});
+      return {
+        status: 200,
+        data: blogs,
+        totalBlogCount,
+        totalPages: Math.ceil(totalBlogCount / input.limit),
+      };
+    }),
+
+  // [GET] by CATEGORY
+  getManyBlogsWithCategory: protectedProcedure.query(async ({ ctx, input }) => {
+    const blogs = await ctx.prisma.category.findMany({
+      orderBy: {
+        category_name: "desc",
+      },
+      include: {
+        posts: {
+          select: {
+            id: true,
+            title: true,
+            subtitle: true,
+            image: true,
+            createdAt: true,
+            _count: {
+              select: {
+                reaction: true,
+                comment: true,
+              },
+            },
+          },
+          take: 2,
+        },
+      },
+    });
+    return {
+      status: 200,
+      data: blogs,
+    };
+  }),
+
+  getBlogsByCategory: protectedProcedure
+    .input(
+      z.object({
+        category_name: z.nativeEnum(CategoryEnum),
+        page: z.number(),
+        limit: z.number(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const blogs = await ctx.prisma.post.findMany({
+        take: input.limit,
+        skip: (input.page - 1) * input.limit,
+        orderBy: {
+          createdAt: "desc",
+        },
         where: {
           category: {
             category_name: input.category_name,
           },
         },
-        orderBy: {
-          createdAt: "desc",
+        select: {
+          _count: {
+            select: {
+              reaction: true,
+              comment: true,
+            },
+          },
+          id: true,
+          title: true,
+          subtitle: true,
+          image: true,
+          createdAt: true,
         },
-        take: 10
+      });
+      const totalBlogCount = await ctx.prisma.post.count({
+        where: {
+          category: {
+            category_name: input.category_name,
+          },
+        },
       });
       return {
         status: 200,
         data: blogs,
+        totalBlogCount,
+        totalPages: Math.ceil(totalBlogCount / input.limit),
       };
     }),
 

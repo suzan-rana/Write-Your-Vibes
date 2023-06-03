@@ -55,20 +55,20 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
     return <p className="my-20 text-center text-2xl">Deleting the blog...</p>;
   }
 
-  if(!data?.data){
+  if (!data?.data) {
     return <p className="my-20 text-center text-2xl">Something went wrong.</p>;
   }
 
   return (
     <section className="mx-auto mb-28 flex w-[95%] flex-col items-start  gap-4 sm:flex-row sm:gap-12 md:w-auto">
-      <Link href={"/blog"}>
-        <Button
-          variant={"ghost"}
-          className="md:text-md min-w-[6rem] border-none text-sm underline"
-        >
-          See all
-        </Button>
-      </Link>
+      <Button
+        variant={"ghost"}
+        onClick={() => router.back()}
+        className="md:text-md min-w-[6rem] border-none text-sm underline"
+      >
+        See all
+      </Button>
+
       {isLoading || isFetching ? null : (
         <article className=" grow md:w-[80%]  md:flex-grow-0">
           {data?.data?.createdAt && (
@@ -110,10 +110,12 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
           </div>
           <BlogImage src={data?.data?.image || ""} />
 
-          <p className="my-8 bg-slate-900 py-2 sm:py-4 italic  px-2 sm:px-5 rounded-md">{data?.data?.subtitle}</p>
+          <p className="my-8 rounded-md bg-slate-900 px-2 py-2  italic sm:px-5 sm:py-4">
+            {data?.data?.subtitle}
+          </p>
           <pre
             className={cn(
-              "mb-20 max-w-[50rem]  text-base sm:text-lg whitespace-break-spaces text-gray-400",
+              "mb-20 max-w-[50rem]  whitespace-break-spaces text-base text-gray-400 sm:text-lg",
               p.className
             )}
           >

@@ -23,7 +23,7 @@ const Card = ({ title, subtitle, imageSrc, createdAt, count }: CardProps) => {
       </p>
       <p className="my-2 max-w-[95%] text-sm sm:text-base">
         {count?.reaction ? <span className="text-red-400">{count.reaction} reactions</span> : null}{" "}
-        {count?.reaction && count?.comment && "& "}
+        {(count?.reaction && count?.comment) ? "& ": <span className="text-red-400" >New!</span>}
         {count?.comment ? <span className="text-red-400">{count.comment} comments</span> : null}{" "}
       </p>
       <p className="max-w-[95%] italic">

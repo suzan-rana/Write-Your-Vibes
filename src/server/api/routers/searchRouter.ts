@@ -13,8 +13,9 @@ export const searchRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input: { category_name, tags } }) => {
-      if (tags === null || !tags && category_name === 'All') {
+      if (tags === null || (!tags && category_name === "All")) {
         return await ctx.prisma.post.findMany({
+          take: 10,
           select: {
             id: true,
             image: true,
@@ -22,6 +23,12 @@ export const searchRouter = createTRPCRouter({
             subtitle: true,
             createdAt: true,
             category: true,
+            _count: {
+              select: {
+                comment: true,
+                reaction: true,
+              },
+            },
             user: {
               select: {
                 name: true,
@@ -32,6 +39,7 @@ export const searchRouter = createTRPCRouter({
         });
       }
       return await ctx.prisma.post.findMany({
+        take: 10,
         where: {
           category: {
             category_name: category_name,
@@ -51,6 +59,12 @@ export const searchRouter = createTRPCRouter({
           subtitle: true,
           createdAt: true,
           category: true,
+          _count: {
+            select: {
+              comment: true,
+              reaction: true,
+            },
+          },
           user: {
             select: {
               name: true,
@@ -60,6 +74,4 @@ export const searchRouter = createTRPCRouter({
         },
       });
     }),
-
-
 });

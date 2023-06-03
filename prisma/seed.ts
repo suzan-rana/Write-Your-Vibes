@@ -1,50 +1,51 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-async function main() {
-  const PRINCESS_SEN = await prisma.user.create({
-    data: {
-      name: "Princess Sen",
-      biography: "Hello, I am Princess Sen",
-      email: "princess_sen@gmail.com",
-      gender: "MALE",
-      image: null,
-      password:
-        "$argon2id$v=19$m=65536,t=3,p=4$XyoNwxjZGZ0/Qdu8LBcz8w$KRksP1ScjGUQM1RYAFEjiK4WNJYSdpqe9/jptORNbWE",
-      post: {
-        create: {
-          title: "Who are we in this accursed world.",
-          body: "Hello, accursed world",
-          image: "",
-          slug: `who-we-are-in-this-accursed-world-${Date.now()}`,
-          subtitle: "Hey guys how areyou?",
-          tags: {
-            create: {
-              tag_name: "FIRST-BLOG-POST",
-            },
-          },
-          category: {
-            connectOrCreate: {
-              create: {
-                category_name: "SCIENCE_AND_TECH",
-              },
-              where: {
-                category_name: "SCIENCE_AND_TECH",
-              },
-            },
-          },
-        },
-      },
-    },
-  });
-  console.log("PRINCESS SEN CREATED", PRINCESS_SEN);
+
+async function seedData() {
+  try {
+    // Get existing categories
+    const categories : any = await prisma.category.findMany();
+
+    // Create users
+    const u: any = await prisma.user.createMany({
+      data: Array.from({ length: 5 }).map((_, index) => ({
+        name: `User ${index + 1}`,
+        email: `user${index + 1}_${Date.now()}_${Math.random() * 5}@gmail.com`,
+        password: "password123",
+        gender: "Male",
+        biography: "Lorem ipsum dolor sit amet.",
+      })),
+      skipDuplicates: true,
+    });
+
+    const users = await prisma.user.findMany()
+
+    console.log('USERS', users)
+    // Create posts for each user
+    for (const user of users) {
+      const posts = await prisma.post.createMany({
+        data: Array.from({ length: 10 }).map((_, index) => ({
+          title: `Post ${index + 1}`,
+          subtitle: "Lorem ipsum dolor sit amet.",
+          body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          image: "https://example.com/image.jpg",
+          slug: `post-${index + 1}`,
+          authorId: user.id,
+          categoryId: categories[index % categories.length].id ,
+        })),
+        skipDuplicates: true,
+      });
+
+      console.log(`Created 10 posts for User ${user.id}`);
+    }
+
+    console.log("Seeding completed successfully!");
+  } catch (error) {
+    console.error("Error seeding data:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
 }
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+
+seedData();

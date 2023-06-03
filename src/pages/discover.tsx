@@ -10,6 +10,10 @@ import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import { UseTRPCQuerySuccessResult } from "@trpc/react-query/shared";
+import { AppRouter } from "~/server/api/root";
+import { inferRouterOutputs } from "@trpc/server";
+import { TRPCClientErrorLike } from "@trpc/client";
 
 const SearchBlogSchema = z.object({
   tags: z.string().nullable(),
@@ -19,6 +23,13 @@ const SearchBlogSchema = z.object({
 });
 type SearchBlogType = z.infer<typeof SearchBlogSchema>;
 
+type BlogReactionType = NonNullable<
+  UseTRPCQuerySuccessResult<
+    inferRouterOutputs<AppRouter>["search"]["searchByCategoryAndTags"],
+    TRPCClientErrorLike<AppRouter>
+  >["data"]
+>;
+
 const DiscoverPage: NextPageWithLayout = () => {
   const { handleSubmit, register, getValues } = useForm<SearchBlogType>({
     resolver: zodResolver(SearchBlogSchema),
@@ -27,7 +38,7 @@ const DiscoverPage: NextPageWithLayout = () => {
   // for refetching
   const search = api.useContext().search;
 
-  const [searchData, setSearchData] = useState<any[]>([]);
+  const [searchData, setSearchData] = useState<BlogReactionType | []>([]);
 
   const { isLoading, refetch } = api.search.searchByCategoryAndTags.useQuery(
     {
@@ -58,13 +69,13 @@ const DiscoverPage: NextPageWithLayout = () => {
       });
   };
   return (
-  <section className="pb-20 md:w-[85%] md:mx-auto">
+    <section className="pb-20 md:mx-auto md:w-[85%]">
       <h1 className="text-center text-3xl font-semibold capitalize">
         Search and Explore our top blogs by top talent{" "}
       </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="my-12 flex flex-col md:items-center gap-4 sm:flex-row"
+        className="my-12 flex flex-col gap-4 sm:flex-row md:items-center"
       >
         <select
           className={`rounded-md border border-slate-800 bg-gray-950 px-4 py-3 shadow-sm focus:outline-blue-400 ${
@@ -86,10 +97,11 @@ const DiscoverPage: NextPageWithLayout = () => {
         />
         <Button>Search</Button>
       </form>
-      <main className="mx-auto flex flex-col md:flex-row flex-wrap gap-12 justify-between">
+      <main className="mx-auto flex flex-col flex-wrap justify-between gap-12 md:flex-row">
         {searchData?.map((post) => (
           <Link href={`/blog/${post.id}`} key={post.id}>
             <Card
+              count={post._count}
               title={post.title}
               subtitle={post.subtitle}
               createdAt={post.createdAt}
