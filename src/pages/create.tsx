@@ -84,12 +84,16 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
   };
 
   const onSubmit: SubmitHandler<CreateBlogType> = async (data) => {
-    if (data.title === "Untitled post here") {
-      toast.info("Please add a title");
+    if (data.title === "") {
+      toast.error("Please add a title");
       return;
     }
-    if (data.subtitle === "Explain your viewpoint in 10 words") {
-      toast.info("Please add a subtitle.");
+    if (data.subtitle === "") {
+      toast.error("Please add a subtitle.");
+      return;
+    }
+    if(!data.body){
+      toast.error("Please add something to your body.");
       return;
     }
     if (uploadImage.image) {
@@ -103,6 +107,8 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
           image: uploadUrl.split("?")[0]?.toString() || null,
         });
       });
+    }else {
+      toast.error('Please upload an image.')
     }
   };
 
@@ -203,7 +209,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
           tabIndex={4}
           onClick={() => setOpenUploadImageModal(true)}
           type="button"
-          className="text-base px-3 sm:text-lg  sm:min-w-[9rem] border-[2px] border-slate-900 bg-transparent text-white py-2 sm:py-3 rounded-md sm:block"
+          className="hidden  text-base px-3 sm:text-lg  sm:min-w-[9rem] border-[2px] border-slate-900 bg-transparent text-white py-2 sm:py-3 rounded-md sm:block"
         >
           {uploadImage.imageUrl ? "Change" : "Add"} Image
         </button>
