@@ -20,6 +20,9 @@ const config = {
       },
       {
         hostname: 'api.dicebear.com'
+      },
+      {
+        hostname: 's3.'
       }
     ],
   },

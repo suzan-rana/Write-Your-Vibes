@@ -8,7 +8,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-import { InputElement, InputErrorMessage } from "./login";
+import { InputElement, InputErrorMessage, PasswordInputElement } from "./login";
 import { api } from "~/utils/api";
 import Button from "~/components/ui/Button";
 import { toast } from "react-toastify";
@@ -58,17 +58,17 @@ const RegisterPage = () => {
         className="mx-auto my-8 flex flex-col gap-6 sm:w-[100%] md:w-[60%] lg:w-[40%]"
       >
         <label className="flex flex-col gap-2">
-          <span>Name</span>
+          <span className="text-sm md:text-base">Name</span>
           <InputElement error={errors.name} {...register("name")} />
           <InputErrorMessage error={errors.name} />
         </label>
         <label className="flex flex-col gap-2">
-          <span>Email</span>
+          <span className="text-sm md:text-base">Email</span>
           <InputElement error={errors.email} {...register("email")} />
           <InputErrorMessage error={errors.email} />
         </label>
         <label className="flex flex-col gap-2">
-          <span>Gender</span>
+          <span className="text-sm md:text-base">Gender</span>
           <select
             className={`rounded-md border border-slate-800 bg-gray-950 px-3 py-2 shadow-sm focus:outline-blue-400 ${
               false ? "border-[1px] border-red-500 focus:outline-red-500" : ""
@@ -80,8 +80,8 @@ const RegisterPage = () => {
           </select>
         </label>
         <label className="flex flex-col gap-2">
-          <span>Password</span>
-          <InputElement
+          <span className="text-sm md:text-base">Password</span>
+          <PasswordInputElement
             error={errors.password}
             {...register("password")}
             type="password"

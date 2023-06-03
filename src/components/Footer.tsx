@@ -15,7 +15,7 @@ const Footer = (props: Props) => {
     await router.push("/auth/login");
   };
   return (
-    <footer className="bg-transparent mt-20 mb-10">
+    <footer className="bg-transparent mt-20 pb-20">
       <div className="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:pt-20">
         <div className="grid grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-5">
           <div className="col-span-full flex flex-col gap-6 lg:col-span-1">
@@ -134,10 +134,10 @@ const Footer = (props: Props) => {
           </div>
         </div>
 
-        <div className="mt-5 grid gap-y-2 sm:mt-12 sm:flex sm:items-center sm:justify-between sm:gap-y-0">
+        <div className="mt-5 grid gap-y-2 min-h-[20rem] sm:mt-12 sm:flex sm:items-center sm:justify-between sm:gap-y-0">
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-400">
-              © 2022 Preline. All rights reserved.
+              © 2022 Vibe. All rights reserved.
             </p>
           </div>
 

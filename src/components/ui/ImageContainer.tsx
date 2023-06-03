@@ -14,6 +14,7 @@ const ImageContainer = ({ className, image, ...restProps }: Props) => {
   const handleImageLoadingError = () => {
     setImageLoadingError(true);
   };
+  console.log('IMAGE...', image)
   return (
     <figure
       className={cn(
@@ -24,7 +25,6 @@ const ImageContainer = ({ className, image, ...restProps }: Props) => {
       {imageLoadingError ? (
         <img src={"https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"} className="max-w-[100%] block" alt="Profile Image"></img>
       ) : (
-        // <img src={"https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"} className="max-w-[100%] block" alt="Profile Image"></img>
         <Image src={image} fill alt="Profile Image" onError={handleImageLoadingError}></Image>
       )}
     </figure>

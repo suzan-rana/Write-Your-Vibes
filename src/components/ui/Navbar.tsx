@@ -59,7 +59,7 @@ const Navbar = () => {
         onClick={() => setShowNavMenu((prev) => !prev)}
       />
       <nav
-        className={`h-[90vh] cursor-pointer flex-col justify-between  gap-6 rounded-md px-4 py-4 transition-all duration-200 sm:h-auto sm:flex-row md:items-center md:py-2 ${
+        className={`h-[65vh] cursor-pointer flex-col justify-between  gap-6 rounded-md px-4 py-4 transition-all duration-200 sm:h-auto sm:flex-row md:items-center md:py-2 ${
           showNavMenu ? "flex" : "hidden sm:flex"
         }`}
       >

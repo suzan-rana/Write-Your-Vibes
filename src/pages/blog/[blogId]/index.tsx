@@ -54,6 +54,10 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
   if (isDeletingBlog) {
     return <p className="my-20 text-center text-2xl">Deleting the blog...</p>;
   }
+  if(isLoading || isFetching){
+    return <p className="my-20 text-center text-2xl">Loading...</p>;
+
+  }
 
 
   return (
@@ -67,7 +71,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
       </Button>
 
       {isLoading || isFetching ? null : (
-        <article className=" grow md:w-[80%]  md:flex-grow-0">
+        <article className="w-[100%] grow md:w-[80%]  md:flex-grow-0">
           {data?.data?.createdAt && (
             <p className="md:text-md text-sm">
               Published on{" "}
@@ -79,7 +83,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
           <h1 className="my-4 text-3xl font-bold md:my-2 md:text-4xl">
             {data?.data?.title}
           </h1>
-          <div className="flex flex-col justify-between md:w-[90%] md:flex-row md:items-center">
+          <div className="flex flex-col md:justify-between md:w-[90%] md:flex-row md:items-center">
             <UserAvatar
               name={data?.data?.user.name || "Suzan Rana"}
               sub={data?.data?.user.email || "suzan@gmail.com"}
