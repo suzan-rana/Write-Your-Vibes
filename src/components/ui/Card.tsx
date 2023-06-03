@@ -18,10 +18,13 @@ const Card = ({ title, subtitle, imageSrc, createdAt, count }: CardProps) => {
       <h2 className="mb-2 max-w-[95%] text-xl font-semibold sm:mt-4 sm:text-2xl">
         {title}
       </h2>
-      <p className="max-w-[95%] text-sm sm:text-base">{subtitle}</p>
-      <p className="max-w-[95%] my-2 text-sm sm:text-base">
-        {count?.reaction ? <span>{count.reaction} reactions</span>: null}{" "}
-        {count?.comment ? <span>{count.comment} comments</span>: null}{" "}
+      <p className="max-w-[95%] text-sm line-clamp-2 sm:text-base">
+        {subtitle}
+      </p>
+      <p className="my-2 max-w-[95%] text-sm sm:text-base">
+        {count?.reaction ? <span className="text-red-400">{count.reaction} reactions</span> : null}{" "}
+        {count?.reaction && count?.comment && "& "}
+        {count?.comment ? <span className="text-red-400">{count.comment} comments</span> : null}{" "}
       </p>
       <p className="max-w-[95%] italic">
         {new Intl.DateTimeFormat("en-us", {
@@ -41,7 +44,7 @@ const CardImage = ({ src }: { src?: string }) => {
     setImageLoadingError(true);
   };
   return (
-    <figure className="relative z-10 block min-h-[15rem] max-w-[28rem] overflow-hidden rounded-md">
+    <figure className="relative z-10 block min-h-[14rem] max-w-[28rem] overflow-hidden rounded-md">
       {imageLoadingError ? (
         <img
           alt="Blog Image"

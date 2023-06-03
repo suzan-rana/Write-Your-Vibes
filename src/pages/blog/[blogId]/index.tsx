@@ -70,7 +70,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
         </Button>
       </Link>
       {isLoading || isFetching ? null : (
-        <article className=" grow md:w-auto  md:flex-grow-0">
+        <article className=" grow md:w-[80%]  md:flex-grow-0">
           {data?.data?.createdAt && (
             <p className="md:text-md text-sm">
               Published on{" "}
@@ -113,7 +113,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
           <p className="my-8 bg-slate-900 py-2 sm:py-4 italic  px-2 sm:px-5 rounded-md">{data?.data?.subtitle}</p>
           <pre
             className={cn(
-              "mb-20 max-w-[50rem] text-base sm:text-lg whitespace-break-spaces text-gray-400",
+              "mb-20 max-w-[50rem]  text-base sm:text-lg whitespace-break-spaces text-gray-400",
               p.className
             )}
           >

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import { FaSadCry } from "react-icons/fa";
 import { IoHappySharp } from "react-icons/io5";
@@ -158,10 +158,20 @@ const ShowReactions = ({
   reaction,
   onClose,
 }: Pick<ReactionInterface, "reaction"> & { onClose: () => void }) => {
+  const handleScroll = () => {
+    console.log('%cBEING ABLE TO SCROLL EVEN IF MODAL IS TURNED ON, IS A FEATURE: NOT A BUG! HAHA.', 'font-size: 40px; font-family: "Poppins", sans-serif; color: tomato;background: white; padding: 20px; text-transform: lowercase');
+
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <ReactPortal wrapperId="react-portal-modal-container">
       <div className="fixed inset-0 flex items-center justify-center overflow-hidden bg-white/10">
-        <section className="w-[50%] rounded-lg border-[2px]  border-slate-600 bg-slate-800 px-8 py-6 text-white md:w-[40%] md:px-8 md:py-6">
+        <section className="w-[90%] rounded-lg border-[2px]  border-slate-600 bg-slate-800 px-8 py-6 text-white md:w-[40%] md:px-8 md:py-6">
           <div className="flex justify-between ">
             <h2 className="text-lg font-semibold text-gray-200 sm:text-xl">
               Reactions
