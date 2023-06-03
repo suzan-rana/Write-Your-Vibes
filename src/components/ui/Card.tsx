@@ -60,9 +60,9 @@ const CardImage = ({ src }: { src?: string }) => {
           alt="Blog Image"
           onError={handleImageLoadingError}
           src={
-            // src
-            //   ? src
-            //   :
+            src
+              ? src
+              :
             "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
           }
         />
