@@ -18,7 +18,7 @@ export const getS3Params = (extension: string, Key: string) => {
   return {
     Bucket: process.env.S3_BUCKET_NAME,
     Key,
-    Expires: 60,
+    Expires: 120,
     ContentType: `image/${extension}`,
   };
 };
