@@ -12,7 +12,7 @@ export const imageRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { Key, extension } = getRandomKey(input.fileType);
       const s3Params = getS3Params(extension, Key);
-      const uploadUrl = s3.getSignedUrl("putObject", s3Params);
+      const uploadUrl = await s3.getSignedUrlPromise("putObject", s3Params);
       return {
         status: 200,
         data: {
