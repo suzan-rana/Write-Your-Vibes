@@ -15,7 +15,7 @@ import { UploadImage, useUploadImage } from "./create";
 import Button from "~/components/ui/Button";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-import { uploadImageToS3 } from "~/lib/s3";
+import { uploadImageToS3 } from "~/lib/uploadImageToS3";
 import { toast } from "react-toastify";
 
 type Props = {};

@@ -20,7 +20,7 @@ import ImageContainer from "~/components/ui/ImageContainer";
 import Image from "next/image";
 import Icons from "~/components/ui/Icon";
 import { AnimatePresence } from "framer-motion";
-import { uploadImageToS3 } from "~/lib/s3";
+import { uploadImageToS3 } from "~/lib/uploadImageToS3";
 import { CategoryEnum } from "~/utils/category";
 
 type Props = {};

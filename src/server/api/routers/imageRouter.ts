@@ -19,7 +19,7 @@ export const imageRouter = createTRPCRouter({
           uploadUrl,
           key: Key,
         },
-        message: "BLOG UPDATED SUCCESSFULLY",
+        message: "GIVING YOU A PRESIGNED URL",
       };
     }),
 });

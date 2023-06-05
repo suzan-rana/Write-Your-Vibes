@@ -12,7 +12,6 @@ import Pagination, { usePagination } from "~/components/ui/Pagination";
 type Props = {};
 
 const BlogPage: NextPageWithLayout = (props: Props) => {
-  const router = useRouter();
   const {
     currentPage,
     setCurrentPage,
