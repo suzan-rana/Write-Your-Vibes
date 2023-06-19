@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
+import SkeletonCard from "./ui/Skeleton/SkeletonCard";
 
 type Props = {};
 
@@ -30,7 +31,7 @@ const Comments = (props: Props) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Tell how you feel"
-          className="py-6 grow"
+          className="grow py-6"
         />
         {/* // eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <Button disabled={isPostingComment} onClick={handlePostComment}>
@@ -114,23 +115,25 @@ const DisplayComments = () => {
   const { data, isLoading, isFetching } = useFetchTopComments(
     router.query["blogId"] as string
   );
+  if (isLoading || isFetching) {
+    return (
+      <div className="grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2">
+        <SkeletonCard />
+      </div>
+    );
+  }
   return (
     <>
-      {" "}
-      {isLoading || isFetching ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          {data?.data.map((comment, index) => (
-            <UserAvatar
-              image={comment.user.image || ""}
-              key={comment.id}
-              name={comment.user.name as string}
-              sub={comment.content}
-            />
-          ))}
-        </>
-      )}
+      <>
+        {data?.data.map((comment, index) => (
+          <UserAvatar
+            image={comment.user.image || ""}
+            key={comment.id}
+            name={comment.user.name as string}
+            sub={comment.content}
+          />
+        ))}
+      </>
     </>
   );
 };

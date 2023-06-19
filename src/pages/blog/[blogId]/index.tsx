@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import Comments from "~/components/Comments";
 import Image from "next/image";
 import Reaction from "~/components/ui/Reaction";
+import SkeletonBlogPage from "~/components/ui/Skeleton/SkeletonBlogPage";
 
 ("use client");
 
@@ -53,6 +54,10 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
 
   if (isDeletingBlog) {
     return <p className="my-20 text-center text-2xl">Deleting the blog...</p>;
+  }
+
+  if(isLoading || isFetching){
+    return <SkeletonBlogPage />
   }
 
   return (

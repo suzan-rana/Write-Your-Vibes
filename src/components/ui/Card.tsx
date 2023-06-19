@@ -1,7 +1,11 @@
 import Image from "next/image";
 import React, { useState } from "react";
+import SkeletonCard from "./Skeleton/SkeletonCard";
+import Link from "next/link";
 
 interface CardProps {
+  id: string;
+  isLoading?: boolean;
   title: string;
   subtitle: string;
   imageSrc?: string;
@@ -11,27 +15,48 @@ interface CardProps {
     reaction?: number;
   };
 }
-const Card = ({ title, subtitle, imageSrc, createdAt, count }: CardProps) => {
+const Card = ({
+  title,
+  subtitle,
+  imageSrc,
+  id,
+  createdAt,
+  count,
+  isLoading,
+}: CardProps) => {
+  if (isLoading) {
+    return <SkeletonCard />;
+  }
   return (
-    <article className="grow-1 min-h-[20rem] cursor-pointer sm:w-[27rem]">
-      <CardImage src={imageSrc} />
-      <h2 className="mb-2 max-w-[95%] text-xl font-semibold sm:mt-4 sm:text-2xl">
-        {title}
-      </h2>
-      <p className="max-w-[95%] text-sm line-clamp-2 sm:text-base">
-        {subtitle}
-      </p>
-      <p className="my-2 max-w-[95%] text-sm sm:text-base">
-        {count?.reaction ? <span className="text-red-400">{count.reaction} reactions</span> : null}{" "}
-        {(count?.reaction && count?.comment) ? "& ": <span className="text-red-400" >New!</span>}
-        {count?.comment ? <span className="text-red-400">{count.comment} comments</span> : null}{" "}
-      </p>
-      <p className="max-w-[95%] italic">
-        {new Intl.DateTimeFormat("en-us", {
-          dateStyle: "full",
-        }).format(createdAt)}
-      </p>
-    </article>
+    <Link href={`/blog/${id}`}>
+      <article className="grow-1 min-h-[20rem] cursor-pointer sm:w-[27rem]">
+        <CardImage src={imageSrc} />
+        <h2 className="mb-2 max-w-[95%] text-xl font-semibold sm:mt-4 sm:text-2xl">
+          {title}
+        </h2>
+        <p className="line-clamp-2 max-w-[95%] text-sm sm:text-base">
+          {subtitle}
+        </p>
+        <p className="my-2 max-w-[95%] text-sm sm:text-base">
+          {count?.reaction ? (
+            <span className="text-red-400">{count.reaction} reactions</span>
+          ) : null}{" "}
+          {count?.reaction && count?.comment ? (
+            "& "
+          ) : (
+            <span className="text-red-400">New!</span>
+          )}
+          {count?.comment ? (
+            <span className="text-red-400">{count.comment} comments</span>
+          ) : null}{" "}
+        </p>
+        <p className="max-w-[95%] italic">
+          {new Intl.DateTimeFormat("en-us", {
+            dateStyle: "full",
+          }).format(createdAt)}
+        </p>
+      </article>
+    </Link>
   );
 };
 
@@ -62,8 +87,7 @@ const CardImage = ({ src }: { src?: string }) => {
           src={
             src
               ? src
-              :
-            "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
+              : "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
           }
         />
       )}

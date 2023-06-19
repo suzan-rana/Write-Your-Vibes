@@ -15,6 +15,8 @@ import { ReactElement, ReactNode, useEffect } from "react";
 import { ToastContainer, Zoom, Slide } from "react-toastify";
 import { NextPage } from "next";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
+import "react-loading-skeleton/dist/skeleton.css";
+
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

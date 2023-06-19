@@ -11,22 +11,49 @@ import { api } from "~/utils/api";
 import Footer from "~/components/Footer";
 import RandomAvatar from "~/components/Avatar";
 import Pagination, { usePagination } from "~/components/ui/Pagination";
+import SkeletonCard from "~/components/ui/Skeleton/SkeletonCard";
+import Skeleton from "react-loading-skeleton";
 
 const ProfilePage: NextPageWithLayout = () => {
-  const { data: user } = api.user.getPersonalDetails.useQuery();
+  const {
+    data: user,
+    isLoading,
+    isFetching,
+  } = api.user.getPersonalDetails.useQuery();
   return (
     <>
       <section className="flex flex-col items-center justify-center gap-12 pb-24 text-center">
-        <ImageContainer
-          gender={user?.gender as "Male" | "Female"}
-          image={user?.image || ""}
-          className="min-h-[15rem] w-[15rem] max-w-[100%] overflow-hidden rounded-full"
-        />
-        <div>
-          <h1 className="text-3xl font-bold text-gray-200">{user?.name}</h1>
-          <p className="my-2">{user?.email}</p>
-          <p>{user?.biography}</p>
-        </div>
+        {isLoading || isFetching ? (
+          <Skeleton
+            baseColor="#202020"
+            circle
+            highlightColor="#444"
+            containerClassName="flex-1"
+            className="mb-2 h-[12rem] w-[12rem] grow "
+            count={3}
+          />
+        ) : (
+          <ImageContainer
+            gender={user?.gender as "Male" | "Female"}
+            image={user?.image || ""}
+            className="min-h-[15rem] w-[15rem] max-w-[100%] overflow-hidden rounded-full"
+          />
+        )}
+        {isLoading || isFetching ? (
+          <Skeleton
+            baseColor="#202020"
+            highlightColor="#444"
+            containerClassName="flex-1"
+            className="mb-2 h-[12rem] w-full grow "
+            count={3}
+          />
+        ) : (
+          <div>
+            <h1 className="text-3xl font-bold text-gray-200">{user?.name}</h1>
+            <p className="my-2">{user?.email}</p>
+            <p>{user?.biography}</p>
+          </div>
+        )}
         <Link href={"/updateprofile"}>
           <Button>Update Profile</Button>
         </Link>
@@ -64,6 +91,16 @@ const TopPosts = () => {
       refetchOnWindowFocus: false,
     }
   );
+  if (isLoading || isFetching) {
+    return (
+      <div className="grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2">
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+      </div>
+    );
+  }
   return (
     <section className="my-20">
       {isLoading || isFetching ? (
@@ -106,7 +143,9 @@ const NoBlog = () => {
       <div className="mx-auto text-center">
         <h1 className="mb-6">Looks like you have yet to create a blog.</h1>
         {/* // eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <Button onClick={async() => await router.push("/create")}>Create Now!</Button>
+        <Button onClick={async () => await router.push("/create")}>
+          Create Now!
+        </Button>
       </div>
     </div>
   );

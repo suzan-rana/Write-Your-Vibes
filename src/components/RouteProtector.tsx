@@ -1,8 +1,9 @@
-'use client'
+"use client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import Button from "./ui/Button";
+import SkeletonCard from "./ui/Skeleton/SkeletonCard";
 
 type Props = {
   children: React.ReactNode;
@@ -22,7 +23,17 @@ const RouteProtector = ({ children }: Props) => {
       });
     }
   }, []);
-  if (status === 'unauthenticated') {
+  if (status === "loading") {
+    return (
+      <div className="flex flex-col gap-8 md:flex-row">
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+      </div>
+    );
+  }
+  if (status === "unauthenticated") {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="mx-auto text-center">
@@ -35,9 +46,6 @@ const RouteProtector = ({ children }: Props) => {
         </div>
       </div>
     );
-  }
-  if(status === 'loading'){
-    return <p className="text-center pt-20" >Loading...</p>
   }
   return <>{children}</>;
 };

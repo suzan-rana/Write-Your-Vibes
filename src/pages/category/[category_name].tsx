@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Card from "~/components/ui/Card";
 import Pagination, { usePagination } from "~/components/ui/Pagination";
+import SkeletonCard from "~/components/ui/Skeleton/SkeletonCard";
 
 type Props = {};
 
@@ -29,12 +30,18 @@ const PostByCategory = (props: Props) => {
     {
       enabled: !!query.category_name,
       keepPreviousData: true,
-      
     }
   );
 
-  if(isLoading || isFetching){
-    return <p className="text-gray-400">Loading...</p>
+  if (isLoading || isFetching) {
+    return (
+      <div className="grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2">
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+      </div>
+    );
   }
 
   return (
@@ -49,6 +56,7 @@ const PostByCategory = (props: Props) => {
             {data?.data.map((post) => (
               <Link key={post.id} className="grow" href={`/blog/${post.id}`}>
                 <Card
+                  id={post.id}
                   count={post._count}
                   createdAt={post.createdAt}
                   subtitle={post.subtitle}
@@ -70,7 +78,6 @@ const PostByCategory = (props: Props) => {
     </>
   );
 };
-
 
 export default PostByCategory;
 PostByCategory.getLayout = (page: React.ReactElement) => {

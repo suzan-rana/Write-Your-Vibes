@@ -2,6 +2,7 @@ import React from "react";
 import Button from "./ui/Button";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 type Props = {};
 
@@ -15,7 +16,7 @@ const Footer = (props: Props) => {
     await router.push("/auth/login");
   };
   return (
-    <footer className="bg-transparent mt-20 pb-20">
+    <footer className="mt-20 bg-transparent pb-20">
       <div className="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:pt-20">
         <div className="grid grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-5">
           <div className="col-span-full flex flex-col gap-6 lg:col-span-1">
@@ -27,7 +28,12 @@ const Footer = (props: Props) => {
               Vibe
             </a>
             {/* // eslint-disable-next-line @typescript-eslint/no-misused-promises  */}
-            <a className="underline cursor-pointer text-red-400" onClick={handleLogout}>Log out</a>
+            <a
+              className="cursor-pointer text-red-400 underline"
+              onClick={handleLogout}
+            >
+              Log out
+            </a>
           </div>
 
           <div className="col-span-1">
@@ -39,7 +45,7 @@ const Footer = (props: Props) => {
                   className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200"
                   href="#"
                 >
-                  Pricing
+                  Blog
                 </a>
               </p>
               <p>
@@ -48,14 +54,6 @@ const Footer = (props: Props) => {
                   href="#"
                 >
                   Changelog
-                </a>
-              </p>
-              <p>
-                <a
-                  className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200"
-                  href="#"
-                >
-                  Docs
                 </a>
               </p>
             </div>
@@ -81,60 +79,47 @@ const Footer = (props: Props) => {
                   Blog
                 </a>
               </p>
-              <p>
-                <a
-                  className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200"
-                  href="#"
-                >
-                  Careers
-                </a>{" "}
-                <span className="ml-1 inline rounded-md bg-red-400 px-2 py-1 text-xs text-white">
-                  We&apos;re hiring
-                </span>
-              </p>
-              <p>
-                <a
-                  className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200"
-                  href="#"
-                >
-                  Customers
-                </a>
-              </p>
-            </div>
+              </div>
           </div>
 
           <div className="col-span-2">
             <h4 className="font-semibold text-gray-100">Stay up to date</h4>
 
-            <form>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                toast.success("Subscribed using email successfully.");
+              }}
+            >
               <div className="mt-4 flex flex-col items-center gap-2 rounded-md bg-white p-2 sm:flex-row sm:gap-3">
                 <div className="w-full">
                   <label htmlFor="hero-input" className="sr-only">
                     Search
                   </label>
                   <input
-                    type="text"
+                    type="email"
+                    required
                     id="hero-input"
                     name="hero-input"
-                    className="block border-none outline-none text-black w-full rounded-md border-transparent px-4 py-3 shadow-sm focus:z-10 focus:border-red-500 focus:ring-red-500"
+                    className="block w-full rounded-md border-none border-transparent px-4 py-3 text-black shadow-sm outline-none focus:z-10 focus:border-red-500 focus:ring-red-500"
                     placeholder="Enter your email"
                   />
                 </div>
-                <a
+                <button
                   className="inline-flex w-full items-center justify-center gap-x-3 whitespace-nowrap rounded-md border border-transparent bg-red-500 px-4 py-3 text-center font-medium text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 focus:ring-offset-white sm:w-auto"
-                  href="#"
+                  type="submit"
                 >
                   Subscribe
-                </a>
+                </button>
               </div>
               <p className="mt-3 text-sm text-gray-400">
-                New UI kits or big discounts. Never spam.
+                Get latest news
               </p>
             </form>
           </div>
         </div>
 
-        <div className="mt-5 grid gap-y-2 min-h-[20rem] sm:mt-12 sm:flex sm:items-center sm:justify-between sm:gap-y-0">
+        <div className="mt-5 grid min-h-[20rem] gap-y-2 sm:mt-12 sm:flex sm:items-center sm:justify-between sm:gap-y-0">
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-400">
               © 2022 Vibe. All rights reserved.

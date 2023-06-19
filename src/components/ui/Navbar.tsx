@@ -108,10 +108,10 @@ const navElements: Omit<NavItemProps, "showNavMenu" | "onClick">[] = [
     name: "Create",
     link: "/create",
   },
-  {
-    name: "Discover",
-    link: "/discover",
-  },
+  // {
+  //   name: "Discover",
+  //   link: "/discover",
+  // },
   {
     name: "Blog",
     link: "/blog",

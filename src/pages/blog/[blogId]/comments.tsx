@@ -6,6 +6,7 @@ import Comments, { usePostComment } from "~/components/Comments";
 import Button from "~/components/ui/Button";
 import Input from "~/components/ui/Input";
 import Layout from "~/components/ui/Layout";
+import SkeletonCard from "~/components/ui/Skeleton/SkeletonCard";
 import UserAvatar from "~/components/ui/UserAvatar";
 import { NextPageWithLayout } from "~/pages/_app";
 import { api } from "~/utils/api";
@@ -59,12 +60,16 @@ const DisplayComments = () => {
   const { data, isLoading, isFetching } = useFetchAllComments(
     router.query["blogId"] as string
   );
+  if (isLoading || isFetching) {
+    return (
+      <div className="grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2">
+        <SkeletonCard />
+      </div>
+    );
+  }
   return (
     <>
       {" "}
-      {isLoading || isFetching ? (
-        <p>Loading...</p>
-      ) : (
         <>
           {data?.data.map((comment, index) => (
             <UserAvatar
@@ -75,7 +80,6 @@ const DisplayComments = () => {
             />
           ))}
         </>
-      )}
     </>
   );
 };
