@@ -16,14 +16,6 @@ const RouteProtector = ({ children }: Props) => {
     await router.push(link);
   };
   useEffect(() => {
-    const nextToken = Cookies.get("next-auth.csrf-token");
-    const deployedToken = Cookies.get('__Secure-next-auth.session-token')
-    if (!nextToken && !deployedToken) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      handleRouterPush("/auth/login").then(() => {
-        return null;
-      });
-    }
     if (status === "unauthenticated") {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       handleRouterPush("/auth/login").then(() => {
