@@ -7,7 +7,7 @@ type Props = {
 
 const SkeletonBlogPage = ({ count = 5 }: Props) => {
   return (
-    <div className="flex flex-1 grow flex-col pl-32">
+    <div className="flex flex-1 grow flex-col md:pl-32">
       <Skeleton
         baseColor="#202020"
         highlightColor="#444"
