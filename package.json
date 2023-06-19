@@ -31,6 +31,7 @@
     "clsx": "^1.2.1",
     "firebase": "^9.22.2",
     "framer-motion": "^10.12.10",
+    "js-cookie": "^3.0.5",
     "next": "^13.4.1",
     "next-auth": "^4.21.0",
     "normalize.css": "^8.0.1",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^8.21.3",
+    "@types/js-cookie": "^3.0.3",
     "@types/node": "^18.15.5",
     "@types/nprogress": "^0.2.0",
     "@types/prettier": "^2.7.2",

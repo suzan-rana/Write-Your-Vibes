@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import Button from "./ui/Button";
 import SkeletonCard from "./ui/Skeleton/SkeletonCard";
-
+import Cookies from "js-cookie";
 type Props = {
   children: React.ReactNode;
 };
@@ -16,6 +16,13 @@ const RouteProtector = ({ children }: Props) => {
     await router.push(link);
   };
   useEffect(() => {
+    const nextToken = Cookies.get("next-auth.csrf-token");
+    if (!nextToken) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      handleRouterPush("/auth/login").then(() => {
+        return null;
+      });
+    }
     if (status === "unauthenticated") {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       handleRouterPush("/auth/login").then(() => {
@@ -25,7 +32,7 @@ const RouteProtector = ({ children }: Props) => {
   }, []);
   if (status === "loading") {
     return (
-      <div className="md:w-[80%] md:mt-20 mx-auto flex flex-col gap-8 md:flex-row">
+      <div className="mx-auto flex flex-col gap-8 md:mt-20 md:w-[80%] md:flex-row">
         <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />

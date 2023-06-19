@@ -100,15 +100,15 @@ const DiscoverPage: NextPageWithLayout = () => {
       {searchData.length !== 0 ? (
         <main className="mx-auto flex flex-col flex-wrap justify-between gap-12 md:flex-row">
           {searchData?.map((post) => (
-            <Link href={`/blog/${post.id}`} key={post.id}>
               <Card
+              key={post.id}
+              id={post?.id}
                 count={post._count}
                 title={post.title}
                 subtitle={post.subtitle}
                 createdAt={post.createdAt}
                 imageSrc={post.image}
               ></Card>
-            </Link>
           ))}
         </main>
       ) : (

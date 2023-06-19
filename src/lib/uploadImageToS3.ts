@@ -6,7 +6,7 @@ export const uploadImageToS3 = async (
   image: File,
   imageFields: any
 ) => {
-  let uploadingUrl =
+  const uploadingUrl =
     url + "/" +
     key +
     "?" +
@@ -27,7 +27,7 @@ export const uploadImageToS3 = async (
     `X-Amz-SignedHeaders=host`;
   // Upload the selected image to the presigned URL
   // eslint-disable-next-line  @typescript-eslint/no-unsafe-return
-  let newFormData = new FormData()
+ const  newFormData = new FormData()
   newFormData.append('image', image)
   return await axios
     .put(uploadingUrl, newFormData, {
