@@ -83,6 +83,7 @@ const PostByCategory = ({
               key={post.id}
               id={post.id}
               isLoading={isLoading}
+              imageSrc={post.image}
               count={post._count}
               title={post.title}
               subtitle={post.subtitle}
