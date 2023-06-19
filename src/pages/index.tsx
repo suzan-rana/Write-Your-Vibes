@@ -111,17 +111,17 @@ Home.getLayout = (page: React.ReactElement) => {
   return <Layout>{page}</Layout>;
 };
 
-export async function getServerSideProps(context) {
-  return {
-    props: {
-      session: await getServerSession(
-        context.req,
-        context.res,
-        authOptions
-      ),
-    },
-  }
-}
+// export async function getServerSideProps(context) {
+//   return {
+//     props: {
+//       session: await getServerSession(
+//         context.req,
+//         context.res,
+//         authOptions
+//       ),
+//     },
+//   }
+// }
 
 interface MessageBoxProps {
   left: boolean;
