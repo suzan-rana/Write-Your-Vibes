@@ -43,7 +43,7 @@ model category {
 model post {
   id         String     @id @default(cuid())
   title      String
-  subtitle   String
+  subtitle   String     @db.MediumText
   body       String     @db.LongText
   image      String
   slug       String
