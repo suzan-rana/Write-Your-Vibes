@@ -56,8 +56,8 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
     return <p className="my-20 text-center text-2xl">Deleting the blog...</p>;
   }
 
-  if(isLoading || isFetching){
-    return <SkeletonBlogPage />
+  if (isLoading || isFetching) {
+    return <SkeletonBlogPage />;
   }
 
   return (
@@ -155,17 +155,16 @@ const BlogImage = ({ src }: { src: string }) => {
   const handleImageLoadingError = () => {
     setImageLoadingError(true);
   };
-  console.log('SRC...', src)
   return (
     <div>
-      <figure
+      <picture
         className={cn(
-          "relative block min-h-[10rem] min-w-[10rem]  cursor-pointer overflow-hidden rounded-md bg-white transition-all duration-500 hover:bg-blue-400 md:aspect-video md:min-h-fit md:min-w-[25rem]"
+          "relative block min-h-[10rem] min-w-[10rem]  cursor-pointer overflow-hidden rounded-md bg-transparent transition-all duration-500 hover:bg-blue-400 md:aspect-video md:min-h-fit md:min-w-[25rem]"
         )}
       >
         {imageLoadingError ? (
           <img
-            className="block max-w-[100%]"
+            className="absolute inset-0 block min-h-full w-full object-cover object-center"
             src={
               "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
             }
@@ -178,11 +177,12 @@ const BlogImage = ({ src }: { src: string }) => {
               "https://tx.shadcn.com/_next/image?url=%2Fimages%2Fblog%2Fblog-post-1.jpg&w=828&q=75"
             }
             fill
+            className="absolute inset-0 block min-h-full w-full object-cover object-center"
             onError={handleImageLoadingError}
             alt="Image"
           />
         )}
-      </figure>
+      </picture>
     </div>
   );
 };
