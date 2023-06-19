@@ -60,6 +60,7 @@ const Reaction = ({ postId }: ReactionInterface) => {
     findReactionOfUser(reaction!, data?.user.id || '')
   );
   const { mutate } = api.reaction.createReaction.useMutation({
+
     async onSuccess(data, variables, context) {
       await utils.reaction.getReactionByBlogId.invalidate({
         postId: postId,

@@ -8,6 +8,7 @@ import { api } from "~/utils/api";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import SkeletonCard from "./ui/Skeleton/SkeletonCard";
+import { delay } from "../utils/delay";
 
 type Props = {};
 
@@ -78,6 +79,8 @@ export const usePostComment = (authorId: string, postId: string) => {
   const { mutateAsync, isLoading: isPostingComment } =
     api.comment.createComment.useMutation({
       async onSuccess(data, variables, context) {
+        toast.dismiss('LOADING')
+        delay()
         toast.success(data.message);
         await commentQuery.comment.getCommentsForBlogPage.invalidate();
         await commentQuery.comment.getAllBlogPostComments.invalidate();
@@ -94,6 +97,9 @@ export const usePostComment = (authorId: string, postId: string) => {
       toast.error("Please add a comment");
       return;
     }
+    toast.loading('Posting comment...', {
+      toastId: 'LOADING'
+    })
     await mutateAsync({
       content: inputValue,
       postId,

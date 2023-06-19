@@ -12,6 +12,7 @@ import { InputElement, InputErrorMessage, PasswordInputElement } from "./login";
 import { api } from "~/utils/api";
 import Button from "~/components/ui/Button";
 import { toast } from "react-toastify";
+import { delay } from "~/utils/delay";
 
 export const RegisterFormSchema = z.object({
   name: z.string().min(3, { message: "Please enter your name" }),
@@ -29,10 +30,14 @@ const RegisterPage = () => {
   // making a mutation
   const { mutate, isLoading: isRegistering } = api.auth.register.useMutation({
     async onSuccess(data, variables, context) {
+      toast.dismiss("LOADING");
+      await delay();
       toast.success("User created successfully.");
       await router.push("/auth/login");
     },
     onError(error, variables, context) {
+      toast.dismiss("LOADING");
+      delay();
       toast.error(error.message);
     },
   });
@@ -44,6 +49,9 @@ const RegisterPage = () => {
   } = useForm<RegisterFormType>({ resolver: zodResolver(RegisterFormSchema) });
 
   const onSubmit: SubmitHandler<RegisterFormType> = (data) => {
+    toast.loading("Registering...", {
+      toastId: "LOADING",
+    });
     mutate({ ...data });
   };
 

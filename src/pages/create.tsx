@@ -37,6 +37,8 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
   const { mutate, isLoading: isCreating } = api.blog.createNewBlog.useMutation({
     async onSuccess(data, variables, context) {
       if (data.status === 201) {
+        toast.dismiss("LOADING");
+        new Promise((res) => setTimeout(res, 500));
         toast.success("Post Created successfully");
         await router.push(`/blog/${data.data.post.id}`);
       }
@@ -86,6 +88,9 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
   };
 
   const onSubmit: SubmitHandler<CreateBlogType> = async (data) => {
+    toast.loading("Createing new blog...", {
+      toastId: "LOADING",
+    });
     if (data.title === "") {
       toast.error("Please add a title");
       return;
@@ -103,10 +108,10 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
         fileType: uploadImage.image.type,
       }).then(async (response) => {
         const { uploadUrl, key } = response.data;
-        await uploadImageToS3(uploadUrl, key, uploadImage.image as File);
+        await uploadImageToS3(uploadUrl.url, key, uploadImage.image as File, uploadUrl.fields);
         mutate({
           ...data,
-          image: uploadUrl.split("?")[0]?.toString() || null,
+          image: uploadUrl.url.split("?")[0]?.toString() || null,
         });
       });
     } else {
@@ -246,7 +251,7 @@ interface UploadImageProps {
   imageUrl: string | null | undefined;
   showRecommendedText?: boolean;
   bg?: string;
-  circular?:boolean;
+  circular?: boolean;
 }
 
 export const useUploadImage = () => {
@@ -292,7 +297,7 @@ export const UploadImage = ({
   imageUrl,
   showRecommendedText = true,
   bg,
-  circular=false
+  circular = false,
 }: UploadImageProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -334,7 +339,10 @@ export const UploadImage = ({
             </p>
           )}
           <div
-            className={cn("flex min-h-[10rem] cursor-pointer items-center justify-center rounded-lg opacity-50 sm:min-h-[20rem]  sm:min-w-[30rem] ", circular && 'rounded-full')}
+            className={cn(
+              "flex min-h-[10rem] cursor-pointer items-center justify-center rounded-lg opacity-50 sm:min-h-[20rem]  sm:min-w-[30rem] ",
+              circular && "rounded-full"
+            )}
             style={{
               background: bg ? bg : "hsl(224 71% 4%)",
             }}
