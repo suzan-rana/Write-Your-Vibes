@@ -45,7 +45,7 @@ model post {
   title      String
   subtitle   String     @db.MediumText
   body       String     @db.LongText
-  image      String
+  image      String     @db.MediumText
   slug       String
   authorId   String
   createdAt  DateTime   @default(now())
