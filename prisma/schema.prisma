@@ -4,10 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
-
 }
 
 model account {
@@ -28,6 +27,7 @@ model account {
   @@unique([provider, providerAccountId], map: "Account_provider_providerAccountId_key")
   @@index([userId], map: "Account_userId_fkey")
 }
+
 model chat {
   id               String             @id @default(cuid())
   manychatmanyuser manychatmanyuser[]
@@ -75,6 +75,7 @@ model user {
   password         String
   emailVerified    DateTime?
   gender           String
+  salary           Float?
   image            String?            @db.LongText
   biography        String             @db.LongText
   account          account[]
@@ -85,8 +86,6 @@ model user {
   reaction         reaction[]
   session          session[]
 }
-
-
 
 model comment {
   id        String   @id @default(cuid())
@@ -131,10 +130,9 @@ model reaction {
   post   post   @relation(fields: [postId], references: [id], map: "Reaction_postId_fkey")
   user   user   @relation(fields: [userId], references: [id], map: "Reaction_userId_fkey")
 
+  @@unique([postId, userId])
   @@index([postId], map: "Reaction_postId_fkey")
   @@index([userId], map: "Reaction_userId_fkey")
-  @@unique([postId, userId])
-
 }
 
 model session {
@@ -146,8 +144,6 @@ model session {
 
   @@index([userId], map: "Session_userId_fkey")
 }
-
-
 
 model verificationtoken {
   identifier String

@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useId } from "react";
 import {
   UpdateProfileSchema,
   UpdateProfileType,
@@ -17,10 +17,13 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { uploadImageToS3 } from "~/lib/uploadImageToS3";
 import { toast } from "react-toastify";
+import { uploadImageToFirebase } from "~/common/firebase/uploadImage";
 
 type Props = {};
 
 const UpdateProfilePage = (props: Props) => {
+  const id = useId();
+
   const router = useRouter();
   const { data: user } = api.user.getPersonalDetails.useQuery();
 
@@ -33,7 +36,7 @@ const UpdateProfilePage = (props: Props) => {
     resolver: zodResolver(UpdateProfileSchema),
   });
 
-  const { mutate, isLoading: isUpdatingProfile } =
+  const { mutateAsync, isLoading: isUpdatingProfile } =
     api.user.updateProfile.useMutation({
       async onSuccess(data) {
         toast.success(data?.message);
@@ -45,25 +48,24 @@ const UpdateProfilePage = (props: Props) => {
     });
 
   // get s3 presigned url
-  const { mutateAsync: getPreSignedUrl } =
-    api.image.getPreSignedUrl.useMutation();
+  // const { mutateAsync: getPreSignedUrl } =
+  //   api.image.getPreSignedUrl.useMutation();
   const uploadImage = useUploadImage();
 
   // save/update profile
   const onSubmit: SubmitHandler<UpdateProfileType> = async (data) => {
     if (uploadImage.image) {
-      await getPreSignedUrl({
-        fileType: uploadImage.image.type,
-      }).then(async (response) => {
-        const { uploadUrl, key } = response.data;
-        await uploadImageToS3(uploadUrl, key, uploadImage.image as File);
-        mutate({
-          ...data,
-          image: uploadUrl.split("?")[0]?.toString() || null,
-        });
+      const imagePath = `${
+        uploadImage.image.name
+      }-${id}-${Date.now()}-${Math.ceil(Math.random() * 100)}`;
+      const dbImagePath = await uploadImageToFirebase(uploadImage.image, imagePath);
+      mutateAsync({
+        ...data,
+        image: dbImagePath || null,
       });
+
     } else {
-      mutate({
+      mutateAsync({
         ...data,
         image: user?.image || null,
       });

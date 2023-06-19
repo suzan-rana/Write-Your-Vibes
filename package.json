@@ -16,7 +16,7 @@
     "@bigheads/core": "^0.3.3",
     "@hookform/resolvers": "^3.1.0",
     "@next-auth/prisma-adapter": "^1.0.5",
-    "@prisma/client": "^4.11.0",
+    "@prisma/client": "^4.15.0",
     "@t3-oss/env-nextjs": "^0.2.1",
     "@tanstack/react-query": "^4.28.0",
     "@tanstack/react-query-devtools": "^4.29.12",
@@ -60,7 +60,7 @@
     "postcss": "^8.4.21",
     "prettier": "^2.8.6",
     "prettier-plugin-tailwindcss": "^0.2.6",
-    "prisma": "^4.11.0",
+    "prisma": "^4.15.0",
     "tailwindcss": "^3.3.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2"

@@ -16,23 +16,12 @@ const config = {
         hostname: "pbs.twimg.com",
       },
       {
-        hostname: 'write-your-vibes.s3.ap-south-1.amazonaws.com'
-      },
-      {
         hostname: 'firebasestorage.googleapis.com'
 
       },
-      {
-        hostname: 'write-your-vibes.s3.'
-      },
-      {
-        hostname: "s3.ap-south-1.amazonaws.com"
-      },
+
       {
         hostname: 'api.dicebear.com'
-      },
-      {
-        hostname: 's3.'
       }
     ],
   },

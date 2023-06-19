@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import Skeleton from "react-loading-skeleton";
 import Comments, { usePostComment } from "~/components/Comments";
 import Button from "~/components/ui/Button";
 import Input from "~/components/ui/Input";
@@ -10,6 +11,7 @@ import SkeletonCard from "~/components/ui/Skeleton/SkeletonCard";
 import UserAvatar from "~/components/ui/UserAvatar";
 import { NextPageWithLayout } from "~/pages/_app";
 import { api } from "~/utils/api";
+import { scrollToTop } from "~/utils/srollToTop";
 
 type Props = {};
 
@@ -27,7 +29,10 @@ const BlogCommentsPage: NextPageWithLayout = (props: Props) => {
     : "/blog";
   return (
     <main className="flex flex-col gap-10 md:flex-row md:items-start">
-      <Button onClick={() => router.back()} variant={"ghost"} className="min-w-[6rem] border-none underline">
+      <Button onClick={async () => {
+        await router.back()
+        scrollToTop()
+      }} variant={"ghost"} className="min-w-[6rem] border-none underline">
         See all
       </Button>
 
@@ -62,8 +67,19 @@ const DisplayComments = () => {
   );
   if (isLoading || isFetching) {
     return (
-      <div className="grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2">
-        <SkeletonCard />
+      <div className="">
+        <Skeleton
+          baseColor="#202020"
+          highlightColor="#444"
+          containerClassName="flex-1"
+          className="mb-2 h-[2rem] w-full grow "
+        />
+        <Skeleton
+          baseColor="#202020"
+          highlightColor="#444"
+          containerClassName="flex-1"
+          className="mb-2 h-[2rem] w-full grow "
+        />
       </div>
     );
   }

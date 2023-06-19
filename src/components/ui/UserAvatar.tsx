@@ -33,9 +33,8 @@ export const Avatar = ({ className, image, ...restProps }: AvatarProps) => {
   const handleImageLoadingError = () => {
     setImageLoadingError(true);
   };
-  console.log("IMAGE", image);
   return (
-    <figure
+    <picture
       className={cn(
         "relative block h-12 w-12 overflow-hidden rounded-full",
         className
@@ -50,13 +49,28 @@ export const Avatar = ({ className, image, ...restProps }: AvatarProps) => {
                 "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"
               }
               style={{
-                maxWidth: "100%",
+                width: "100%",
                 display: "block",
+                minHeight: "100%",
+                objectFit: "cover",
+                objectPosition: "center",
               }}
               alt=""
             />
           ) : (
-            <Image src={image} fill alt="" onError={handleImageLoadingError} />
+            <Image
+              style={{
+                width: "100%",
+                display: "block",
+                minHeight: "100%",
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
+              src={image}
+              fill
+              alt=""
+              onError={handleImageLoadingError}
+            />
           )}
         </>
       ) : (
@@ -71,6 +85,6 @@ export const Avatar = ({ className, image, ...restProps }: AvatarProps) => {
           alt=""
         />
       )}
-    </figure>
+    </picture>
   );
 };

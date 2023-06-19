@@ -7,8 +7,8 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
-import SkeletonCard from "./ui/Skeleton/SkeletonCard";
 import { delay } from "../utils/delay";
+import Skeleton from "react-loading-skeleton";
 
 type Props = {};
 
@@ -79,8 +79,8 @@ export const usePostComment = (authorId: string, postId: string) => {
   const { mutateAsync, isLoading: isPostingComment } =
     api.comment.createComment.useMutation({
       async onSuccess(data, variables, context) {
-        toast.dismiss('LOADING')
-        delay()
+        toast.dismiss("LOADING");
+        delay();
         toast.success(data.message);
         await commentQuery.comment.getCommentsForBlogPage.invalidate();
         await commentQuery.comment.getAllBlogPostComments.invalidate();
@@ -97,9 +97,9 @@ export const usePostComment = (authorId: string, postId: string) => {
       toast.error("Please add a comment");
       return;
     }
-    toast.loading('Posting comment...', {
-      toastId: 'LOADING'
-    })
+    toast.loading("Posting comment...", {
+      toastId: "LOADING",
+    });
     await mutateAsync({
       content: inputValue,
       postId,
@@ -123,8 +123,19 @@ const DisplayComments = () => {
   );
   if (isLoading || isFetching) {
     return (
-      <div className="grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2">
-        <SkeletonCard />
+      <div className="">
+        <Skeleton
+          baseColor="#202020"
+          highlightColor="#444"
+          containerClassName="flex-1"
+          className="mb-2 h-[2rem] w-full grow "
+        />
+        <Skeleton
+          baseColor="#202020"
+          highlightColor="#444"
+          containerClassName="flex-1"
+          className="mb-2 h-[2rem] w-full grow "
+        />
       </div>
     );
   }
