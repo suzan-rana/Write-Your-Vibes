@@ -98,9 +98,6 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
   };
 
   const onSubmit: SubmitHandler<CreateBlogType> = async (data) => {
-    toast.loading("Creating new blog...", {
-      toastId: "LOADING",
-    });
     if (data.title === "") {
       toast.error("Please add a title");
       return;
@@ -117,6 +114,9 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
       toast.error("Please add a title that is less than 50 characters.");
       return;
     }
+    toast.loading("Creating new blog...", {
+      toastId: "LOADING",
+    });
     if (uploadImage.image) {
       /*
       WAS USING S3 PRESIGNED URL, BUT NOW IS USING FIREBASE TO STORE IMAGES
