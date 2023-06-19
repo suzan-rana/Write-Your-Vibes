@@ -113,6 +113,10 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
       toast.error("Please add something to your body.");
       return;
     }
+    if (data.title.length >= 50) {
+      toast.error("Please add a title that is less than 50 characters.");
+      return;
+    }
     if (uploadImage.image) {
       /*
       WAS USING S3 PRESIGNED URL, BUT NOW IS USING FIREBASE TO STORE IMAGES
@@ -131,7 +135,10 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
       const imagePath = `${
         uploadImage.image.name
       }-${id}-${Date.now()}-${Math.ceil(Math.random() * 100)}`;
-      const dbImagePath = await uploadImageToFirebase(uploadImage.image, imagePath);
+      const dbImagePath = await uploadImageToFirebase(
+        uploadImage.image,
+        imagePath
+      );
       mutate({
         ...data,
         image: dbImagePath || null,
