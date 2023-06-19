@@ -1,4 +1,10 @@
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import React, {
+  SetStateAction,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import Navbar from "~/components/ui/Navbar";
 import { NextPageWithLayout } from "./_app";
 import Input from "~/components/ui/Input";
@@ -22,10 +28,12 @@ import Icons from "~/components/ui/Icon";
 import { AnimatePresence } from "framer-motion";
 import { uploadImageToS3 } from "~/lib/uploadImageToS3";
 import { CategoryEnum } from "~/utils/category";
+import { uploadImageToFirebase } from "~/common/firebase/uploadImage";
 
 type Props = {};
 
 const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
+  const id = useId();
   // react hook form
   const { handleSubmit, register, getValues } = useForm<CreateBlogType>({
     resolver: zodResolver(CreateNewBlogSchema.partial()),
@@ -38,12 +46,14 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
     async onSuccess(data, variables, context) {
       if (data.status === 201) {
         toast.dismiss("LOADING");
-        new Promise((res) => setTimeout(res, 500));
+        await new Promise((res) => setTimeout(res, 500));
         toast.success("Post Created successfully");
         await router.push(`/blog/${data.data.post.id}`);
       }
     },
     onError(error, variables, context) {
+      toast.dismiss("LOADING");
+      new Promise((res) => setTimeout(res, 500));
       toast.error(error.message);
     },
   });
@@ -64,8 +74,8 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
   }, []);
 
   // get s3 presigned url
-  const { mutateAsync: getPreSignedUrl } =
-    api.image.getPreSignedUrl.useMutation();
+  // const { mutateAsync: getPreSignedUrl } =
+  //   api.image.getPreSignedUrl.useMutation();
 
   // upload image hook
   const uploadImage = useUploadImage();
@@ -88,7 +98,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
   };
 
   const onSubmit: SubmitHandler<CreateBlogType> = async (data) => {
-    toast.loading("Createing new blog...", {
+    toast.loading("Creating new blog...", {
       toastId: "LOADING",
     });
     if (data.title === "") {
@@ -104,6 +114,8 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
       return;
     }
     if (uploadImage.image) {
+      /*
+      WAS USING S3 PRESIGNED URL, BUT NOW IS USING FIREBASE TO STORE IMAGES
       await getPreSignedUrl({
         fileType: uploadImage.image.type,
       }).then(async (response) => {
@@ -113,6 +125,16 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
           ...data,
           image: uploadUrl.url.split("?")[0]?.toString() || null,
         });
+      });
+
+*/
+      const imagePath = `${
+        uploadImage.image.name
+      }-${id}-${Date.now()}-${Math.ceil(Math.random() * 100)}`;
+      const dbImagePath = await uploadImageToFirebase(uploadImage.image, imagePath);
+      mutate({
+        ...data,
+        image: dbImagePath || null,
       });
     } else {
       toast.error("Please upload an image.");

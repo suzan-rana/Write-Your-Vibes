@@ -25,7 +25,7 @@ const RouteProtector = ({ children }: Props) => {
   }, []);
   if (status === "loading") {
     return (
-      <div className="flex flex-col gap-8 md:flex-row">
+      <div className="md:w-[80%] md:mt-20 mx-auto flex flex-col gap-8 md:flex-row">
         <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />

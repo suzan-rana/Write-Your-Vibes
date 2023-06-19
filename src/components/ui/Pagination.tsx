@@ -1,5 +1,6 @@
 import React, { SetStateAction, useState } from "react";
 import { cn } from "~/lib/utils";
+import { scrollToTop } from "~/utils/srollToTop";
 
 type Props = {
   currentPage: number;
@@ -28,7 +29,10 @@ const Pagination = ({
       <div className="mx-auto flex w-[80%] flex-wrap items-center justify-center gap-3  md:mx-0 md:w-auto">
         {array.map((a) => (
           <p key={a}
-            onClick={() => setCurrentPage(a)}
+            onClick={() => {
+              setCurrentPage(a)
+              scrollToTop()
+            }}
             className={cn(
               "cursor-pointer rounded-md bg-slate-800 px-3 py-2 text-sm ",
               currentPage === a && "bg-red-400 text-black"
@@ -56,10 +60,12 @@ export const usePagination = () => {
   const handleIncreasePage = (totalPages: number) => {
     if (currentPage === totalPages) return;
     setCurrentPage((prev) => prev + 1);
+    scrollToTop()
   };
   const handleDecreasePage = () => {
     if (currentPage === 1) return;
     setCurrentPage((prev) => prev - 1);
+    scrollToTop()
   };
   return {
     currentPage,
