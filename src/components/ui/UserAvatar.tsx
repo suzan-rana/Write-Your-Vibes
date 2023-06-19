@@ -36,7 +36,7 @@ export const Avatar = ({ className, image, ...restProps }: AvatarProps) => {
   return (
     <picture
       className={cn(
-        "relative block h-12 w-12 overflow-hidden rounded-full",
+        "relative block h-12 w-12 overflow-hidden rounded-full bg-white",
         className
       )}
     >
