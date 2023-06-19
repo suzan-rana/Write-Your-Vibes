@@ -43,6 +43,11 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+  pages: {
+    signIn: '/auth/login',
+    newUser: '/auth/register',
+    signOut: '/auth/login'
+  },
   callbacks: {
     session({ session, token }) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
