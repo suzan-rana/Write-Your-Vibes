@@ -18,6 +18,8 @@ import { inferRouterOutputs } from "@trpc/server";
 import { AppRouter } from "~/server/api/root";
 import { TRPCClientErrorLike } from "@trpc/client";
 import SkeletonCard from "~/components/ui/Skeleton/SkeletonCard";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 const Home: NextPageWithLayout = () => {
   const { status } = useSession();
@@ -108,6 +110,18 @@ export default Home;
 Home.getLayout = (page: React.ReactElement) => {
   return <Layout>{page}</Layout>;
 };
+
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      session: await getServerSession(
+        context.req,
+        context.res,
+        authOptions
+      ),
+    },
+  }
+}
 
 interface MessageBoxProps {
   left: boolean;
