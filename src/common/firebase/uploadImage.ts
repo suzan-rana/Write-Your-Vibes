@@ -14,6 +14,8 @@ export async function uploadImageToFirebase(file: File, imagePath: string) {
     console.log('Image URL:', downloadURL);
     return downloadURL;
   } catch (error) {
+    toast.dismiss("LOADING");
+    await new Promise((res) => setTimeout(res, 500));
     toast.error("Something went wrong uploading the image.");
   }
 }
