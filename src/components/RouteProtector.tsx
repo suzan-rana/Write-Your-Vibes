@@ -17,7 +17,8 @@ const RouteProtector = ({ children }: Props) => {
   };
   useEffect(() => {
     const nextToken = Cookies.get("next-auth.csrf-token");
-    if (!nextToken) {
+    const deployedToken = Cookies.get('__Secure-next-auth.session-token')
+    if (!nextToken && !deployedToken) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       handleRouterPush("/auth/login").then(() => {
         return null;
