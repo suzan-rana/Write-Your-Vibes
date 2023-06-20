@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import Button from "~/components/ui/Button";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
+import { delay } from "~/utils/delay";
 
 const LoginFormSchema = z.object({
   email: z.string().email(),
@@ -31,18 +32,23 @@ const LoginPage = () => {
   } = useForm<LoginFormType>({ resolver: zodResolver(LoginFormSchema) });
 
   const onSubmit: SubmitHandler<LoginFormType> = async (data) => {
+    toast.loading("Logging in...", {
+      toastId: "LOADING",
+    });
     await signIn("credentials", {
       ...data,
       redirect: false,
     }).then(async (response: SignInResponse | undefined) => {
       if (response === undefined) return;
       const { error, ok } = response;
+      toast.dismiss("LOADING");
+      await delay();
       if (ok) {
         toast.success("Logged in successfully");
         await router.push("/");
       }
       if (error) {
-        toast.error(error);
+        toast.error(error || "Invalid credentials.");
       }
     });
   };
@@ -115,7 +121,7 @@ export const PasswordInputElement = React.forwardRef<
     >
       <input
         ref={ref}
-        className="border-none bg-transparent grow outline-none"
+        className="grow border-none bg-transparent outline-none"
         {...restProps}
         type={showPassword ? "text" : "password"}
       />
@@ -141,7 +147,7 @@ export const PasswordInputElement = React.forwardRef<
     </div>
   );
 });
-PasswordInputElement.displayName = 'PasswordInputElement'
+PasswordInputElement.displayName = "PasswordInputElement";
 
 export interface InputErrorMessageProps {
   error?: FieldError;
