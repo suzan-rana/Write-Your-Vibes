@@ -22,7 +22,7 @@ const ProfilePage: NextPageWithLayout = () => {
   } = api.user.getPersonalDetails.useQuery();
   return (
     <>
-      <section className="flex flex-col items-center justify-center gap-12 pb-24 text-center">
+      <section className="flex flex-col lg:flex-row  items-center  gap-12 pb-6 ">
         {isLoading || isFetching ? (
           <Skeleton
             baseColor="#202020"
@@ -48,15 +48,16 @@ const ProfilePage: NextPageWithLayout = () => {
             count={3}
           />
         ) : (
-          <div>
+          <div className="flex flex-col gap-3">
             <h1 className="text-3xl font-bold text-gray-200">{user?.name}</h1>
             <p className="my-2">{user?.email}</p>
             <p>{user?.biography}</p>
-          </div>
-        )}
-        <Link href={"/updateprofile"}>
+            <Link href={"/updateprofile"}>
           <Button>Update Profile</Button>
         </Link>
+          </div>
+        )}
+        
       </section>
       <TopPosts />
     </>
