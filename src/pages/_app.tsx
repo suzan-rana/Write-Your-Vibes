@@ -4,9 +4,9 @@ import { SessionProvider } from "next-auth/react";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import "react-toastify/dist/ReactToastify.css";
-import { Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 
-export const p = Poppins({ subsets: ["latin"], weight: "400" });
+export const p = Inter({ subsets: ["latin"], weight: "400", adjustFontFallback: true });
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";

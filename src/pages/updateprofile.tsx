@@ -18,6 +18,7 @@ import { api } from "~/utils/api";
 import { uploadImageToS3 } from "~/lib/uploadImageToS3";
 import { toast } from "react-toastify";
 import { uploadImageToFirebase } from "~/common/firebase/uploadImage";
+import { validateNonNumericString } from "~/utils/validateNumbers";
 
 type Props = {};
 
@@ -35,15 +36,19 @@ const UpdateProfilePage = (props: Props) => {
   } = useForm<UpdateProfileType>({
     resolver: zodResolver(UpdateProfileSchema),
   });
+  const userQuery = api.useContext();
 
   const { mutateAsync, isLoading: isUpdatingProfile } =
     api.user.updateProfile.useMutation({
       async onSuccess(data) {
         toast.success(data?.message);
+        await userQuery.user.invalidate();
         await router.push("/profile");
+        toast.dismiss("LOADING");
       },
       onError(error) {
         toast.error(error.message);
+        toast.dismiss("LOADING");
       },
     });
 
@@ -54,16 +59,29 @@ const UpdateProfilePage = (props: Props) => {
 
   // save/update profile
   const onSubmit: SubmitHandler<UpdateProfileType> = async (data) => {
+    if (data.name === "" || !data.name) {
+      toast.error("Please insert your name");
+      return;
+    }
+    if (validateNonNumericString(data.name)) {
+      toast.error("Only numbers are not allowed.");
+      return;
+    } 
+    toast.loading("Updating profile...", {
+      toastId: "LOADING",
+    });
     if (uploadImage.image) {
       const imagePath = `${
         uploadImage.image.name
       }-${id}-${Date.now()}-${Math.ceil(Math.random() * 100)}`;
-      const dbImagePath = await uploadImageToFirebase(uploadImage.image, imagePath);
+      const dbImagePath = await uploadImageToFirebase(
+        uploadImage.image,
+        imagePath
+      );
       mutateAsync({
         ...data,
         image: dbImagePath || null,
       });
-
     } else {
       mutateAsync({
         ...data,
@@ -119,7 +137,7 @@ const UpdateProfilePage = (props: Props) => {
           <h3 className="my-6 text-2xl text-slate-400">
             <div className="rounded-md border border-slate-800">
               <UploadImage
-              circular={true}
+                circular={true}
                 bg="rgb(3, 7, 18)"
                 showRecommendedText={false}
                 {...uploadImage}
@@ -138,7 +156,7 @@ const UpdateProfilePage = (props: Props) => {
               Cancel
             </Button>
             <Button type="submit" className="grow bg-green-500">
-              Update
+              {isUpdatingProfile ? "Upading..." : "Update"}
             </Button>
           </div>
         </form>

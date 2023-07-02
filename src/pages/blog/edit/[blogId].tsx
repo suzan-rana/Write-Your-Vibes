@@ -37,12 +37,22 @@ const EditPostPage = (props: Props) => {
     }
   );
 
+  const blogQuery = api.useContext();
+
   const { mutate, isLoading: isSaving } = api.blog.updateBlogById.useMutation({
     async onSuccess(data) {
       toast.success(data.message || "POST UPDATED SUCCESSSFULLY.");
+      await blogQuery.blog.getBlogById.invalidate({
+        id: query?.["blogId"].toString(),
+      });
+      await blogQuery.blog.getBlogByUserId.invalidate()
+      await blogQuery.blog.invalidate()
+
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      const route = query["blogId"] ? `/blog/${query["blogId"].toString()}` : '/blog'
+      const route = query["blogId"]
+        ? `/blog/${query["blogId"].toString()}`
+        : "/blog";
       await router.push(route);
     },
     onError(error) {
@@ -56,6 +66,22 @@ const EditPostPage = (props: Props) => {
   const onSubmit: SubmitHandler<Omit<UpdateBlogType, "id" | "image">> = (
     data
   ) => {
+    if (data.title === "") {
+      toast.error("Please add a title");
+      return;
+    }
+    if (data.subtitle === "") {
+      toast.error("Please add a subtitle.");
+      return;
+    }
+    if (!data.body) {
+      toast.error("Please add something to your body.");
+      return;
+    }
+    if (data.title.length >= 50) {
+      toast.error("Please add a title that is less than 50 characters.");
+      return;
+    }
     mutate({
       ...data,
       id: query["blogId"]?.toString() as string,
@@ -79,6 +105,7 @@ const EditPostPage = (props: Props) => {
               <Link href={"/blog"}>
                 <Button
                   type="button"
+                  disabled={isSaving}
                   variant={"ghost"}
                   className="min-w-[6rem] border-none underline"
                 >

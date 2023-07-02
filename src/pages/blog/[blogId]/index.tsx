@@ -104,6 +104,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
                 <Button
                   onClick={handleDeleteButtonClick}
                   variant={"ghost"}
+                  disabled={isDeletingBlog}
                   className="min-w-[6rem] border-none text-red-500 underline"
                 >
                   Delete
@@ -192,11 +193,14 @@ const useDeleteBlog = (
   setDeleteBlogModal: React.Dispatch<SetStateAction<boolean>>
 ) => {
   const router = useRouter();
+  const queryClient = api.useContext()
+
   const { mutate, isLoading: isDeletingBlog } =
     api.blog.deleteBlogByBlogId.useMutation({
       async onSuccess(data, variables, context) {
         toast.success(data.message || "BLOG DELETED SUCCESSFULLY.");
         setDeleteBlogModal(false);
+        await queryClient.blog.invalidate()
         await router.push("/blog");
       },
       onError(error, variables, context) {

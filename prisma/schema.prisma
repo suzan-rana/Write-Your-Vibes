@@ -127,8 +127,8 @@ model reaction {
   userId String
   postId String
   type   String
-  post   post   @relation(fields: [postId], references: [id], map: "Reaction_postId_fkey")
-  user   user   @relation(fields: [userId], references: [id], map: "Reaction_userId_fkey")
+  post   post   @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Reaction_postId_fkey")
+  user   user   @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Reaction_userId_fkey")
 
   @@unique([postId, userId])
   @@index([postId], map: "Reaction_postId_fkey")

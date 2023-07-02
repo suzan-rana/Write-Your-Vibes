@@ -38,6 +38,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
   const { handleSubmit, register, getValues } = useForm<CreateBlogType>({
     resolver: zodResolver(CreateNewBlogSchema.partial()),
   });
+  const queryClient = api.useContext()
 
   const router = useRouter();
 
@@ -46,6 +47,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
     async onSuccess(data, variables, context) {
       if (data.status === 201) {
         toast.dismiss("LOADING");
+        await queryClient.blog.invalidate()
         await new Promise((res) => setTimeout(res, 500));
         toast.success("Post Created successfully");
         await router.push(`/blog/${data.data.post.id}`);
@@ -114,10 +116,10 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
       toast.error("Please add a title that is less than 50 characters.");
       return;
     }
-    toast.loading("Creating new blog...", {
-      toastId: "LOADING",
-    });
     if (uploadImage.image) {
+      toast.loading("Creating new blog...", {
+        toastId: "LOADING",
+      });
       /*
       WAS USING S3 PRESIGNED URL, BUT NOW IS USING FIREBASE TO STORE IMAGES
       await getPreSignedUrl({
@@ -185,6 +187,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
           tabIndex={4}
           onClick={() => setOpenUploadImageModal(true)}
           type="button"
+
           className="hidden min-w-[9rem] border-none bg-transparent text-white underline sm:block"
         >
           {uploadImage.imageUrl ? "Change" : "Add"} Image
@@ -193,6 +196,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
           onClick={(e) => {
             e.stopPropagation();
           }}
+          disabled={isCreating}
           type="submit"
           tabIndex={4}
           className="hidden min-w-[9rem] sm:block"
@@ -245,6 +249,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
       />
       <div className="my-20 flex items-center gap-4">
         <button
+                  disabled={isCreating}
           tabIndex={4}
           onClick={() => setOpenUploadImageModal(true)}
           type="button"
@@ -257,6 +262,7 @@ const CreateBlogsPage: NextPageWithLayout = (props: Props) => {
             e.stopPropagation();
             handleSubmit(onSubmit);
           }}
+          disabled={isCreating}
           type="submit"
           className={cn("block text-center sm:hidden")}
         >

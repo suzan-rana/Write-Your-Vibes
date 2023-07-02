@@ -13,6 +13,7 @@ import { api } from "~/utils/api";
 import Button from "~/components/ui/Button";
 import { toast } from "react-toastify";
 import { delay } from "~/utils/delay";
+import { validateNonNumericString } from "~/utils/validateNumbers";
 
 export const RegisterFormSchema = z.object({
   name: z.string().min(3, { message: "Please enter your name" }),
@@ -49,6 +50,14 @@ const RegisterPage = () => {
   } = useForm<RegisterFormType>({ resolver: zodResolver(RegisterFormSchema) });
 
   const onSubmit: SubmitHandler<RegisterFormType> = (data) => {
+    if (data.name === "" || !data.name) {
+      toast.error("Please insert your name");
+      return;
+    }
+    if (validateNonNumericString(data.name)) {
+      toast.error("Only numbers are not allowed.");
+      return;
+    } 
     toast.loading("Registering...", {
       toastId: "LOADING",
     });

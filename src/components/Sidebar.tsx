@@ -13,7 +13,8 @@ const Sidebar = (props: Props) => {
       callbackUrl: "/auth/login",
       redirect: false,
     });
-    await router.push("/auth/login");
+    window.location.href = "/auth/login"
+    // await router.push("/auth/login");
   };
   return (
     <section

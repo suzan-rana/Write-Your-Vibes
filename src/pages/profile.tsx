@@ -57,7 +57,6 @@ const ProfilePage: NextPageWithLayout = () => {
         </Link>
           </div>
         )}
-        
       </section>
       <TopPosts />
     </>
