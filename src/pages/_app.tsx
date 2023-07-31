@@ -29,8 +29,8 @@ type AppPropsWithLayout = AppProps & {
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
+   router,
 }: AppPropsWithLayout) => {
-  const router = useRouter();
   const getLayout = Component.getLayout ?? ((page) => page);
 
   useEffect(() => {
