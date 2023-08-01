@@ -10,10 +10,7 @@ type Props = {
 };
 
 const RouteProtector = ({ children }: Props) => {
-  const {
-    status,
-    data,
-  } = useSession();
+  const { status, data } = useSession();
   const router = useRouter();
   const handleRouterPush = async (link: string) => {
     await router.push(link);
@@ -26,7 +23,9 @@ const RouteProtector = ({ children }: Props) => {
       });
     }
     if (status === "authenticated") {
-      data.user.role === "ADMIN" && router.push("/admin");
+      if (router.pathname.startsWith("/admin")) {
+        data.user.role !== "ADMIN" && router.push("/");
+      }
     }
   }, [status]);
   if (status === "loading") {

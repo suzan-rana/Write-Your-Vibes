@@ -1,4 +1,4 @@
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -8,12 +8,13 @@ type Props = {};
 
 const Sidebar = (props: Props) => {
   const router = useRouter();
+  const { data } = useSession();
   const handleLogout = async () => {
     await signOut({
       callbackUrl: "/auth/login",
       redirect: false,
     });
-    window.location.href = "/auth/login"
+    window.location.href = "/auth/login";
     // await router.push("/auth/login");
   };
   return (
@@ -38,7 +39,31 @@ const Sidebar = (props: Props) => {
             <>{item.name}</>
           </Link>
         ))}
-        <div className="mt-[50vh] grow">
+        {data.user.role === "ADMIN" && (
+          <>
+            <Link
+              href={"/admin"}
+              className={cn(
+                "inline-block rounded-sm py-3 pl-5 transition-all duration-100 hover:bg-red-400",
+                router.pathname === "/admin" ? "bg-red-400" : "bg-transparent"
+              )}
+            >
+              <>All Users</>
+            </Link>
+            <Link
+              href={"/admin/all-posts"}
+              className={cn(
+                "inline-block rounded-sm py-3 pl-5 transition-all duration-100 hover:bg-red-400",
+                router.pathname === "/admin/all-posts"
+                  ? "bg-red-400"
+                  : "bg-transparent"
+              )}
+            >
+              <>All Posts</>
+            </Link>
+          </>
+        )}
+        <div className="mt-[30vh] grow">
           <Link
             href={"/profile"}
             className={cn(
