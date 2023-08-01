@@ -21,6 +21,7 @@ declare module "next-auth" {
       id: string;
       gender: 'Male' | 'Female'
       biography: string;
+      role: string;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
@@ -85,7 +86,6 @@ export const authOptions: NextAuthOptions = {
         if (!isValidPassword) {
           throw new Error("Invalid email or password");
         }
-
         return {
           user: {
             id: user.id,
@@ -93,7 +93,8 @@ export const authOptions: NextAuthOptions = {
             name: user.name,
             image: user.image,
             gender: user.gender,
-            biography: user.biography
+            biography: user.biography,
+            role: user.role
           },
         };
       },

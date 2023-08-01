@@ -41,6 +41,7 @@ const LoginPage = () => {
     }).then(async (response: SignInResponse | undefined) => {
       if (response === undefined) return;
       const { error, ok } = response;
+      console.log('RESPONSE')
       toast.dismiss("LOADING");
       await delay();
       if (ok) {

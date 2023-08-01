@@ -10,7 +10,10 @@ type Props = {
 };
 
 const RouteProtector = ({ children }: Props) => {
-  const { status } = useSession();
+  const {
+    status,
+    data,
+  } = useSession();
   const router = useRouter();
   const handleRouterPush = async (link: string) => {
     await router.push(link);
@@ -22,7 +25,10 @@ const RouteProtector = ({ children }: Props) => {
         return null;
       });
     }
-  }, []);
+    if (status === "authenticated") {
+      data.user.role === "ADMIN" && router.push("/admin");
+    }
+  }, [status]);
   if (status === "loading") {
     return (
       <div className="mx-auto flex flex-col gap-8 md:mt-20 md:w-[80%] md:flex-row">

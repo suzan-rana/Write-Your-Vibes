@@ -32,6 +32,7 @@ export const authRouter = createTRPCRouter({
           password: hashedPassword,
           gender,
           image: null,
+          role: "USER",
           biography: `My name is ${name} and I like to do interesting things!`,
         },
       });
