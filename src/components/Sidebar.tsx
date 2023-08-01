@@ -63,7 +63,7 @@ const Sidebar = (props: Props) => {
             </Link>
           </>
         )}
-        <div className="mt-[30vh] grow">
+        <div className={cn("grow", data.user.role === 'ADMIN' ? "mt-[30vh]": "mt-[45vh]")}>
           <Link
             href={"/profile"}
             className={cn(

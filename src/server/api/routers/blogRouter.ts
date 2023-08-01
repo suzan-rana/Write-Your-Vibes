@@ -86,6 +86,11 @@ export const blogRouter = createTRPCRouter({
           subtitle: true,
           createdAt: true,
           category: true,
+          user: {
+            select: {
+              name: true
+            }
+          },
           _count: {
             select: {
               comment: true,

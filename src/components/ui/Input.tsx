@@ -10,7 +10,7 @@ export interface InputProps
 }
 
 export const inputVariants = cva(
-  "ring-offset-background placeholder:text-muted-foreground  flex h-10 w-full rounded-md border bg-transparent px-3 py-2  text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 rounded-md border border-slate-800 bg-gray-950 shadow-sm focus:outline-blue-100 ",
+  "ring-offset-background placeholder:text-muted-foreground  flex h-8 w-full rounded-md border bg-transparent px-3 py-1  text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 rounded-md border border-slate-800 bg-gray-950 shadow-sm focus:outline-blue-100 ",
   {
     variants: {
       variant: {},
