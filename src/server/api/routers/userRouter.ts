@@ -5,6 +5,7 @@ import {
   UpdatePasswordSchema,
   UpdateProfileSchema,
 } from "~/common/validation/user-validation";
+import { TRPCError } from "@trpc/server";
 
 export const userRouter = createTRPCRouter({
   getPersonalDetails: protectedProcedure.query(async ({ ctx }) => {
@@ -19,7 +20,7 @@ export const userRouter = createTRPCRouter({
         image: true,
         email: true,
         gender: true,
-      }
+      },
     });
   }),
   updateProfile: protectedProcedure
@@ -105,5 +106,65 @@ export const userRouter = createTRPCRouter({
           message: "Something went wrong updating your password.",
         };
       }
+    }),
+  // [GET]
+  getAllUsers: protectedProcedure
+    .input(
+      z.object({
+        page: z.number(),
+        limit: z.number(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const users = await ctx.prisma.user.findMany({
+        take: input.limit,
+        skip: (input.page - 1) * input.limit,
+        where: {
+          role: "USER",
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          _count: {
+            select: {
+              post: true,
+            },
+          },
+        },
+      });
+      const totalUserCount = await ctx.prisma.user.count({});
+      return {
+        status: 200,
+        data: users,
+        totalUserCount,
+        totalPages: Math.ceil(totalUserCount / input.limit),
+      };
+    }),
+  deleteUserByUserId: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // First, delete all comments associated with the post
+
+      const deleteUser = await ctx.prisma.user.delete({
+        where: {
+          id: input.id,
+        },
+        include: {
+          comment: true,
+        },
+      });
+
+      if (!deleteUser) throw new TRPCError({ code: "BAD_REQUEST" });
+
+      return {
+        status: 201,
+        message: "User DELETED SUCCESSFULLY",
+      };
     }),
 });

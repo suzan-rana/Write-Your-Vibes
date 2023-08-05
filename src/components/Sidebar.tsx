@@ -73,12 +73,12 @@ const Sidebar = (props: Props) => {
           >
             Profile
           </Link>
-          <p
-            className=" block rounded-sm py-3 pl-5 transition-all duration-100 hover:bg-red-400"
+          <span
+            className=" block cursor-pointer rounded-sm py-3 pl-5 transition-all duration-100 hover:bg-red-400"
             onClick={handleLogout}
           >
             Log out
-          </p>
+          </span>
         </div>
       </div>
     </section>

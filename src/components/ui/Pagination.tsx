@@ -17,7 +17,7 @@ const Pagination = ({
   handleIncreasePage,
   handleDecreasePage,
 }: Props) => {
-  if(!totalPages) return<></>
+  if(!totalPages || totalPages === 1) return<></>
   const array = new Array(totalPages).fill(1).map((_, i) => i + 1);
   return (
     <section className="mx-auto my-12 flex flex-col gap-5 px-2 py-3 md:flex-row md:justify-center md:items-start md:gap-3">

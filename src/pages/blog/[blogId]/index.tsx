@@ -35,10 +35,8 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
     }
   );
 
-  const { handleDeleteBlog, isDeletingBlog } = useDeleteBlog(
-    query?.["blogId"] as string,
-    setDeleteBlogModal
-  );
+  const { handleDeleteBlog, isDeletingBlog } =
+    useDeleteBlog(setDeleteBlogModal);
 
   if (!query["blogId"]) return <>Something went wrong.</>;
 
@@ -135,7 +133,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
           <Modal
             onCancel={handleClose}
             onSubmitClick={() => {
-              handleDeleteBlog();
+              handleDeleteBlog(data?.data?.id);
             }}
             title="Do you want to delete this post?"
             subtitle="Are you absolutely sure that you want to delete this post. Deleting this post will mean you will never regain access to this post and will be lost permanently"
@@ -188,27 +186,27 @@ const BlogImage = ({ src }: { src: string }) => {
   );
 };
 
-const useDeleteBlog = (
-  id: string,
-  setDeleteBlogModal: React.Dispatch<SetStateAction<boolean>>
+export const useDeleteBlog = (
+  setDeleteBlogModal: React.Dispatch<SetStateAction<boolean>>,
+  navigateToBlogPage: boolean = true
 ) => {
   const router = useRouter();
-  const queryClient = api.useContext()
+  const queryClient = api.useContext();
 
   const { mutate, isLoading: isDeletingBlog } =
     api.blog.deleteBlogByBlogId.useMutation({
       async onSuccess(data, variables, context) {
         toast.success(data.message || "BLOG DELETED SUCCESSFULLY.");
         setDeleteBlogModal(false);
-        await queryClient.blog.invalidate()
-        await router.push("/blog");
+        await queryClient.blog.invalidate();
+        navigateToBlogPage && (await router.push("/blog"));
       },
       onError(error, variables, context) {
         toast.error(error.message || "SOMETHING WENT WRONG DELETING THE BLOG.");
       },
     });
 
-  const handleDeleteBlog = () => {
+  const handleDeleteBlog = (id: string) => {
     mutate({
       id,
     });
