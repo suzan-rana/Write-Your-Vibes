@@ -134,7 +134,11 @@ export const userRouter = createTRPCRouter({
           },
         },
       });
-      const totalUserCount = await ctx.prisma.user.count({});
+      const totalUserCount = await ctx.prisma.user.count({
+        where: {
+          role: 'USER'
+        }
+      });
       return {
         status: 200,
         data: users,

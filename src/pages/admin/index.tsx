@@ -42,7 +42,7 @@ const AdminPage = (props: Props) => {
   }
   if (!data.totalUserCount) {
     return <p>No users found.</p>;
-  }
+  } 
   return (
     <div className="relative overflow-x-auto">
       <h1 className="pb-12 pl-2 text-2xl font-bold">All Users</h1>

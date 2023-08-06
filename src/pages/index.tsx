@@ -4,7 +4,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Button from "~/components/ui/Button";
 import Navbar from "~/components/ui/Navbar";
-import { NextPageWithLayout } from "./_app";
+import { NextPageWithLayout, p } from "./_app";
 import Layout from "~/components/ui/Layout";
 import UserAvatar from "~/components/ui/UserAvatar";
 import MessageCard from "~/components/ui/Chat/ChatCard";
@@ -18,8 +18,6 @@ import { inferRouterOutputs } from "@trpc/server";
 import { AppRouter } from "~/server/api/root";
 import { TRPCClientErrorLike } from "@trpc/client";
 import SkeletonCard from "~/components/ui/Skeleton/SkeletonCard";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]";
 
 const Home: NextPageWithLayout = () => {
   const { status } = useSession();
@@ -38,6 +36,10 @@ const Home: NextPageWithLayout = () => {
       </div>
     );
   }
+  if (!data.data) {
+    return <p>No blog found</p>;
+  }
+console.log('DA', data.data)
   return (
     <>
       <main className="mx-auto mb-12 text-left md:w-[85%]">

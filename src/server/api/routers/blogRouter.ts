@@ -115,7 +115,6 @@ export const blogRouter = createTRPCRouter({
         category_name: "desc",
       },
       include: {
-
         posts: {
           select: {
             id: true,
