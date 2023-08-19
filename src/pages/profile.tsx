@@ -20,6 +20,9 @@ const ProfilePage: NextPageWithLayout = () => {
     isLoading,
     isFetching,
   } = api.user.getPersonalDetails.useQuery();
+  if(isLoading || isFetching) {
+    return null
+  }
   return (
     <>
       <section className="flex flex-col lg:flex-row  items-center  gap-12 pb-6 ">
@@ -94,10 +97,11 @@ const TopPosts = () => {
   if (isLoading || isFetching) {
     return (
       <div className="grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2">
+        <p>Loading...</p>
+        {/* <SkeletonCard />
         <SkeletonCard />
         <SkeletonCard />
-        <SkeletonCard />
-        <SkeletonCard />
+        <SkeletonCard /> */}
       </div>
     );
   }
@@ -107,13 +111,14 @@ const TopPosts = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <h2 className="text-center text-4xl font-bold capitalize">
-            Top Posts
-          </h2>
+         
           {blogCollection?.data.length === 0 ? (
             <NoBlog />
           ) : (
             <>
+             <h2 className="text-center text-4xl font-bold capitalize">
+            Top Posts
+          </h2>
               <article className="my-6 mt-12 flex flex-col flex-wrap gap-8 gap-y-12  md:mx-auto md:w-[85%] md:flex-row">
                 {blogCollection?.data.map((item, index) => (
                   <Link href={`/blog/${item.id}`} key={item.id}>

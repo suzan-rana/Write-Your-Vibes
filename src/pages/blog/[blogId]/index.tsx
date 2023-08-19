@@ -65,7 +65,7 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
         onClick={() => router.back()}
         className="md:text-md min-w-[6rem] border-none text-sm underline"
       >
-        See all
+        Back
       </Button>
 
       {isLoading || isFetching ? (
@@ -120,6 +120,9 @@ const BlogItemPage: NextPageWithLayout = (props: Props) => {
               "mb-20 max-w-[50rem]  whitespace-break-spaces text-base text-gray-400 sm:text-lg",
               p.className
             )}
+            // dangerouslySetInnerHTML={{
+            //   __html: data?.data?.body
+            // }}
           >
             {data?.data?.body}
           </pre>
@@ -188,7 +191,7 @@ const BlogImage = ({ src }: { src: string }) => {
 
 export const useDeleteBlog = (
   setDeleteBlogModal: React.Dispatch<SetStateAction<boolean>>,
-  navigateToBlogPage: boolean = true
+  navigateToBlogPage = true
 ) => {
   const router = useRouter();
   const queryClient = api.useContext();

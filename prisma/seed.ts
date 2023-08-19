@@ -8,16 +8,19 @@ async function seedData() {
     // Get existing categories
 
     // Create users
-    await prisma.user.create({
-      data: {
-        name: "Admin",
-        email: "admin@gmail.com",
-        role: "ADMIN",
-        password: await hash("HelloWorld123@"),
-        biography: "HI",
-        gender: "MALE",
-      },
-    });
+    // Array(10).map(
+    for (let index = 0; index <= 10; index++) {
+      await prisma.user.create({
+        data: {
+          name: "Suzan Rana",
+          email: `suzan-user-${index}@gmail.com`,
+          role: "USER",
+          password: await hash("HelloWorld123@"),
+          biography: "HI",
+          gender: "MALE",
+        },
+      });
+    }
 
     console.log("Seeding completed successfully!");
   } catch (error) {

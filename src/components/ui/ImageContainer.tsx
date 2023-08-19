@@ -17,7 +17,7 @@ const ImageContainer = ({ className, image, ...restProps }: Props) => {
   return (
     <picture
       className={cn(
-        "relative overflow-hidden border flex cursor-pointer items-center justify-center bg-white transition-all duration-500 hover:bg-blue-400",
+        "relative overflow-hidden border flex cursor-pointer  items-center justify-center bg-white transition-all duration-500 hover:bg-blue-400",
         className
       )}
       style={{ textAlign: "center" }}
@@ -27,7 +27,7 @@ const ImageContainer = ({ className, image, ...restProps }: Props) => {
           src={
             "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"
           }
-          className="max-h-full max-w-full object-cover"
+          className="max-h-full max-w-full object-cover object-center"
           alt="Profile Image"
           style={{ display: "inline-block" }}
         />
@@ -38,7 +38,7 @@ const ImageContainer = ({ className, image, ...restProps }: Props) => {
             "https://api.dicebear.com/6.x/adventurer-neutral/svg?seed=Tigger"
           }
           fill
-          className="object-cover object-center  w-full min-h-full"
+          className="object-cover object-center block  w-full min-h-full"
           alt="Profile Image"
           onError={handleImageLoadingError}
         />

@@ -16,33 +16,16 @@ const Comments = (props: Props) => {
   const router = useRouter();
   const { data: sessionData } = useSession();
 
-  const { inputValue, setInputValue, isPostingComment, handlePostComment } =
-    usePostComment(
-      sessionData?.user.id as string,
-      router.query["blogId"] as string
-    );
+
   const route = router.query["blogId"]
     ? `/blog/${router.query["blogId"].toString()}/comments`
     : "/blog";
+
   return (
     <section className="mb-16 min-h-[10rem]">
       <h2>Comments</h2>
-      <div className="my-4 flex items-center gap-2 md:gap-6">
-        <Input
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Tell how you feel"
-          className="grow py-6"
-        />
-        {/* // eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <Button disabled={isPostingComment} onClick={handlePostComment}>
-          <span className="hidden md:block">Comment</span>
-          <span className="md:hidden">+</span>
-        </Button>
-      </div>
+      <AddComment />
       <DisplayComments />
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore */}
       <Link href={route}>
         <Button className="bg-transparent text-white underline">
           View all comments
@@ -51,8 +34,37 @@ const Comments = (props: Props) => {
     </section>
   );
 };
-
+Comments.displayName = 'Comments'
 export default Comments;
+
+const AddComment = () => {
+  const { data: sessionData } = useSession();
+  const router = useRouter();
+
+  const route = router.query["blogId"]
+    ? `/blog/${router.query["blogId"].toString()}/comments`
+    : "/blog";
+  const { inputValue, setInputValue, isPostingComment, handlePostComment } =
+    usePostComment(
+      sessionData?.user.id as string,
+      router.query["blogId"] as string
+    );
+  return (
+    <div className="my-4 flex items-center gap-2 md:gap-6">
+      <Input
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        placeholder="Tell how you feel"
+        className="grow py-6"
+      />
+      {/* // eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+      <Button disabled={isPostingComment} onClick={handlePostComment}>
+        <span className="hidden md:block">Comment</span>
+        <span className="md:hidden">+</span>
+      </Button>
+    </div>
+  );
+};
 
 const useFetchTopComments = (postId: string) => {
   const { data, isLoading, isFetching, refetch } =
@@ -116,7 +128,7 @@ export const usePostComment = (authorId: string, postId: string) => {
   };
 };
 
-const DisplayComments = () => {
+const DisplayComments = React.memo(() => {
   const router = useRouter();
   const { data, isLoading, isFetching } = useFetchTopComments(
     router.query["blogId"] as string
@@ -153,4 +165,5 @@ const DisplayComments = () => {
       </>
     </>
   );
-};
+})
+DisplayComments.displayName= 'DisplayComments'

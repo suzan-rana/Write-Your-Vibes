@@ -44,9 +44,10 @@ const PostByCategory = (props: Props) => {
     );
   }
 
+
   return (
     <>
-      {data?.data.length !== 0 && (
+      {data?.data.length !== 0 ? (
         <article className="my-16 md:mx-auto md:w-[85%]">
           <h1 className="pb-6 text-xl font-bold md:text-2xl">
             All about{" "}
@@ -74,7 +75,7 @@ const PostByCategory = (props: Props) => {
             setCurrentPage={setCurrentPage}
           />
         </article>
-      )}
+      ): <p>Sorry, no blogs found under {query.category_name}</p>}
     </>
   );
 };

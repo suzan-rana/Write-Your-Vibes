@@ -57,6 +57,9 @@ const AdminPage = (props: Props) => {
               Email
             </th>
             <th scope="col" className="px-6 py-3">
+              Gender
+            </th>
+            <th scope="col" className="px-6 py-3">
               Total blog count
             </th>
             <th scope="col" className="px-6 py-3">
@@ -81,6 +84,7 @@ const AdminPage = (props: Props) => {
               </th>
 
               <td className="px-6 py-4">{user.email}</td>
+              <td className="px-6 py-4">{user.gender}</td>
               <td className="px-6 py-4">{user._count.post}</td>
               <td className="px-6 py-4">
                 <a
@@ -146,7 +150,7 @@ AdminPage.getLayout = (page: ReactNode) => {
 
 export const useDeleteUser = (
   setDeleteUserModal: React.Dispatch<SetStateAction<boolean>>,
-  navigateToUserPage: boolean = true
+  navigateToUserPage = true
 ) => {
   const router = useRouter();
   const queryClient = api.useContext();
@@ -157,6 +161,8 @@ export const useDeleteUser = (
         toast.success(data.message || "User DELETED SUCCESSFULLY.");
         setDeleteUserModal(false);
         await queryClient.user.invalidate();
+        await queryClient.blog.invalidate();
+        await queryClient.comment.invalidate()
         navigateToUserPage && (await router.push("/admin"));
       },
       onError(error, variables, context) {

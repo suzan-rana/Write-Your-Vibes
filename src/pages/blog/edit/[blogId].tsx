@@ -78,7 +78,7 @@ const EditPostPage = (props: Props) => {
       toast.error("Please add something to your body.");
       return;
     }
-    if (data.title.length >= 50) {
+    if (data.title.length >= 100) {
       toast.error("Please add a title that is less than 50 characters.");
       return;
     }

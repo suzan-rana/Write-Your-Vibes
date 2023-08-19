@@ -30,14 +30,16 @@ const AdminAllPostsPage = (props: Props) => {
     setDeleteBlogModal(false);
     setSelectedBlogId(null);
   };
-  const { handleDeleteBlog, isDeletingBlog } =
-    useDeleteBlog(setDeleteBlogModal, false);
+  const { handleDeleteBlog, isDeletingBlog } = useDeleteBlog(
+    setDeleteBlogModal,
+    false
+  );
   const [selectedBlogId, setSelectedBlogId] = useState<null | string>(null);
   if (isLoading || isFetching || !data) {
     return <></>;
   }
-  if(!data.totalBlogCount) {
-    return <p>No blogs found.</p>
+  if (!data.totalBlogCount) {
+    return <p>No blogs found.</p>;
   }
   return (
     <div className="relative overflow-x-auto">
@@ -71,7 +73,7 @@ const AdminAllPostsPage = (props: Props) => {
             >
               <th
                 scope="row"
-                className="max-w-[200px] whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                className="max-w-[300px] overflow-hidden text-ellipsis whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
               >
                 {post.title}
               </th>
@@ -85,17 +87,15 @@ const AdminAllPostsPage = (props: Props) => {
                 {/* <Image alt=""  src={post.image} width={100} height={100} /> */}
               </td>
               <td className="px-6 py-4">
-              <span
-                  className="cursor-pointer font-medium text-green-400 hover:underline dark:text-green-400"
-                >
+                <Link href={`/blog/${post.id}`} className="cursor-pointer font-medium text-green-400 hover:underline dark:text-green-400">
                   View
-                </span>
+                </Link>
                 <span
                   onClick={() => {
                     setSelectedBlogId(post.id);
                     setDeleteBlogModal(true);
                   }}
-                  className="cursor-pointer font-medium text-red-400 hover:underline dark:text-red-400"
+                  className="cursor-pointer pl-3 font-medium text-red-400 hover:underline dark:text-red-400"
                 >
                   Delete
                 </span>
