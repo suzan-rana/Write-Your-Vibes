@@ -16,7 +16,9 @@ import { delay } from "~/utils/delay";
 import { validateNonNumericString } from "~/utils/validateNumbers";
 
 export const RegisterFormSchema = z.object({
-  name: z.string().min(3, { message: "Please enter your name" }),
+  name: z.string().min(3, { message: "Please enter your name" }).regex(/^[a-zA-Z]+$/, {
+    message: "Name must contain only alphabetical characters."
+  }),
   email: z.string().email(),
   gender: z.enum(["Male", "Female"]),
   password: z

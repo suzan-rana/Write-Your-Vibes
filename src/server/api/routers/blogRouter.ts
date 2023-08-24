@@ -38,7 +38,7 @@ export const blogRouter = createTRPCRouter({
           subtitle,
           // @ts-ignore
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          image: input.image as string || null,
+          image: (input.image as string) || null,
           body,
           user: {
             connect: {
@@ -88,8 +88,8 @@ export const blogRouter = createTRPCRouter({
           category: true,
           user: {
             select: {
-              name: true
-            }
+              name: true,
+            },
           },
           _count: {
             select: {
@@ -131,8 +131,8 @@ export const blogRouter = createTRPCRouter({
           },
           take: 2,
           orderBy: {
-            createdAt: "desc"
-          }
+            createdAt: "desc",
+          },
         },
       },
     });
@@ -324,5 +324,55 @@ export const blogRouter = createTRPCRouter({
         status: 201,
         message: "BLOG DELETED SUCCESSFULLY",
       };
+    }),
+  searchBlog: protectedProcedure
+    .input(
+      z.object({
+        search_text: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.post.findMany({
+        where: {
+          OR: [
+            {
+              category: {
+                category_name: {
+                  contains: String(input.search_text).toUpperCase(),
+                },
+              },
+            },
+            {
+              title: {
+                contains: input.search_text,
+              },
+            },
+            {
+              subtitle: {
+                contains: input.search_text,
+              },
+            },
+          ],
+        },
+        select: {
+          id: true,
+          image: true,
+          title: true,
+          subtitle: true,
+          createdAt: true,
+          category: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
+          _count: {
+            select: {
+              comment: true,
+              reaction: true,
+            },
+          },
+        },
+      });
     }),
 });

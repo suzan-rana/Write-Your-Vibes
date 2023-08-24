@@ -7,6 +7,9 @@ export const UpdateProfileSchema = z.object({
       invalid_type_error: "Name should be a string.",
       description: "Name is required string field.",
     })
+    .regex(/^[a-zA-Z]+$/, {
+      message: "Name must contain only alphabetical characters."
+    })
     .min(2, "Name should be atleast 2characters long."),
   biography: z.string(),
   image: z.string().nullable(),

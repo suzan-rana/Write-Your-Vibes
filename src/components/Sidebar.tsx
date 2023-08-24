@@ -108,6 +108,10 @@ const navigationArray = [
     name: "Blog",
     link: "/blog",
   },
+  {
+    name: "Search",
+    link: "/search",
+  },
 ];
 
 const SidebarMobile = (props: Props) => {
@@ -126,7 +130,7 @@ const SidebarMobile = (props: Props) => {
   return (
     <>
       <div
-        className="fixed left-[5%] top-[3%] flex w-[50px] cursor-pointer flex-col items-center justify-center gap-2 rounded-md bg-white p-2"
+        className="fixed flex lg:hidden left-[5%] top-[3%]  w-[50px] cursor-pointer flex-col items-center justify-center gap-2 rounded-md bg-white p-2"
         onClick={() => setIsActive((p) => !p)}
       >
         <span className="block h-[3px] w-full rounded-lg bg-black text-white"></span>
@@ -134,7 +138,7 @@ const SidebarMobile = (props: Props) => {
       </div>
       <section
         className={cn(
-          "fixed bottom-0 left-0 top-0 z-[1000] min-w-[16rem] border-r-[1px] border-gray-700 transition-all duration-200",
+          "fixed bottom-0 lg:hidden left-0 top-0 z-[1000] min-w-[16rem] border-r-[1px] border-gray-700 transition-all duration-200",
           isActive ? "translate-x-0" : "translate-x-[-100%]"
         )}
         style={{

@@ -39,7 +39,6 @@ const Home: NextPageWithLayout = () => {
   if (!data.data) {
     return <p>No blog found</p>;
   }
-console.log('DA', data.data)
   return (
     <>
       <main className="mx-auto mb-12 text-left md:w-[85%]">
